@@ -1,0 +1,13 @@
+/*
+ * Klesora UI: all CSS in one entry point.
+ * Layer order is declared once here and must not change between minor versions.
+ * Un-layered CSS in a consuming project always wins over these layers.
+ */
+@layer kl.reset, kl.tokens, kl.base, kl.components, kl.styles, kl.utilities;
+
+/* Step 2: tokens          @import url("./tokens/base.css")   layer(kl.tokens); */
+/* Step 3: style packs     @import url("./tokens/solo.css")   layer(kl.tokens); */
+/*                         @import url("./tokens/mono.css")   layer(kl.tokens); */
+/*                         @import url("./tokens/chorus.css") layer(kl.tokens); */
+/* Step 4: class layer     @import url("./css/reset.css")     layer(kl.reset);  */
+/*                         @import url("./css/base.css")      layer(kl.base);   */

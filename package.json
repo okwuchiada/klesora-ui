@@ -1,0 +1,45 @@
+{
+  "name": "klesora-ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Zero-dependency UI component library in plain HTML, CSS and JS, with three switchable styles: Solo, Mono and Chorus.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "author": "Adanma Okwuchi",
+  "keywords": [
+    "ui",
+    "components",
+    "web-components",
+    "design-system",
+    "css",
+    "framework-agnostic"
+  ],
+  "exports": {
+    ".": "./src/index.js",
+    "./css": "./src/klesora-ui.css",
+    "./tokens/*": "./src/tokens/*.css",
+    "./styles/*": "./src/styles/*.css",
+    "./components/*": "./src/components/*/*.js",
+    "./components/*.css": "./src/components/*/*.css",
+    "./directives/*": "./src/directives/*.js",
+    "./services/*": "./src/services/*.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "dist",
+    "CONVENTIONS.md"
+  ],
+  "sideEffects": [
+    "**/*.css",
+    "./src/index.js",
+    "./src/components/**/*.js",
+    "./src/directives/**/*.js"
+  ],
+  "scripts": {
+    "dev": "node scripts/serve.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

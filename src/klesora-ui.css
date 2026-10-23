@@ -5,7 +5,9 @@
  */
 @layer kl.reset, kl.tokens, kl.base, kl.components, kl.styles, kl.utilities;
 
-/* Step 2: tokens          @import url("./tokens/base.css")   layer(kl.tokens); */
+@import url("./tokens/primitives.css") layer(kl.tokens);
+@import url("./tokens/base.css") layer(kl.tokens);
+
 /* Step 3: style packs     @import url("./tokens/solo.css")   layer(kl.tokens); */
 /*                         @import url("./tokens/mono.css")   layer(kl.tokens); */
 /*                         @import url("./tokens/chorus.css") layer(kl.tokens); */

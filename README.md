@@ -14,7 +14,21 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 1 of the roadmap: project setup and conventions). Not yet published.
+> Status: early development (Step 2 of the roadmap: design tokens). Not yet published.
+
+Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
+
+## Customise
+
+Set knobs on `<html>`, or on any element marked `data-kl-scope`:
+
+```html
+<html style="--kl-brand: #0a7cff; --kl-radius-base: 0.75rem; --kl-density: 0.9">
+<section data-kl-scope style="--kl-brand: #16a34a">…</section>
+<aside data-kl-theme="dark">…</aside>
+```
+
+The text colour on the brand is picked automatically; set `--kl-brand-fg` to override it. See CONVENTIONS.md §2–3 for every token.
 
 ## Project layout
 
@@ -36,10 +50,10 @@ tests/          test pages
 ## Develop
 
 ```sh
-npm run dev
+npm run dev            # http://localhost:5173/docs/ (token test page: /tests/tokens.html)
+npm run check:tokens   # gamut, WCAG contrast in light and dark, dark/system-dark drift
+npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 ```
-
-Serves the repo at `http://localhost:5173/docs/`.
 
 ## Rules
 

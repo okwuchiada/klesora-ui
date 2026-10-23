@@ -18,9 +18,9 @@ Everything public uses the `kl` prefix.
 
 File and folder names are kebab-case.
 
-## 2. Styles and themes
+## 2. Styles, themes and knobs
 
-Three independent switches, all set on `<html>` (or on any container, for scoped previews):
+Three independent switches, set on `<html>` or on any container:
 
 ```html
 <html data-kl-style="solo" data-kl-theme="dark" style="--kl-brand: #0a7cff">
@@ -29,27 +29,123 @@ Three independent switches, all set on `<html>` (or on any container, for scoped
 | Attribute | Values | Default |
 | --- | --- | --- |
 | `data-kl-style` | `solo` (Apple-inspired: simple, clean, high end), `mono` (shadcn-inspired: minimal, neutral), `chorus` (Material-inspired: layered, bold, tactile) | `mono` |
-| `data-kl-theme` | `light`, `dark`, `system` | `system` |
-| `--kl-brand` | any CSS colour | style's own accent |
+| `data-kl-theme` | `light`, `dark`, `system` | `system` (no attribute behaves the same) |
+| `data-kl-motion` | `reduce`, `full` | follows the OS `prefers-reduced-motion` |
+| `data-kl-scope` | (no value) | marks a boundary for local knobs |
 
 A style is made of a token file (`src/tokens/<style>.css`) plus a small structural override file (`src/styles/<style>.css`). Components never check which style is active in JS; they only read tokens.
+
+### Knobs
+
+Knobs are the supported way for a project to customise the library. The library never declares them, so they inherit freely; semantic tokens read them with a fallback.
+
+| Knob | Effect | Default |
+| --- | --- | --- |
+| `--kl-brand` | replaces the primary colour (and the focus ring, unless `--kl-ring` is set) | style's own primary |
+| `--kl-brand-fg` | text on primary | picked automatically: near-black or white, by OKLCH lightness (threshold 0.58) |
+| `--kl-radius-base` | the whole radius scale derives from it. Use a length (`0px`, not `0`). | `0.5rem` |
+| `--kl-density` | scales control heights (32/40/48px at 1) and control padding | `1` |
+| `--kl-ring` | focus ring colour | brand, else `--kl-neutral-8` |
+
+### Scope boundaries
+
+Semantic tokens are declared on every boundary with zero specificity:
+
+```css
+:where(:root, [data-kl-theme], [data-kl-style], [data-kl-scope], [data-kl-motion]) { --kl-color-primary: …; }
+```
+
+A custom property that uses `var()` is resolved where it is declared, then inherited as a fixed value. Re-declaring the semantic tokens at each boundary makes them re-resolve against the local ramps and knobs. That is what makes nested themes and per-section brands work:
+
+```html
+<section data-kl-theme="dark">…always dark…</section>
+<section data-kl-scope style="--kl-brand: #16a34a; --kl-radius-base: 1rem">…</section>
+```
+
+Setting a knob on a plain element with no boundary attribute has no effect on its semantic tokens. Add `data-kl-scope`. A nested theme does not paint itself: give the container `background: var(--kl-color-bg)` (or a surface token) and `color: var(--kl-color-fg)`.
+
+Overriding a semantic token directly (`:root { --kl-color-primary: … }`) works, but nested boundaries reset it. Prefer knobs.
+
+### Scheme ramps
+
+Light and dark live only in the scheme ramps in `src/tokens/base.css`. Style packs map semantic tokens onto ramp steps, so they never need their own dark-mode copies.
+
+- Light: `:root, [data-kl-theme="light"], [data-kl-theme="system"]`
+- Dark: `[data-kl-theme="dark"]`
+- System dark: an identical copy of the dark block inside `@media (prefers-color-scheme: dark)` on `:root:not([data-kl-theme="light"]), [data-kl-theme="system"]`. `npm run check:tokens` fails if the two copies drift.
+
+Each block sets `color-scheme` and the following.
+
+**Neutral ramp** `--kl-neutral-1..12`, page-most to text-most:
+
+| Step | Use | Step | Use |
+| --- | --- | --- | --- |
+| 1 | page background | 7 | border |
+| 2 | subtle background | 8 | strong border (≥3:1 on page) |
+| 3 | element background | 9 | solid |
+| 4 | hover | 10 | solid hover |
+| 5 | pressed / selected | 11 | muted text (≥4.5:1) |
+| 6 | subtle border | 12 | text |
+
+Plus `--kl-neutral-surface` (cards) and `--kl-neutral-raised` (popovers, menus).
+
+**Hue roles** for `blue`, `green`, `amber`, `red`: `--kl-<hue>-subtle`, `-border`, `-solid`, `-on` (text on solid), `-text` (hue-coloured text on page or subtle).
+
+**Also:** `--kl-overlay`, `--kl-shadow-color`, `--kl-shadow-alpha`. Overlay and shadow alpha are stronger in dark mode.
 
 ## 3. Tokens
 
 Three tiers. Each tier may only reference the tier below it.
 
-1. **Primitive**: raw values. `--kl-gray-50` … `--kl-gray-950`, `--kl-blue-500`, `--kl-font-sans`.
-2. **Semantic**: meaning. `--kl-color-bg`, `--kl-color-fg`, `--kl-color-primary`, `--kl-color-primary-fg`, `--kl-color-border`, `--kl-color-danger`, `--kl-radius-md`, `--kl-space-4`, `--kl-shadow-md`, `--kl-duration-fast`, `--kl-ease-out`.
-3. **Component**: per-component knobs. `--kl-btn-height`, `--kl-btn-radius`, `--kl-input-bg`.
+1. **Primitive** (`src/tokens/primitives.css`): raw values on `:root`.
+2. **Scheme ramps and semantic** (`src/tokens/base.css`): meaning.
+3. **Component**: per-component knobs, e.g. `--kl-btn-height`, `--kl-btn-radius`, `--kl-input-bg`.
 
-Component CSS reads only semantic or component tokens, never primitives and never hard-coded values (except `0`, `1px` hairlines and `100%`). This is what lets a style or brand colour change everything at once.
+Component CSS reads only semantic or component tokens, never primitives, ramps or hard-coded values (except `0`, `1px` hairlines and `100%`). This is what lets a style or brand colour change everything at once. Hover and active states come from `color-mix(in oklab, … , var(--kl-color-bg))`, so they work for any brand colour.
 
-Scales:
-- Spacing: `--kl-space-0` to `--kl-space-12`, 4px base.
-- Radius: `--kl-radius-none | xs | sm | md | lg | xl | full`.
-- Shadow / elevation: `--kl-shadow-0` to `--kl-shadow-5`.
-- Type: `--kl-text-xs | sm | md | lg | xl | 2xl | 3xl`, `--kl-weight-regular | medium | semibold | bold`.
-- Motion: `--kl-duration-fast | base | slow`, `--kl-ease-standard | out | in | spring`.
+### Primitives
+
+| Group | Tokens |
+| --- | --- |
+| Colour | `--kl-{gray,blue,green,amber,red}-{50,100,200,…,900,950}` in OKLCH, generated by `npm run gen:palette`, all inside sRGB (hex in a comment). `--kl-white`, `--kl-black`. |
+| Fonts | `--kl-font-sans` (system-ui stack), `--kl-font-mono` (ui-monospace stack) |
+| Type size | `--kl-text-xs` 0.75 · `sm` 0.875 · `md` 1 · `lg` 1.125 · `xl` 1.25 · `2xl` 1.5 · `3xl` 1.875 · `4xl` 2.25 (rem) |
+| Weight | `--kl-weight-regular` 400 · `medium` 500 · `semibold` 600 · `bold` 700 |
+| Leading | `--kl-leading-none` 1 · `tight` 1.25 · `snug` 1.375 · `normal` 1.5 · `relaxed` 1.625 |
+| Tracking | `--kl-tracking-tighter` −0.04em · `tight` −0.02em · `normal` 0 · `wide` 0.02em · `wider` 0.05em |
+| Spacing | `--kl-space-0` … `--kl-space-12`, `16`, `20`, `24`; 4px base (`--kl-space-n` = n × 0.25rem) |
+| Duration | `--kl-duration-instant` 50ms · `fast` 120ms · `base` 200ms · `slow` 320ms |
+| Easing | `--kl-ease-linear` · `standard` · `out` · `in` · `spring` |
+| Z-index | `--kl-z-dropdown` 1000 · `sticky` 1100 · `overlay` 1200 · `modal` 1300 · `toast` 1400 · `tooltip` 1500 |
+
+Reduced motion sets every duration to `1ms` (not `0`, so `transitionend` still fires). It follows the OS unless `data-kl-motion` says otherwise. Components must use the duration tokens for anything that moves.
+
+### Semantic tokens (Mono defaults)
+
+| Group | Tokens |
+| --- | --- |
+| Surfaces | `--kl-color-bg`, `surface`, `surface-raised`, `muted`, `muted-hover`, `selected`, `overlay` |
+| Text | `--kl-color-fg`, `fg-muted`, `fg-subtle` (decorative only, not for text) |
+| Borders | `--kl-color-border`, `border-strong`, `input` (control boundary, ≥3:1) |
+| Primary | `--kl-color-primary`, `primary-fg`, `primary-hover`, `primary-active`, `primary-subtle` |
+| Secondary | `--kl-color-secondary`, `secondary-hover`, `secondary-fg` |
+| Status | `--kl-color-{info,success,warning,danger}`, each with `-fg`, `-text`, `-subtle`, `-border`; plus `--kl-color-danger-hover` |
+| Focus | `--kl-color-ring`, `--kl-ring-width`, `--kl-ring-offset` |
+| Fonts | `--kl-font-body`, `heading`, `code`, `numeric` (use with `font-variant-numeric: tabular-nums`) |
+| Radius | `--kl-radius-none`, `xs` (¼ base), `sm` (½), `md` (base), `lg` (1½), `xl` (2×), `full` |
+| Density | `--kl-control-height-{sm,md,lg}`, `--kl-control-padding-{sm,md,lg}` |
+| Elevation | `--kl-shadow-0` … `--kl-shadow-5` |
+| Misc | `--kl-transition-colors`, `--kl-disabled-opacity`, `--kl-border-width` |
+
+### Contrast rules
+
+`npm run check:tokens` resolves every `var()` chain, including the automatic brand text colour, and checks WCAG contrast in light and dark:
+
+- Body text (`fg` on bg/surfaces): ≥7:1.
+- Other text pairs (muted text, text on fills, status text): ≥4.5:1.
+- Control boundaries, fills, strong borders and the focus ring: ≥3:1.
+
+When you add a colour pair, add it to the checker. Brand colours are project input, so they are reported but never fail the check.
 
 ## 4. CSS architecture
 
@@ -135,7 +231,7 @@ Source files ship as native ES modules and plain CSS, so no build step is needed
 
 ## 10. Browser support
 
-Evergreen browsers from roughly the last three years: Chrome / Edge 111+, Firefox 113+, Safari 16.4+. This baseline gives cascade layers, `color-mix()`, custom elements, form-associated elements and `<dialog>` with no polyfills.
+Chrome / Edge 119+, Firefox 128+, Safari 17+. This baseline gives cascade layers, `color-mix()`, relative colour syntax (used for the automatic `--kl-brand-fg`), custom elements, form-associated elements and `<dialog>` with no polyfills.
 
 ## 11. Versioning
 

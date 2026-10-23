@@ -37,7 +37,9 @@
     "./src/directives/**/*.js"
   ],
   "scripts": {
-    "dev": "node scripts/serve.mjs"
+    "dev": "node scripts/serve.mjs",
+    "gen:palette": "node scripts/gen-palette.mjs",
+    "check:tokens": "node scripts/check-tokens.mjs"
   },
   "engines": {
     "node": ">=18"

@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en" data-kl-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klesora UI · Tokens</title>
+  <link rel="stylesheet" href="../src/klesora-ui.css">
+  <style>
+    /* Test page only. Drawn with tokens: no hard-coded colours, sizes or radii. */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--kl-color-bg);
+      color: var(--kl-color-fg);
+      font: var(--kl-text-sm) / var(--kl-leading-normal) var(--kl-font-body);
+      transition: var(--kl-transition-colors);
+    }
+    h1, h2, h3 { font-family: var(--kl-font-heading); margin: 0; letter-spacing: var(--kl-tracking-tight); }
+    h1 { font-size: var(--kl-text-2xl); }
+    h2 { font-size: var(--kl-text-lg); margin-block-end: var(--kl-space-4); }
+    h3 { font-size: var(--kl-text-sm); font-weight: var(--kl-weight-semibold); }
+    p { margin: 0; }
+    code { font-family: var(--kl-font-code); font-size: var(--kl-text-xs); }
+    .muted { color: var(--kl-color-fg-muted); }
+
+    .toolbar {
+      position: sticky; top: 0; z-index: var(--kl-z-sticky);
+      display: flex; flex-wrap: wrap; align-items: center; gap: var(--kl-space-4) var(--kl-space-6);
+      padding: var(--kl-space-3) var(--kl-space-6);
+      background: var(--kl-color-surface-raised);
+      border-block-end: var(--kl-border-width) solid var(--kl-color-border);
+    }
+    .toolbar h1 { font-size: var(--kl-text-md); margin-inline-end: auto; }
+    .toolbar label { display: flex; align-items: center; gap: var(--kl-space-2); color: var(--kl-color-fg-muted); }
+    .toolbar output { font-family: var(--kl-font-code); font-size: var(--kl-text-xs); min-inline-size: var(--kl-space-12); color: var(--kl-color-fg); }
+
+    main { max-inline-size: 72rem; margin-inline: auto; padding: var(--kl-space-8) var(--kl-space-6) var(--kl-space-24); display: grid; gap: var(--kl-space-12); }
+    .grid { display: grid; gap: var(--kl-space-3); grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--kl-space-3); }
+
+    .swatch { display: grid; gap: var(--kl-space-1); }
+    .swatch__chip {
+      block-size: var(--kl-space-12);
+      border-radius: var(--kl-radius-md);
+      border: var(--kl-border-width) solid var(--kl-color-border);
+    }
+    .swatch code { color: var(--kl-color-fg); }
+    .swatch small { color: var(--kl-color-fg-muted); font-family: var(--kl-font-code); font-size: var(--kl-text-xs); }
+
+    .ramp { display: grid; grid-template-columns: repeat(12, 1fr); border-radius: var(--kl-radius-lg); overflow: hidden; border: var(--kl-border-width) solid var(--kl-color-border); }
+    .ramp div { block-size: var(--kl-space-16); display: grid; place-items: end center; padding-block-end: var(--kl-space-2); font-family: var(--kl-font-code); font-size: var(--kl-text-xs); }
+
+    .status { display: grid; gap: var(--kl-space-3); grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+    .status__card {
+      display: grid; gap: var(--kl-space-3);
+      padding: var(--kl-space-4);
+      border-radius: var(--kl-radius-lg);
+      border: var(--kl-border-width) solid var(--tone-border);
+      background: var(--tone-subtle);
+      color: var(--tone-text);
+    }
+    .status__card p { color: var(--kl-color-fg); }
+    [data-tone="info"] { --tone: var(--kl-color-info); --tone-fg: var(--kl-color-info-fg); --tone-text: var(--kl-color-info-text); --tone-subtle: var(--kl-color-info-subtle); --tone-border: var(--kl-color-info-border); }
+    [data-tone="success"] { --tone: var(--kl-color-success); --tone-fg: var(--kl-color-success-fg); --tone-text: var(--kl-color-success-text); --tone-subtle: var(--kl-color-success-subtle); --tone-border: var(--kl-color-success-border); }
+    [data-tone="warning"] { --tone: var(--kl-color-warning); --tone-fg: var(--kl-color-warning-fg); --tone-text: var(--kl-color-warning-text); --tone-subtle: var(--kl-color-warning-subtle); --tone-border: var(--kl-color-warning-border); }
+    [data-tone="danger"] { --tone: var(--kl-color-danger); --tone-fg: var(--kl-color-danger-fg); --tone-text: var(--kl-color-danger-text); --tone-subtle: var(--kl-color-danger-subtle); --tone-border: var(--kl-color-danger-border); }
+    .badge {
+      justify-self: start;
+      padding: var(--kl-space-1) var(--kl-space-2);
+      border-radius: var(--kl-radius-full);
+      background: var(--tone); color: var(--tone-fg);
+      font-size: var(--kl-text-xs); font-weight: var(--kl-weight-medium);
+    }
+
+    /* Sample controls (stand-ins until Step 6) */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--kl-space-2);
+      block-size: var(--kl-control-height-md);
+      padding-inline: var(--kl-control-padding-md);
+      border: var(--kl-border-width) solid transparent;
+      border-radius: var(--kl-radius-md);
+      background: var(--kl-color-primary); color: var(--kl-color-primary-fg);
+      font: inherit; font-weight: var(--kl-weight-medium);
+      cursor: pointer;
+      transition: var(--kl-transition-colors);
+    }
+    .btn:hover { background: var(--kl-color-primary-hover); }
+    .btn:active { background: var(--kl-color-primary-active); }
+    .btn:focus-visible, .input:focus-visible { outline: var(--kl-ring-width) solid var(--kl-color-ring); outline-offset: var(--kl-ring-offset); }
+    .btn[data-variant="secondary"] { background: var(--kl-color-secondary); color: var(--kl-color-secondary-fg); }
+    .btn[data-variant="secondary"]:hover { background: var(--kl-color-secondary-hover); }
+    .btn[data-variant="outline"] { background: transparent; color: var(--kl-color-fg); border-color: var(--kl-color-input); }
+    .btn[data-variant="outline"]:hover { background: var(--kl-color-muted-hover); }
+    .btn[data-variant="ghost"] { background: transparent; color: var(--kl-color-fg); }
+    .btn[data-variant="ghost"]:hover { background: var(--kl-color-muted-hover); }
+    .btn[data-variant="danger"] { background: var(--kl-color-danger); color: var(--kl-color-danger-fg); }
+    .btn[data-variant="danger"]:hover { background: var(--kl-color-danger-hover); }
+    .btn[data-size="sm"] { block-size: var(--kl-control-height-sm); padding-inline: var(--kl-control-padding-sm); font-size: var(--kl-text-xs); }
+    .btn[data-size="lg"] { block-size: var(--kl-control-height-lg); padding-inline: var(--kl-control-padding-lg); font-size: var(--kl-text-md); }
+    .btn:disabled { opacity: var(--kl-disabled-opacity); cursor: not-allowed; }
+    .input {
+      block-size: var(--kl-control-height-md);
+      padding-inline: var(--kl-control-padding-sm);
+      border: var(--kl-border-width) solid var(--kl-color-input);
+      border-radius: var(--kl-radius-md);
+      background: var(--kl-color-bg); color: var(--kl-color-fg);
+      font: inherit;
+      transition: var(--kl-transition-colors);
+    }
+    .input::placeholder { color: var(--kl-color-fg-muted); }
+    .input[aria-invalid="true"] { border-color: var(--kl-color-danger); }
+    .check { display: inline-flex; align-items: center; gap: var(--kl-space-2); }
+    .check input { accent-color: var(--kl-color-primary); inline-size: var(--kl-space-4); block-size: var(--kl-space-4); margin: 0; }
+
+    .panel {
+      display: grid; gap: var(--kl-space-4);
+      padding: var(--kl-space-6);
+      border-radius: var(--kl-radius-xl);
+      border: var(--kl-border-width) solid var(--kl-color-border);
+      background: var(--kl-color-surface); color: var(--kl-color-fg);
+    }
+    .panels { display: grid; gap: var(--kl-space-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+
+    .type { display: grid; gap: var(--kl-space-3); }
+    .type__row { display: grid; grid-template-columns: var(--kl-space-16) 1fr; align-items: baseline; gap: var(--kl-space-4); }
+    .amount { font-family: var(--kl-font-numeric); font-variant-numeric: tabular-nums; font-size: var(--kl-text-4xl); font-weight: var(--kl-weight-semibold); letter-spacing: var(--kl-tracking-tight); line-height: var(--kl-leading-tight); }
+    .amount span { color: var(--kl-color-fg-muted); font-size: var(--kl-text-2xl); }
+
+    .space { display: grid; gap: var(--kl-space-2); }
+    .space div { display: grid; grid-template-columns: var(--kl-space-16) auto; align-items: center; gap: var(--kl-space-3); }
+    .space i { display: block; block-size: var(--kl-space-3); background: var(--kl-color-primary); border-radius: var(--kl-radius-xs); }
+
+    .radius div, .elev div {
+      display: grid; place-items: center;
+      block-size: var(--kl-space-20);
+      background: var(--kl-color-surface-raised);
+      border: var(--kl-border-width) solid var(--kl-color-border);
+      font-family: var(--kl-font-code); font-size: var(--kl-text-xs);
+    }
+    .elev div { border-radius: var(--kl-radius-lg); }
+
+    .motion { display: grid; gap: var(--kl-space-2); }
+    .motion__track { position: relative; block-size: var(--kl-space-8); border-radius: var(--kl-radius-full); background: var(--kl-color-muted); }
+    .motion__dot {
+      position: absolute; inset-block: var(--kl-space-1); inset-inline-start: var(--kl-space-1);
+      aspect-ratio: 1; border-radius: var(--kl-radius-full);
+      background: var(--kl-color-primary);
+      transition-property: inset-inline-start, translate;
+      transition-duration: var(--d);
+      transition-timing-function: var(--e);
+    }
+    .motion__track[data-on] .motion__dot { inset-inline-start: calc(100% - var(--kl-space-8)); }
+    .motion__row { display: grid; grid-template-columns: 9rem 1fr; align-items: center; gap: var(--kl-space-3); }
+  </style>
+</head>
+<body>
+  <header class="toolbar">
+    <h1>Klesora UI · Tokens</h1>
+    <label>Theme
+      <select id="theme" class="input" style="block-size: var(--kl-control-height-sm)">
+        <option value="system">System</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+    <label>Brand
+      <input id="brand" type="color" value="#0a7cff">
+      <input id="brand-on" type="checkbox"> use
+    </label>
+    <label>Radius <input id="radius" type="range" min="0" max="1.5" step="0.125" value="0.5"> <output id="radius-out">0.5rem</output></label>
+    <label>Density <input id="density" type="range" min="0.75" max="1.25" step="0.05" value="1"> <output id="density-out">1</output></label>
+    <label>Motion
+      <select id="motion" class="input" style="block-size: var(--kl-control-height-sm)">
+        <option value="">OS</option>
+        <option value="full">Full</option>
+        <option value="reduce">Reduce</option>
+      </select>
+    </label>
+  </header>
+
+  <main>
+    <section>
+      <h2>Semantic colours</h2>
+      <div class="grid" id="swatches"></div>
+    </section>
+
+    <section>
+      <h2>Status</h2>
+      <div class="status">
+        <div class="status__card" data-tone="info"><span class="badge">Info</span><h3>Transfer scheduled</h3><p>Funds arrive within one business day.</p></div>
+        <div class="status__card" data-tone="success"><span class="badge">Success</span><h3>Payment sent</h3><p>₦45,000.00 to Ada Obi.</p></div>
+        <div class="status__card" data-tone="warning"><span class="badge">Warning</span><h3>Limit almost reached</h3><p>You have ₦12,500 left today.</p></div>
+        <div class="status__card" data-tone="danger"><span class="badge">Danger</span><h3>Card declined</h3><p>Check the details and try again.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Neutral ramp</h2>
+      <div class="ramp" id="ramp"></div>
+      <p class="muted" style="margin-block-start: var(--kl-space-2)">1 page · 2 subtle · 3 element · 4 hover · 5 pressed · 6 subtle border · 7 border · 8 strong border · 9 solid · 10 solid hover · 11 muted text · 12 text</p>
+    </section>
+
+    <section>
+      <h2>Controls</h2>
+      <div style="display: grid; gap: var(--kl-space-4)">
+        <div class="row">
+          <button class="btn">Primary</button>
+          <button class="btn" data-variant="secondary">Secondary</button>
+          <button class="btn" data-variant="outline">Outline</button>
+          <button class="btn" data-variant="ghost">Ghost</button>
+          <button class="btn" data-variant="danger">Delete</button>
+          <button class="btn" disabled>Disabled</button>
+        </div>
+        <div class="row">
+          <button class="btn" data-size="sm">Small</button>
+          <button class="btn">Medium</button>
+          <button class="btn" data-size="lg">Large</button>
+        </div>
+        <div class="row">
+          <input class="input" placeholder="Account number">
+          <input class="input" aria-invalid="true" value="0123">
+          <label class="check"><input type="checkbox" checked> Save beneficiary</label>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Nested scopes</h2>
+      <div class="panels">
+        <div class="panel" data-kl-theme="dark">
+          <h3>data-kl-theme="dark"</h3>
+          <p class="muted">Always dark, whatever the page theme.</p>
+          <div class="row"><button class="btn">Primary</button><button class="btn" data-variant="outline">Outline</button></div>
+          <input class="input" placeholder="Search">
+        </div>
+        <div class="panel" data-kl-theme="light">
+          <h3>data-kl-theme="light"</h3>
+          <p class="muted">Always light, whatever the page theme.</p>
+          <div class="row"><button class="btn">Primary</button><button class="btn" data-variant="outline">Outline</button></div>
+          <input class="input" placeholder="Search">
+        </div>
+        <div class="panel" data-kl-scope style="--kl-brand: oklch(52% 0.14 155); --kl-radius-base: 1rem">
+          <h3>data-kl-scope + own brand and radius</h3>
+          <p class="muted">Brand, ring and radius re-resolve inside the scope.</p>
+          <div class="row"><button class="btn">Primary</button><button class="btn" data-variant="outline">Outline</button></div>
+          <input class="input" placeholder="Search">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Type</h2>
+      <div class="type" id="type"></div>
+      <p class="amount" style="margin-block-start: var(--kl-space-6)">₦1,250,000<span>.00</span></p>
+      <p class="muted">Numeric font with tabular figures.</p>
+      <p style="margin-block-start: var(--kl-space-3)"><code>const total = sum(transactions);</code></p>
+    </section>
+
+    <section>
+      <h2>Spacing</h2>
+      <div class="space" id="space"></div>
+    </section>
+
+    <section>
+      <h2>Radius</h2>
+      <div class="grid radius" id="radius-list"></div>
+    </section>
+
+    <section>
+      <h2>Elevation</h2>
+      <div class="grid elev" id="elev"></div>
+    </section>
+
+    <section>
+      <h2>Motion</h2>
+      <div class="row" style="margin-block-end: var(--kl-space-4)">
+        <button class="btn" data-variant="outline" id="play">Play</button>
+        <span class="muted" id="motion-state"></span>
+      </div>
+      <div class="motion" id="motion-list"></div>
+    </section>
+  </main>
+
+  <script type="module">
+    const html = document.documentElement;
+    const $ = (id) => document.getElementById(id);
+    const el = (tag, { dataset, ...props } = {}, ...kids) => {
+      const n = Object.assign(document.createElement(tag), props);
+      Object.assign(n.dataset, dataset);
+      n.append(...kids);
+      return n;
+    };
+
+    // Toolbar
+    const brand = () => ($('brand-on').checked ? html.style.setProperty('--kl-brand', $('brand').value) : html.style.removeProperty('--kl-brand'));
+    $('theme').onchange = (e) => (html.dataset.klTheme = e.target.value);
+    $('brand').oninput = () => (($('brand-on').checked = true), brand(), refresh());
+    $('brand-on').onchange = () => (brand(), refresh());
+    $('radius').oninput = (e) => { html.style.setProperty('--kl-radius-base', `${e.target.value}rem`); $('radius-out').value = `${e.target.value}rem`; };
+    $('density').oninput = (e) => { html.style.setProperty('--kl-density', e.target.value); $('density-out').value = e.target.value; };
+    $('motion').onchange = (e) => { e.target.value ? (html.dataset.klMotion = e.target.value) : delete html.dataset.klMotion; refresh(); };
+    $('theme').addEventListener('change', () => requestAnimationFrame(refresh));
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', refresh);
+
+    // Semantic swatches
+    const semantic = [
+      'bg', 'surface', 'surface-raised', 'muted', 'muted-hover', 'selected', 'overlay',
+      'fg', 'fg-muted', 'fg-subtle', 'border', 'border-strong', 'input',
+      'primary', 'primary-fg', 'primary-hover', 'primary-active', 'primary-subtle',
+      'secondary', 'secondary-hover', 'secondary-fg',
+      ...['info', 'success', 'warning', 'danger'].flatMap((s) => [s, `${s}-fg`, `${s}-text`, `${s}-subtle`, `${s}-border`]),
+      'danger-hover', 'ring',
+    ];
+    for (const name of semantic) {
+      const chip = el('div', { className: 'swatch__chip' });
+      chip.style.background = `var(--kl-color-${name})`;
+      $('swatches').append(el('div', { className: 'swatch' }, chip, el('code', { textContent: `--kl-color-${name}` }), el('small', { dataset: { token: name } })));
+    }
+
+    for (let i = 1; i <= 12; i++) {
+      const d = el('div', { textContent: i });
+      d.style.background = `var(--kl-neutral-${i})`;
+      d.style.color = i < 9 ? 'var(--kl-neutral-12)' : 'var(--kl-neutral-1)';
+      $('ramp').append(d);
+    }
+
+    for (const size of ['4xl', '3xl', '2xl', 'xl', 'lg', 'md', 'sm', 'xs']) {
+      const p = el('p', { textContent: 'Send money, fast and safe' });
+      p.style.fontSize = `var(--kl-text-${size})`;
+      p.style.lineHeight = 'var(--kl-leading-tight)';
+      p.style.fontWeight = size.includes('xl') ? 'var(--kl-weight-semibold)' : 'var(--kl-weight-regular)';
+      $('type').append(el('div', { className: 'type__row' }, el('code', { textContent: size }), p));
+    }
+
+    for (const n of [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24]) {
+      const bar = el('i');
+      bar.style.inlineSize = `var(--kl-space-${n})`;
+      $('space').append(el('div', {}, el('code', { textContent: `space-${n}` }), bar));
+    }
+
+    for (const r of ['none', 'xs', 'sm', 'md', 'lg', 'xl', 'full']) {
+      const d = el('div', { textContent: r });
+      d.style.borderRadius = `var(--kl-radius-${r})`;
+      $('radius-list').append(d);
+    }
+
+    for (let i = 0; i <= 5; i++) {
+      const d = el('div', { textContent: `shadow-${i}` });
+      d.style.boxShadow = `var(--kl-shadow-${i})`;
+      $('elev').append(d);
+    }
+
+    const motions = [
+      ['instant', 'standard'], ['fast', 'standard'], ['base', 'standard'], ['slow', 'standard'],
+      ['slow', 'linear'], ['slow', 'out'], ['slow', 'in'], ['slow', 'spring'],
+    ];
+    const tracks = motions.map(([d, e]) => {
+      const track = el('div', { className: 'motion__track' }, el('span', { className: 'motion__dot' }));
+      track.style.setProperty('--d', `var(--kl-duration-${d})`);
+      track.style.setProperty('--e', `var(--kl-ease-${e})`);
+      $('motion-list').append(el('div', { className: 'motion__row' }, el('code', { textContent: `${d} · ${e}` }), track));
+      return track;
+    });
+    $('play').onclick = () => tracks.forEach((t) => t.toggleAttribute('data-on'));
+    tracks[0].addEventListener('transitionend', () => ($('motion-state').textContent += ' · transitionend fired'));
+
+    function refresh() {
+      const cs = getComputedStyle(html);
+      for (const s of document.querySelectorAll('[data-token]')) {
+        s.textContent = getComputedStyle(s.previousElementSibling.previousElementSibling).backgroundColor;
+      }
+      $('motion-state').textContent = `--kl-duration-base: ${cs.getPropertyValue('--kl-duration-base').trim()}`;
+    }
+    refresh();
+  </script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+/*
+ * Klesora UI base tokens.
+ *
+ * 1. Scheme ramps: light/dark values for the neutral ramp, hue roles, overlay and shadow.
+ *    Style packs remap semantic tokens onto these ramps, so they never need dark-mode copies.
+ * 2. Semantic tokens: what components read. Declared on every scope boundary with zero
+ *    specificity, so style packs and project CSS always win, and nested themes, brands
+ *    and radii re-resolve inside each boundary.
+ * 3. Motion: reduced-motion handling.
+ *
+ * The dark block and the system-dark block must stay identical (npm run check:tokens).
+ */
+
+/* ---------- 1. Scheme ramps ---------- */
+
+:root,
+[data-kl-theme="light"],
+[data-kl-theme="system"] {
+  color-scheme: light;
+
+  /* Neutral ramp: 1 page bg … 12 text */
+  --kl-neutral-1: var(--kl-white);
+  --kl-neutral-2: var(--kl-gray-50);
+  --kl-neutral-3: var(--kl-gray-100);
+  --kl-neutral-4: color-mix(in oklab, var(--kl-gray-100), var(--kl-gray-200));
+  --kl-neutral-5: var(--kl-gray-200);
+  --kl-neutral-6: color-mix(in oklab, var(--kl-gray-200) 60%, var(--kl-gray-300));
+  --kl-neutral-7: var(--kl-gray-300);
+  --kl-neutral-8: color-mix(in oklab, var(--kl-gray-400), var(--kl-gray-500));
+  --kl-neutral-9: var(--kl-gray-900);
+  --kl-neutral-10: var(--kl-gray-800);
+  --kl-neutral-11: color-mix(in oklab, var(--kl-gray-500), var(--kl-gray-600));
+  --kl-neutral-12: var(--kl-gray-950);
+  /* Surfaces: cards and raised layers (popovers, menus) */
+  --kl-neutral-surface: var(--kl-white);
+  --kl-neutral-raised: var(--kl-white);
+
+  /* Hue roles */
+  --kl-blue-subtle: var(--kl-blue-50);
+  --kl-blue-border: var(--kl-blue-200);
+  --kl-blue-solid: var(--kl-blue-600);
+  --kl-blue-on: var(--kl-white);
+  --kl-blue-text: var(--kl-blue-700);
+
+  --kl-green-subtle: var(--kl-green-50);
+  --kl-green-border: var(--kl-green-200);
+  --kl-green-solid: var(--kl-green-600);
+  --kl-green-on: var(--kl-white);
+  --kl-green-text: var(--kl-green-700);
+
+  --kl-amber-subtle: var(--kl-amber-50);
+  --kl-amber-border: var(--kl-amber-200);
+  --kl-amber-solid: var(--kl-amber-600);
+  --kl-amber-on: var(--kl-amber-950);
+  --kl-amber-text: var(--kl-amber-800);
+
+  --kl-red-subtle: var(--kl-red-50);
+  --kl-red-border: var(--kl-red-200);
+  --kl-red-solid: var(--kl-red-600);
+  --kl-red-on: var(--kl-white);
+  --kl-red-text: var(--kl-red-700);
+
+  /* Overlay and shadow */
+  --kl-overlay: oklch(14.5% 0.005 264 / 0.4);
+  --kl-shadow-color: oklch(14.5% 0.005 264);
+  --kl-shadow-alpha: 0.1;
+}
+
+[data-kl-theme="dark"] {
+  color-scheme: dark;
+
+  --kl-neutral-1: var(--kl-gray-950);
+  --kl-neutral-2: color-mix(in oklab, var(--kl-gray-950), var(--kl-gray-900));
+  --kl-neutral-3: var(--kl-gray-900);
+  --kl-neutral-4: color-mix(in oklab, var(--kl-gray-900), var(--kl-gray-800));
+  --kl-neutral-5: var(--kl-gray-800);
+  --kl-neutral-6: color-mix(in oklab, var(--kl-gray-800), var(--kl-gray-700));
+  --kl-neutral-7: var(--kl-gray-700);
+  --kl-neutral-8: var(--kl-gray-500);
+  --kl-neutral-9: var(--kl-gray-100);
+  --kl-neutral-10: var(--kl-gray-200);
+  --kl-neutral-11: var(--kl-gray-400);
+  --kl-neutral-12: var(--kl-gray-50);
+  --kl-neutral-surface: color-mix(in oklab, var(--kl-gray-950), var(--kl-gray-900));
+  --kl-neutral-raised: var(--kl-gray-900);
+
+  --kl-blue-subtle: color-mix(in oklab, var(--kl-blue-950) 60%, var(--kl-gray-950));
+  --kl-blue-border: var(--kl-blue-900);
+  --kl-blue-solid: var(--kl-blue-600);
+  --kl-blue-on: var(--kl-white);
+  --kl-blue-text: var(--kl-blue-400);
+
+  --kl-green-subtle: color-mix(in oklab, var(--kl-green-950) 60%, var(--kl-gray-950));
+  --kl-green-border: var(--kl-green-900);
+  --kl-green-solid: var(--kl-green-600);
+  --kl-green-on: var(--kl-white);
+  --kl-green-text: var(--kl-green-400);
+
+  --kl-amber-subtle: color-mix(in oklab, var(--kl-amber-950) 60%, var(--kl-gray-950));
+  --kl-amber-border: var(--kl-amber-900);
+  --kl-amber-solid: var(--kl-amber-500);
+  --kl-amber-on: var(--kl-amber-950);
+  --kl-amber-text: var(--kl-amber-400);
+
+  --kl-red-subtle: color-mix(in oklab, var(--kl-red-950) 60%, var(--kl-gray-950));
+  --kl-red-border: var(--kl-red-900);
+  --kl-red-solid: var(--kl-red-600);
+  --kl-red-on: var(--kl-white);
+  --kl-red-text: var(--kl-red-400);
+
+  --kl-overlay: oklch(0% 0 0 / 0.65);
+  --kl-shadow-color: oklch(0% 0 0);
+  --kl-shadow-alpha: 0.45;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-kl-theme="light"]),
+  [data-kl-theme="system"] {
+    color-scheme: dark;
+
+    --kl-neutral-1: var(--kl-gray-950);
+    --kl-neutral-2: color-mix(in oklab, var(--kl-gray-950), var(--kl-gray-900));
+    --kl-neutral-3: var(--kl-gray-900);
+    --kl-neutral-4: color-mix(in oklab, var(--kl-gray-900), var(--kl-gray-800));
+    --kl-neutral-5: var(--kl-gray-800);
+    --kl-neutral-6: color-mix(in oklab, var(--kl-gray-800), var(--kl-gray-700));
+    --kl-neutral-7: var(--kl-gray-700);
+    --kl-neutral-8: var(--kl-gray-500);
+    --kl-neutral-9: var(--kl-gray-100);
+    --kl-neutral-10: var(--kl-gray-200);
+    --kl-neutral-11: var(--kl-gray-400);
+    --kl-neutral-12: var(--kl-gray-50);
+    --kl-neutral-surface: color-mix(in oklab, var(--kl-gray-950), var(--kl-gray-900));
+    --kl-neutral-raised: var(--kl-gray-900);
+
+    --kl-blue-subtle: color-mix(in oklab, var(--kl-blue-950) 60%, var(--kl-gray-950));
+    --kl-blue-border: var(--kl-blue-900);
+    --kl-blue-solid: var(--kl-blue-600);
+    --kl-blue-on: var(--kl-white);
+    --kl-blue-text: var(--kl-blue-400);
+
+    --kl-green-subtle: color-mix(in oklab, var(--kl-green-950) 60%, var(--kl-gray-950));
+    --kl-green-border: var(--kl-green-900);
+    --kl-green-solid: var(--kl-green-600);
+    --kl-green-on: var(--kl-white);
+    --kl-green-text: var(--kl-green-400);
+
+    --kl-amber-subtle: color-mix(in oklab, var(--kl-amber-950) 60%, var(--kl-gray-950));
+    --kl-amber-border: var(--kl-amber-900);
+    --kl-amber-solid: var(--kl-amber-500);
+    --kl-amber-on: var(--kl-amber-950);
+    --kl-amber-text: var(--kl-amber-400);
+
+    --kl-red-subtle: color-mix(in oklab, var(--kl-red-950) 60%, var(--kl-gray-950));
+    --kl-red-border: var(--kl-red-900);
+    --kl-red-solid: var(--kl-red-600);
+    --kl-red-on: var(--kl-white);
+    --kl-red-text: var(--kl-red-400);
+
+    --kl-overlay: oklch(0% 0 0 / 0.65);
+    --kl-shadow-color: oklch(0% 0 0);
+    --kl-shadow-alpha: 0.45;
+  }
+}
+
+/* ---------- 2. Semantic tokens (Mono defaults) ---------- */
+/*
+ * Knobs a project may set (never declared by the library, so they inherit freely):
+ *   --kl-brand, --kl-brand-fg, --kl-radius-base, --kl-density, --kl-ring
+ */
+
+:where(:root, [data-kl-theme], [data-kl-style], [data-kl-scope], [data-kl-motion]) {
+  /* Surfaces */
+  --kl-color-bg: var(--kl-neutral-1);
+  --kl-color-surface: var(--kl-neutral-surface);
+  --kl-color-surface-raised: var(--kl-neutral-raised);
+  --kl-color-muted: var(--kl-neutral-3);
+  --kl-color-muted-hover: var(--kl-neutral-4);
+  --kl-color-selected: var(--kl-neutral-5);
+  --kl-color-overlay: var(--kl-overlay);
+
+  /* Text */
+  --kl-color-fg: var(--kl-neutral-12);
+  --kl-color-fg-muted: var(--kl-neutral-11);
+  --kl-color-fg-subtle: var(--kl-neutral-8); /* decorative only: placeholders need fg-muted */
+
+  /* Borders */
+  --kl-color-border: var(--kl-neutral-6);
+  --kl-color-border-strong: var(--kl-neutral-8);
+  --kl-color-input: var(--kl-neutral-8);
+
+  /* Primary */
+  --kl-color-primary: var(--kl-brand, var(--kl-neutral-9));
+  --kl-color-primary-fg: var(
+    --kl-brand-fg,
+    oklch(from var(--kl-color-primary) clamp(0.145, (0.58 - l) * 1000, 1) 0 0)
+  );
+  --kl-color-primary-hover: color-mix(in oklab, var(--kl-color-primary) 90%, var(--kl-color-bg));
+  --kl-color-primary-active: color-mix(in oklab, var(--kl-color-primary) 80%, var(--kl-color-bg));
+  --kl-color-primary-subtle: color-mix(in oklab, var(--kl-color-primary) 12%, var(--kl-color-bg));
+
+  /* Secondary */
+  --kl-color-secondary: var(--kl-neutral-3);
+  --kl-color-secondary-hover: var(--kl-neutral-4);
+  --kl-color-secondary-fg: var(--kl-neutral-12);
+
+  /* Status */
+  --kl-color-info: var(--kl-blue-solid);
+  --kl-color-info-fg: var(--kl-blue-on);
+  --kl-color-info-text: var(--kl-blue-text);
+  --kl-color-info-subtle: var(--kl-blue-subtle);
+  --kl-color-info-border: var(--kl-blue-border);
+
+  --kl-color-success: var(--kl-green-solid);
+  --kl-color-success-fg: var(--kl-green-on);
+  --kl-color-success-text: var(--kl-green-text);
+  --kl-color-success-subtle: var(--kl-green-subtle);
+  --kl-color-success-border: var(--kl-green-border);
+
+  --kl-color-warning: var(--kl-amber-solid);
+  --kl-color-warning-fg: var(--kl-amber-on);
+  --kl-color-warning-text: var(--kl-amber-text);
+  --kl-color-warning-subtle: var(--kl-amber-subtle);
+  --kl-color-warning-border: var(--kl-amber-border);
+
+  --kl-color-danger: var(--kl-red-solid);
+  --kl-color-danger-fg: var(--kl-red-on);
+  --kl-color-danger-text: var(--kl-red-text);
+  --kl-color-danger-subtle: var(--kl-red-subtle);
+  --kl-color-danger-border: var(--kl-red-border);
+  --kl-color-danger-hover: color-mix(in oklab, var(--kl-color-danger) 90%, var(--kl-color-bg));
+
+  /* Focus */
+  --kl-color-ring: var(--kl-ring, var(--kl-brand, var(--kl-neutral-8)));
+  --kl-ring-width: 2px;
+  --kl-ring-offset: 2px;
+
+  /* Fonts */
+  --kl-font-body: var(--kl-font-sans);
+  --kl-font-heading: var(--kl-font-sans);
+  --kl-font-code: var(--kl-font-mono);
+  --kl-font-numeric: var(--kl-font-sans); /* pair with font-variant-numeric: tabular-nums */
+
+  /* Radius: the scale derives from --kl-radius-base */
+  --kl-radius-none: 0;
+  --kl-radius-xs: calc(var(--kl-radius-base, 0.5rem) * 0.25);
+  --kl-radius-sm: calc(var(--kl-radius-base, 0.5rem) * 0.5);
+  --kl-radius-md: var(--kl-radius-base, 0.5rem);
+  --kl-radius-lg: calc(var(--kl-radius-base, 0.5rem) * 1.5);
+  --kl-radius-xl: calc(var(--kl-radius-base, 0.5rem) * 2);
+  --kl-radius-full: 9999px;
+
+  /* Density: control sizes (32/40/48px at density 1) */
+  --kl-control-height-sm: calc(2rem * var(--kl-density, 1));
+  --kl-control-height-md: calc(2.5rem * var(--kl-density, 1));
+  --kl-control-height-lg: calc(3rem * var(--kl-density, 1));
+  --kl-control-padding-sm: calc(0.75rem * var(--kl-density, 1));
+  --kl-control-padding-md: calc(1rem * var(--kl-density, 1));
+  --kl-control-padding-lg: calc(1.25rem * var(--kl-density, 1));
+
+  /* Elevation */
+  --kl-shadow-0: none;
+  --kl-shadow-1: 0 1px 2px 0 oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 0.6));
+  --kl-shadow-2:
+    0 1px 3px 0 oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha)),
+    0 1px 2px -1px oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha));
+  --kl-shadow-3:
+    0 4px 6px -1px oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha)),
+    0 2px 4px -2px oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha));
+  --kl-shadow-4:
+    0 10px 15px -3px oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha)),
+    0 4px 6px -4px oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha));
+  --kl-shadow-5:
+    0 20px 25px -5px oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha)),
+    0 8px 10px -6px oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha));
+
+  /* Misc */
+  --kl-border-width: 1px;
+  --kl-disabled-opacity: 0.5;
+  --kl-transition-colors:
+    color var(--kl-duration-fast) var(--kl-ease-standard),
+    background-color var(--kl-duration-fast) var(--kl-ease-standard),
+    border-color var(--kl-duration-fast) var(--kl-ease-standard),
+    outline-color var(--kl-duration-fast) var(--kl-ease-standard),
+    text-decoration-color var(--kl-duration-fast) var(--kl-ease-standard),
+    fill var(--kl-duration-fast) var(--kl-ease-standard),
+    stroke var(--kl-duration-fast) var(--kl-ease-standard);
+}
+
+/* ---------- 3. Motion ---------- */
+/* Follows the OS setting; data-kl-motion="reduce|full" overrides it. 1ms, not 0, so transitionend still fires. */
+
+[data-kl-motion="full"] {
+  --kl-duration-instant: 50ms;
+  --kl-duration-fast: 120ms;
+  --kl-duration-base: 200ms;
+  --kl-duration-slow: 320ms;
+}
+
+[data-kl-motion="reduce"] {
+  --kl-duration-instant: 1ms;
+  --kl-duration-fast: 1ms;
+  --kl-duration-base: 1ms;
+  --kl-duration-slow: 1ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-kl-motion="full"]) {
+    --kl-duration-instant: 1ms;
+    --kl-duration-fast: 1ms;
+    --kl-duration-base: 1ms;
+    --kl-duration-slow: 1ms;
+  }
+}

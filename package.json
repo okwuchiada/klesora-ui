@@ -49,5 +49,12 @@
   "homepage": "https://klesora-ui.vercel.app/",
   "bugs": {
     "url": "https://github.com/okwuchiada/klesora-ui/issues"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
+    "esbuild": "^0.28.2"
   }
 }

@@ -60,6 +60,13 @@
   --kl-red-on: var(--kl-white);
   --kl-red-text: var(--kl-red-700);
 
+  /* Violet follows Material: deep solid in light, pale solid with dark text in dark */
+  --kl-violet-subtle: var(--kl-violet-50);
+  --kl-violet-border: var(--kl-violet-200);
+  --kl-violet-solid: var(--kl-violet-700);
+  --kl-violet-on: var(--kl-white);
+  --kl-violet-text: var(--kl-violet-700);
+
   /* Overlay and shadow */
   --kl-overlay: oklch(14.5% 0.005 264 / 0.4);
   --kl-shadow-color: oklch(14.5% 0.005 264);
@@ -107,6 +114,12 @@
   --kl-red-solid: var(--kl-red-600);
   --kl-red-on: var(--kl-white);
   --kl-red-text: var(--kl-red-400);
+
+  --kl-violet-subtle: color-mix(in oklab, var(--kl-violet-950) 60%, var(--kl-gray-950));
+  --kl-violet-border: var(--kl-violet-900);
+  --kl-violet-solid: var(--kl-violet-300);
+  --kl-violet-on: var(--kl-violet-950);
+  --kl-violet-text: var(--kl-violet-300);
 
   --kl-overlay: oklch(0% 0 0 / 0.65);
   --kl-shadow-color: oklch(0% 0 0);
@@ -157,6 +170,12 @@
     --kl-red-on: var(--kl-white);
     --kl-red-text: var(--kl-red-400);
 
+    --kl-violet-subtle: color-mix(in oklab, var(--kl-violet-950) 60%, var(--kl-gray-950));
+    --kl-violet-border: var(--kl-violet-900);
+    --kl-violet-solid: var(--kl-violet-300);
+    --kl-violet-on: var(--kl-violet-950);
+    --kl-violet-text: var(--kl-violet-300);
+
     --kl-overlay: oklch(0% 0 0 / 0.65);
     --kl-shadow-color: oklch(0% 0 0);
     --kl-shadow-alpha: 0.45;
@@ -167,9 +186,19 @@
 /*
  * Knobs a project may set (never declared by the library, so they inherit freely):
  *   --kl-brand, --kl-brand-fg, --kl-radius-base, --kl-density, --kl-ring
+ *
+ * Mono is these defaults. [data-kl-style="mono"] is listed outside :where() so an explicit
+ * Mono region nested inside another style beats that style's zero-specificity descendant rule.
  */
 
-:where(:root, [data-kl-theme], [data-kl-style], [data-kl-scope], [data-kl-motion]) {
+:where(:root, [data-kl-theme], [data-kl-style], [data-kl-scope], [data-kl-motion]),
+[data-kl-style="mono"] {
+  /* Style defaults: set by style packs, read through the knobs below. Projects use the knobs. */
+  --kl-style-primary: var(--kl-neutral-9);
+  --kl-style-ring: var(--kl-neutral-8);
+  --kl-style-radius: 0.5rem;
+  --kl-style-density: 1;
+
   /* Surfaces */
   --kl-color-bg: var(--kl-neutral-1);
   --kl-color-surface: var(--kl-neutral-surface);
@@ -186,11 +215,12 @@
 
   /* Borders */
   --kl-color-border: var(--kl-neutral-6);
+  --kl-color-surface-border: var(--kl-neutral-6); /* edge of cards and panels; transparent where depth or tone does the job */
   --kl-color-border-strong: var(--kl-neutral-8);
   --kl-color-input: var(--kl-neutral-8);
 
   /* Primary */
-  --kl-color-primary: var(--kl-brand, var(--kl-neutral-9));
+  --kl-color-primary: var(--kl-brand, var(--kl-style-primary));
   --kl-color-primary-fg: var(
     --kl-brand-fg,
     oklch(from var(--kl-color-primary) clamp(0.145, (0.58 - l) * 1000, 1) 0 0)
@@ -231,7 +261,7 @@
   --kl-color-danger-hover: color-mix(in oklab, var(--kl-color-danger) 90%, var(--kl-color-bg));
 
   /* Focus */
-  --kl-color-ring: var(--kl-ring, var(--kl-brand, var(--kl-neutral-8)));
+  --kl-color-ring: var(--kl-ring, var(--kl-brand, var(--kl-style-ring)));
   --kl-ring-width: 2px;
   --kl-ring-offset: 2px;
 
@@ -240,23 +270,25 @@
   --kl-font-heading: var(--kl-font-sans);
   --kl-font-code: var(--kl-font-mono);
   --kl-font-numeric: var(--kl-font-sans); /* pair with font-variant-numeric: tabular-nums */
+  --kl-heading-weight: var(--kl-weight-semibold);
+  --kl-heading-tracking: var(--kl-tracking-tight);
 
   /* Radius: the scale derives from --kl-radius-base */
   --kl-radius-none: 0;
-  --kl-radius-xs: calc(var(--kl-radius-base, 0.5rem) * 0.25);
-  --kl-radius-sm: calc(var(--kl-radius-base, 0.5rem) * 0.5);
-  --kl-radius-md: var(--kl-radius-base, 0.5rem);
-  --kl-radius-lg: calc(var(--kl-radius-base, 0.5rem) * 1.5);
-  --kl-radius-xl: calc(var(--kl-radius-base, 0.5rem) * 2);
+  --kl-radius-xs: calc(var(--kl-radius-base, var(--kl-style-radius)) * 0.25);
+  --kl-radius-sm: calc(var(--kl-radius-base, var(--kl-style-radius)) * 0.5);
+  --kl-radius-md: var(--kl-radius-base, var(--kl-style-radius));
+  --kl-radius-lg: calc(var(--kl-radius-base, var(--kl-style-radius)) * 1.5);
+  --kl-radius-xl: calc(var(--kl-radius-base, var(--kl-style-radius)) * 2);
   --kl-radius-full: 9999px;
 
   /* Density: control sizes (32/40/48px at density 1) */
-  --kl-control-height-sm: calc(2rem * var(--kl-density, 1));
-  --kl-control-height-md: calc(2.5rem * var(--kl-density, 1));
-  --kl-control-height-lg: calc(3rem * var(--kl-density, 1));
-  --kl-control-padding-sm: calc(0.75rem * var(--kl-density, 1));
-  --kl-control-padding-md: calc(1rem * var(--kl-density, 1));
-  --kl-control-padding-lg: calc(1.25rem * var(--kl-density, 1));
+  --kl-control-height-sm: calc(2rem * var(--kl-density, var(--kl-style-density)));
+  --kl-control-height-md: calc(2.5rem * var(--kl-density, var(--kl-style-density)));
+  --kl-control-height-lg: calc(3rem * var(--kl-density, var(--kl-style-density)));
+  --kl-control-padding-sm: calc(0.75rem * var(--kl-density, var(--kl-style-density)));
+  --kl-control-padding-md: calc(1rem * var(--kl-density, var(--kl-style-density)));
+  --kl-control-padding-lg: calc(1.25rem * var(--kl-density, var(--kl-style-density)));
 
   /* Elevation */
   --kl-shadow-0: none;
@@ -274,17 +306,24 @@
     0 20px 25px -5px oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha)),
     0 8px 10px -6px oklch(from var(--kl-shadow-color) l c h / var(--kl-shadow-alpha));
 
+  /* Motion: styles pick duration steps and easings; reduced motion shrinks the steps themselves */
+  --kl-motion-short: var(--kl-duration-fast); /* hover, press, colour changes */
+  --kl-motion-long: var(--kl-duration-base); /* enter, exit, expand */
+  --kl-motion-ease: var(--kl-ease-standard);
+  --kl-motion-ease-enter: var(--kl-ease-out);
+  --kl-motion-ease-exit: var(--kl-ease-in);
+
   /* Misc */
   --kl-border-width: 1px;
   --kl-disabled-opacity: 0.5;
   --kl-transition-colors:
-    color var(--kl-duration-fast) var(--kl-ease-standard),
-    background-color var(--kl-duration-fast) var(--kl-ease-standard),
-    border-color var(--kl-duration-fast) var(--kl-ease-standard),
-    outline-color var(--kl-duration-fast) var(--kl-ease-standard),
-    text-decoration-color var(--kl-duration-fast) var(--kl-ease-standard),
-    fill var(--kl-duration-fast) var(--kl-ease-standard),
-    stroke var(--kl-duration-fast) var(--kl-ease-standard);
+    color var(--kl-motion-short) var(--kl-motion-ease),
+    background-color var(--kl-motion-short) var(--kl-motion-ease),
+    border-color var(--kl-motion-short) var(--kl-motion-ease),
+    outline-color var(--kl-motion-short) var(--kl-motion-ease),
+    text-decoration-color var(--kl-motion-short) var(--kl-motion-ease),
+    fill var(--kl-motion-short) var(--kl-motion-ease),
+    stroke var(--kl-motion-short) var(--kl-motion-ease);
 }
 
 /* ---------- 3. Motion ---------- */

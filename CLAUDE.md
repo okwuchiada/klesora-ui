@@ -18,7 +18,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 
 1. ✅ Setup and conventions
 2. ✅ Design tokens: `src/tokens/primitives.css`, `src/tokens/base.css`, `scripts/check-tokens.mjs`, `scripts/gen-palette.mjs`, `tests/tokens.html`
-3. Style packs: `src/tokens/{solo,mono,chorus}.css` (token remaps) + `src/styles/<style>.css` (structural overrides)
+3. ✅ Style packs: `src/tokens/{solo,mono,chorus}.css` (token remaps) + `src/styles/<style>.css` (structural stubs until components exist)
 4. CSS class layer: reset, base, utilities
 5. JS core: UIElement base class (attribute/property reflection, kl-* events, cleanup), form-associated elements via ElementInternals, directive registry (MutationObserver)
 6. Core inputs: button, input, select, checkbox, switch, form field
@@ -41,7 +41,10 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - Light/dark live only in the scheme ramps (`--kl-neutral-1..12`, hue roles). The dark block and the system-dark block must stay identical.
 - Semantic tokens are declared once, on `:where(:root, [data-kl-theme], [data-kl-style], [data-kl-scope], [data-kl-motion])`, with zero specificity. Knobs (`--kl-brand`, `--kl-brand-fg`, `--kl-radius-base`, `--kl-density`, `--kl-ring`) are never declared by the library.
 - Mono primary is neutral-9 (near-black in light, near-white in dark). The ring defaults to brand, else neutral-8.
-- **Step 3 note:** a style pack that sets semantic tokens on `[data-kl-style="x"]` is reset by nested `[data-kl-theme]`/`[data-kl-scope]` boundaries. Style packs must also target the boundaries inside their style, e.g. `[data-kl-style="x"], [data-kl-style="x"] :where([data-kl-theme], [data-kl-scope])`, or remap through knob-like defaults. Decide this at the start of Step 3.
+- Style packs: one rule each, an own selector plus a zero-specificity descendant rule with a `:not()` so the nearest style wins (CONVENTIONS §2, "Writing a style pack"). Packs set only semantic tokens and `--kl-style-*` defaults. `mono.css` is empty because Mono is the base.
+- Solo primary is blue (`--kl-blue-solid`). Chorus primary is Material-like violet (`--kl-violet-solid`, violet-700 ≈ #6750a4), with surfaces tinted from the primary.
+- Hover and press: Mono mixes toward the page bg (as specced). Solo presses away from the text colour. Chorus uses state layers (mixes in the text colour). The reason is contrast with white text on mid-tone primaries.
+- Styles never change duration primitives; they pick steps via `--kl-motion-*`, so reduced motion keeps working.
 
 ## Commands
 
@@ -58,4 +61,4 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
   - `npm run check:tokens` passes.
   - Check the relevant test page in light and dark, and in every style built so far. Fix anything that looks wrong.
   - Update CONVENTIONS.md and README.md if anything public changed.
-  - Commit with a conventional message (feat:, fix:, docs:…).
+  - **Do not commit** (since Step 3). Leave changes uncommitted for the user; a suggested conventional message (feat:, fix:, docs:…) is fine.

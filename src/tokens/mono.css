@@ -1,0 +1,7 @@
+/*
+ * Mono (default): shadcn-inspired. Minimal, neutral, developer-focused.
+ *
+ * Mono's values are the semantic defaults in base.css, which also matches
+ * [data-kl-style="mono"] directly, so there is nothing to remap here.
+ * Add Mono-only tokens to this file if a later step needs them.
+ */

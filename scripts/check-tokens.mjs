@@ -18,6 +18,10 @@ import {
 const src = (p) => fileURLToPath(new URL(`../src/tokens/${p}`, import.meta.url));
 const primitivesCss = await readFile(src('primitives.css'), 'utf8');
 const baseCss = await readFile(src('base.css'), 'utf8');
+const styleNames = ['mono', 'solo', 'chorus'];
+const styleCss = Object.fromEntries(
+  await Promise.all(styleNames.map(async (n) => [n, await readFile(src(`${n}.css`), 'utf8')])),
+);
 
 let failures = 0;
 const fail = (msg) => {
@@ -45,7 +49,7 @@ function parseRules(css, media = null) {
     }
     const body = css.slice(open + 1, j - 1);
     if (prelude.startsWith('@media')) rules.push(...parseRules(body, prelude));
-    else rules.push({ selector: prelude.replace(/\s+/g, ' '), media, decls: parseDecls(body) });
+    else rules.push({ selector: prelude.replace(/\s+/g, ' ').replace(/\( /g, '(').replace(/ \)/g, ')'), media, decls: parseDecls(body) });
     i = j;
   }
   return rules;
@@ -223,8 +227,27 @@ function evalColor(str) {
 
 /* ---------- Contexts ---------- */
 
-const ctx = (scheme, extra = {}) =>
-  new Map([...primitiveRule.decls, ...scheme, ...semanticDecls, ...Object.entries(extra)]);
+// Mono is the base semantic block; other styles layer their own rule on top.
+const styles = {};
+for (const name of styleNames) {
+  const own = `[data-kl-style="${name}"]`;
+  const descendant =
+    `:where(${own}) :where([data-kl-theme], [data-kl-scope], [data-kl-motion])` +
+    `:not(:where(${own} [data-kl-style]:not(${own})) *)`;
+  const rule = parseRules(styleCss[name]).find((r) => r.selector.startsWith(own));
+  if (name !== 'mono' && (!rule || rule.selector !== `${own}, ${descendant}`))
+    throw new Error(`${name}.css: expected one rule on "${own}, ${descendant}"`);
+  styles[name] = rule?.decls ?? new Map();
+}
+
+const ctx = (scheme, style = 'mono', extra = {}) =>
+  new Map([
+    ...primitiveRule.decls,
+    ...scheme,
+    ...semanticDecls,
+    ...styles[style],
+    ...Object.entries(extra),
+  ]);
 
 const color = (vars, name) => evalColor(resolve(`var(${name})`, vars));
 const hex = (c) => toHex(Object.values(toRgb(c)).slice(0, 3));
@@ -258,6 +281,14 @@ else console.log('  ✓ light and dark blocks set the same tokens');
 for (const [k, v] of motionFullDecls)
   if (primitiveRule.decls.get(k) !== v) fail(`data-kl-motion="full" ${k} is ${v}, primitives say ${primitiveRule.decls.get(k)}`);
 
+console.log('\nStyle packs');
+const knobs = ['--kl-brand', '--kl-brand-fg', '--kl-radius-base', '--kl-density', '--kl-ring'];
+for (const [name, decls] of Object.entries(styles)) {
+  const bad = [...decls.keys()].filter((k) => !semanticDecls.has(k) || knobs.includes(k));
+  if (bad.length) fail(`${name}.css sets tokens that are not semantic: ${bad.join(', ')}`);
+  else console.log(`  ✓ ${name}: ${decls.size} semantic remaps`);
+}
+
 /* ---------- 3. Contrast ---------- */
 
 const TEXT = 4.5;
@@ -274,6 +305,9 @@ const pairs = [
   ['--kl-color-fg-muted', '--kl-color-surface', TEXT],
   ['--kl-color-fg-muted', '--kl-color-muted', TEXT],
   ['--kl-color-fg-muted', '--kl-color-muted-hover', TEXT],
+  ['--kl-color-fg-muted', '--kl-color-surface-raised', TEXT],
+  ['--kl-color-fg-muted', '--kl-color-selected', TEXT],
+  ['--kl-color-fg', '--kl-color-muted-hover', TEXT],
   ['--kl-color-primary-fg', '--kl-color-primary', TEXT],
   ['--kl-color-primary-fg', '--kl-color-primary-hover', TEXT],
   ['--kl-color-primary-fg', '--kl-color-primary-active', TEXT],
@@ -300,18 +334,19 @@ const pairs = [
 ];
 
 const schemes = { light: lightDecls, dark: darkDecls };
-for (const [name, decls] of Object.entries(schemes)) {
-  console.log(`\nContrast: ${name}`);
-  const vars = ctx(decls);
-  let passed = 0;
-  for (const [fg, bg, min, label] of pairs) {
+const short = (n) => n.replace('--kl-color-', '').replace('--kl-', '');
+const runPairs = (vars) =>
+  pairs.map(([fg, bg, min, label]) => {
     const ratio = contrast(toRgb(color(vars, fg)), toRgb(color(vars, bg)));
-    const short = (n) => n.replace('--kl-color-', '').replace('--kl-', '');
-    const line = `${short(fg)} on ${short(bg)}: ${ratio.toFixed(2)} (min ${min}${label ? `, ${label}` : ''})`;
-    if (ratio < min) fail(line);
-    else passed++;
+    return { ratio, min, ok: ratio >= min, line: `${short(fg)} on ${short(bg)}: ${ratio.toFixed(2)} (min ${min}${label ? `, ${label}` : ''})` };
+  });
+for (const style of styleNames) {
+  for (const [scheme, decls] of Object.entries(schemes)) {
+    const results = runPairs(ctx(decls, style));
+    const passed = results.filter((r) => r.ok).length;
+    console.log(`\nContrast: ${style} ${scheme}\n  ${passed === pairs.length ? '✓' : '✗'} ${passed}/${pairs.length} pairs pass`);
+    results.filter((r) => !r.ok).forEach((r) => fail(r.line));
   }
-  console.log(`  ✓ ${passed}/${pairs.length} pairs pass`);
 }
 
 /* ---------- 4. Brand samples (informational) ---------- */
@@ -331,8 +366,8 @@ console.log('\nBrand samples (informational): auto fg on brand, brand fill and r
 console.log('  brand    hex      fg       fg:brand  light:fill  dark:fill');
 for (const [name, value] of Object.entries(brands)) {
   const row = [name.padEnd(8), value];
-  const light = ctx(lightDecls, { '--kl-brand': value });
-  const dark = ctx(darkDecls, { '--kl-brand': value });
+  const light = ctx(lightDecls, 'mono', { '--kl-brand': value });
+  const dark = ctx(darkDecls, 'mono', { '--kl-brand': value });
   const fg = color(light, '--kl-color-primary-fg');
   const primary = color(light, '--kl-color-primary');
   const r = (vars) => contrast(toRgb(color(vars, '--kl-color-primary')), toRgb(color(vars, '--kl-color-bg')));
@@ -342,6 +377,18 @@ for (const [name, value] of Object.entries(brands)) {
   console.log('  ' + row.join(' '));
 }
 console.log('  (! = below the WCAG minimum; set --kl-brand-fg or pick a deeper brand colour)');
+
+console.log('\nBrand × style (informational): pairs below minimum, light / dark');
+console.log('  brand    ' + styleNames.map((n) => n.padEnd(9)).join(' '));
+for (const [name, value] of Object.entries(brands)) {
+  const cells = styleNames.map((style) =>
+    Object.values(schemes)
+      .map((d) => runPairs(ctx(d, style, { '--kl-brand': value })).filter((r) => !r.ok).length)
+      .join(' / ')
+      .padEnd(9),
+  );
+  console.log(`  ${name.padEnd(8)} ${cells.join(' ')}`);
+}
 
 console.log(failures ? `\n${failures} check(s) failed.\n` : '\nAll token checks passed.\n');
 process.exit(failures ? 1 : 0);

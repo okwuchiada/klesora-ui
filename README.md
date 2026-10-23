@@ -6,15 +6,15 @@ It ships three switchable styles:
 
 | Style | Look |
 | --- | --- |
-| **Solo** | simple, modern, clean, high end |
-| **Mono** | minimal, neutral, developer-focused |
-| **Chorus** | layered, bold, tactile |
+| **Solo** | simple, modern, clean, high end; one blue accent |
+| **Mono** (default) | minimal, neutral, developer-focused |
+| **Chorus** | layered, bold, tactile; violet, tinted surfaces |
 
 ```html
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 2 of the roadmap: design tokens). Not yet published.
+> Status: early development (Step 3 of the roadmap: style packs). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -51,7 +51,7 @@ tests/          test pages
 
 ```sh
 npm run dev            # http://localhost:5173/docs/ (token test page: /tests/tokens.html)
-npm run check:tokens   # gamut, WCAG contrast in light and dark, dark/system-dark drift
+npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 ```
 

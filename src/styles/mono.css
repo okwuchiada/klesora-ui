@@ -1,0 +1,5 @@
+/*
+ * Mono structural overrides (layer kl.styles, after kl.components).
+ * Shape and behaviour that tokens cannot express, scoped to :where([data-kl-style="mono"]).
+ * Empty until components land (Step 6+). Mono is the baseline component look, so this file is expected to stay small.
+ */

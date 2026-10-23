@@ -1,0 +1,57 @@
+/*
+ * Solo: Apple-inspired. Simple, modern, clean, high end.
+ * One blue accent, generous sizing, soft larger radii, very subtle depth,
+ * few borders, calm eased motion.
+ *
+ * Selector pattern (every style pack):
+ * - The own rule [data-kl-style="x"] has specificity 0,1,0.
+ * - The descendant rule re-applies the style on nested theme/scope/motion boundaries
+ *   with zero specificity. It still beats base.css, which comes earlier in kl.tokens.
+ * - The :not() skips boundaries that sit inside a different style nested within this one,
+ *   so the nearest style wins for one level of nesting (e.g. a Solo card on a Chorus page).
+ * Only remap semantic tokens and --kl-style-* defaults here: never knobs, primitives or ramps.
+ */
+[data-kl-style="solo"],
+:where([data-kl-style="solo"])
+  :where([data-kl-theme], [data-kl-scope], [data-kl-motion]):not(
+    :where([data-kl-style="solo"] [data-kl-style]:not([data-kl-style="solo"])) *
+  ) {
+  --kl-style-primary: var(--kl-blue-solid);
+  --kl-style-ring: var(--kl-blue-solid);
+  --kl-style-radius: 0.75rem;
+  --kl-style-density: 1.1;
+
+  /* Few borders: quieter dividers, no outline on surfaces */
+  --kl-color-border: var(--kl-neutral-5);
+  --kl-color-surface-border: transparent;
+  --kl-color-surface: var(--kl-neutral-2);
+  /* Hover lifts gently; press moves away from the text colour, so contrast only goes up */
+  --kl-color-primary-hover: color-mix(in oklab, var(--kl-color-primary) 94%, var(--kl-color-bg));
+  --kl-color-primary-active: color-mix(
+    in oklab,
+    var(--kl-color-primary) 85%,
+    oklch(from var(--kl-color-primary-fg) calc(1 - l) 0 0)
+  );
+  --kl-color-secondary: var(--kl-neutral-3);
+  --kl-color-secondary-hover: var(--kl-neutral-5);
+
+  /* Type */
+  --kl-heading-weight: var(--kl-weight-semibold);
+  --kl-heading-tracking: var(--kl-tracking-tight);
+
+  /* Very subtle depth: soft, wide, low-alpha */
+  --kl-shadow-1: 0 1px 2px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 0.4));
+  --kl-shadow-2: 0 2px 8px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 0.5));
+  --kl-shadow-3: 0 4px 16px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 0.6));
+  --kl-shadow-4: 0 8px 30px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 0.7));
+  --kl-shadow-5: 0 16px 48px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 0.9));
+
+  /* Calm motion */
+  --kl-motion-short: var(--kl-duration-base);
+  --kl-motion-long: var(--kl-duration-slow);
+  --kl-motion-ease: var(--kl-ease-smooth);
+  --kl-motion-ease-enter: var(--kl-ease-out);
+  --kl-motion-ease-exit: var(--kl-ease-smooth);
+
+  --kl-disabled-opacity: 0.4;
+}

@@ -15,10 +15,10 @@
       font: var(--kl-text-sm) / var(--kl-leading-normal) var(--kl-font-body);
       transition: var(--kl-transition-colors);
     }
-    h1, h2, h3 { font-family: var(--kl-font-heading); margin: 0; letter-spacing: var(--kl-tracking-tight); }
+    h1, h2, h3 { font-family: var(--kl-font-heading); margin: 0; font-weight: var(--kl-heading-weight); letter-spacing: var(--kl-heading-tracking); }
     h1 { font-size: var(--kl-text-2xl); }
     h2 { font-size: var(--kl-text-lg); margin-block-end: var(--kl-space-4); }
-    h3 { font-size: var(--kl-text-sm); font-weight: var(--kl-weight-semibold); }
+    h3 { font-size: var(--kl-text-sm); }
     p { margin: 0; }
     code { font-family: var(--kl-font-code); font-size: var(--kl-text-xs); }
     .muted { color: var(--kl-color-fg-muted); }
@@ -116,9 +116,13 @@
       display: grid; gap: var(--kl-space-4);
       padding: var(--kl-space-6);
       border-radius: var(--kl-radius-xl);
-      border: var(--kl-border-width) solid var(--kl-color-border);
+      border: var(--kl-border-width) solid var(--kl-color-surface-border);
       background: var(--kl-color-surface); color: var(--kl-color-fg);
+      box-shadow: var(--kl-shadow-1);
     }
+    .panel .panel { background: var(--kl-color-bg); padding: var(--kl-space-4); border-radius: var(--kl-radius-lg); }
+    .styles { display: grid; gap: var(--kl-space-4); grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+    .styles > .panel { background: var(--kl-color-bg); border-color: var(--kl-color-border); }
     .panels { display: grid; gap: var(--kl-space-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
 
     .type { display: grid; gap: var(--kl-space-3); }
@@ -156,6 +160,13 @@
 <body>
   <header class="toolbar">
     <h1>Klesora UI · Tokens</h1>
+    <label>Style
+      <select id="style" class="input" style="block-size: var(--kl-control-height-sm)">
+        <option value="">Mono (default)</option>
+        <option value="solo">Solo</option>
+        <option value="chorus">Chorus</option>
+      </select>
+    </label>
     <label>Theme
       <select id="theme" class="input" style="block-size: var(--kl-control-height-sm)">
         <option value="system">System</option>
@@ -220,6 +231,54 @@
           <input class="input" placeholder="Account number">
           <input class="input" aria-invalid="true" value="0123">
           <label class="check"><input type="checkbox" checked> Save beneficiary</label>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Styles side by side</h2>
+      <div class="styles">
+        <div class="panel" data-kl-style="mono">
+          <h3>Mono</h3>
+          <p class="muted">Page theme, own style.</p>
+          <div class="row"><button class="btn">Primary</button><button class="btn" data-variant="secondary">Secondary</button><button class="btn" data-variant="outline">Outline</button></div>
+          <input class="input" placeholder="Account number">
+          <div class="panel" data-kl-theme="dark">
+            <h3>Nested dark</h3>
+            <p class="muted">Keeps Mono.</p>
+            <div class="row"><button class="btn">Primary</button><button class="btn" data-variant="outline">Outline</button></div>
+          </div>
+        </div>
+        <div class="panel" data-kl-style="solo">
+          <h3>Solo</h3>
+          <p class="muted">Page theme, own style.</p>
+          <div class="row"><button class="btn">Primary</button><button class="btn" data-variant="secondary">Secondary</button><button class="btn" data-variant="outline">Outline</button></div>
+          <input class="input" placeholder="Account number">
+          <div class="panel" data-kl-theme="dark">
+            <h3>Nested dark</h3>
+            <p class="muted">Keeps Solo.</p>
+            <div class="row"><button class="btn">Primary</button><button class="btn" data-variant="outline">Outline</button></div>
+          </div>
+        </div>
+        <div class="panel" data-kl-style="chorus">
+          <h3>Chorus</h3>
+          <p class="muted">Page theme, own style.</p>
+          <div class="row"><button class="btn">Primary</button><button class="btn" data-variant="secondary">Secondary</button><button class="btn" data-variant="outline">Outline</button></div>
+          <input class="input" placeholder="Account number">
+          <div class="panel" data-kl-theme="dark">
+            <h3>Nested dark</h3>
+            <p class="muted">Keeps Chorus.</p>
+            <div class="row"><button class="btn">Primary</button><button class="btn" data-variant="outline">Outline</button></div>
+          </div>
+        </div>
+        <div class="panel" data-kl-style="solo">
+          <h3>Mono nested in Solo</h3>
+          <p class="muted">data-kl-style is repeated on the inner boundary.</p>
+          <div class="row"><button class="btn">Solo</button></div>
+          <div class="panel" data-kl-style="mono" data-kl-theme="dark">
+            <h3>Mono, dark</h3>
+            <div class="row"><button class="btn">Mono</button><button class="btn" data-variant="outline">Outline</button></div>
+          </div>
         </div>
       </div>
     </section>
@@ -294,6 +353,7 @@
     // Toolbar
     const brand = () => ($('brand-on').checked ? html.style.setProperty('--kl-brand', $('brand').value) : html.style.removeProperty('--kl-brand'));
     $('theme').onchange = (e) => (html.dataset.klTheme = e.target.value);
+    $('style').onchange = (e) => { e.target.value ? (html.dataset.klStyle = e.target.value) : delete html.dataset.klStyle; requestAnimationFrame(refresh); };
     $('brand').oninput = () => (($('brand-on').checked = true), brand(), refresh());
     $('brand-on').onchange = () => (brand(), refresh());
     $('radius').oninput = (e) => { html.style.setProperty('--kl-radius-base', `${e.target.value}rem`); $('radius-out').value = `${e.target.value}rem`; };
@@ -301,11 +361,12 @@
     $('motion').onchange = (e) => { e.target.value ? (html.dataset.klMotion = e.target.value) : delete html.dataset.klMotion; refresh(); };
     $('theme').addEventListener('change', () => requestAnimationFrame(refresh));
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', refresh);
+    new MutationObserver(() => requestAnimationFrame(refresh)).observe(html, { attributes: true });
 
     // Semantic swatches
     const semantic = [
       'bg', 'surface', 'surface-raised', 'muted', 'muted-hover', 'selected', 'overlay',
-      'fg', 'fg-muted', 'fg-subtle', 'border', 'border-strong', 'input',
+      'fg', 'fg-muted', 'fg-subtle', 'border', 'surface-border', 'border-strong', 'input',
       'primary', 'primary-fg', 'primary-hover', 'primary-active', 'primary-subtle',
       'secondary', 'secondary-hover', 'secondary-fg',
       ...['info', 'success', 'warning', 'danger'].flatMap((s) => [s, `${s}-fg`, `${s}-text`, `${s}-subtle`, `${s}-border`]),
@@ -351,13 +412,14 @@
     }
 
     const motions = [
+      ['motion-short', 'motion-ease'], ['motion-long', 'motion-ease-enter'], ['motion-long', 'motion-ease-exit'],
       ['instant', 'standard'], ['fast', 'standard'], ['base', 'standard'], ['slow', 'standard'],
       ['slow', 'linear'], ['slow', 'out'], ['slow', 'in'], ['slow', 'spring'],
     ];
     const tracks = motions.map(([d, e]) => {
       const track = el('div', { className: 'motion__track' }, el('span', { className: 'motion__dot' }));
-      track.style.setProperty('--d', `var(--kl-duration-${d})`);
-      track.style.setProperty('--e', `var(--kl-ease-${e})`);
+      track.style.setProperty('--d', d.startsWith('motion') ? `var(--kl-${d})` : `var(--kl-duration-${d})`);
+      track.style.setProperty('--e', e.startsWith('motion') ? `var(--kl-${e})` : `var(--kl-ease-${e})`);
       $('motion-list').append(el('div', { className: 'motion__row' }, el('code', { textContent: `${d} · ${e}` }), track));
       return track;
     });
@@ -369,7 +431,7 @@
       for (const s of document.querySelectorAll('[data-token]')) {
         s.textContent = getComputedStyle(s.previousElementSibling.previousElementSibling).backgroundColor;
       }
-      $('motion-state').textContent = `--kl-duration-base: ${cs.getPropertyValue('--kl-duration-base').trim()}`;
+      $('motion-state').textContent = `--kl-duration-base: ${cs.getPropertyValue('--kl-duration-base').trim()} · --kl-motion-short: ${cs.getPropertyValue('--kl-motion-short').trim()}`;
     }
     refresh();
   </script>

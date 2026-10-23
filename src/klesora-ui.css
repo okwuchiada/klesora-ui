@@ -8,8 +8,13 @@
 @import url("./tokens/primitives.css") layer(kl.tokens);
 @import url("./tokens/base.css") layer(kl.tokens);
 
-/* Step 3: style packs     @import url("./tokens/solo.css")   layer(kl.tokens); */
-/*                         @import url("./tokens/mono.css")   layer(kl.tokens); */
-/*                         @import url("./tokens/chorus.css") layer(kl.tokens); */
+@import url("./tokens/mono.css") layer(kl.tokens);
+@import url("./tokens/solo.css") layer(kl.tokens);
+@import url("./tokens/chorus.css") layer(kl.tokens);
+
+@import url("./styles/mono.css") layer(kl.styles);
+@import url("./styles/solo.css") layer(kl.styles);
+@import url("./styles/chorus.css") layer(kl.styles);
+
 /* Step 4: class layer     @import url("./css/reset.css")     layer(kl.reset);  */
 /*                         @import url("./css/base.css")      layer(kl.base);   */

@@ -1,0 +1,5 @@
+/*
+ * Solo structural overrides (layer kl.styles, after kl.components).
+ * Shape and behaviour that tokens cannot express, scoped to :where([data-kl-style="solo"]).
+ * Empty until components land (Step 6+). Planned: pill-shaped buttons, borderless cards that rely on surface tone, larger touch targets.
+ */

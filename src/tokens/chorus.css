@@ -1,0 +1,73 @@
+/*
+ * Chorus: Material-inspired. Layered, bold, tactile.
+ * Violet primary, surfaces tinted from the primary (tonal containers), clear elevation,
+ * emphasized motion. Ripple and floating labels come with the components (src/styles/chorus.css).
+ *
+ * Tints mix the primary colour into the neutral ramp, so they follow --kl-brand too.
+ * Same selector pattern and rules as solo.css.
+ */
+[data-kl-style="chorus"],
+:where([data-kl-style="chorus"])
+  :where([data-kl-theme], [data-kl-scope], [data-kl-motion]):not(
+    :where([data-kl-style="chorus"] [data-kl-style]:not([data-kl-style="chorus"])) *
+  ) {
+  --kl-style-primary: var(--kl-violet-solid);
+  --kl-style-ring: var(--kl-violet-solid);
+  --kl-style-radius: 0.75rem;
+  --kl-style-density: 1;
+
+  /* Tonal surfaces */
+  --kl-color-bg: color-mix(in oklab, var(--kl-color-primary) 3%, var(--kl-neutral-1));
+  --kl-color-surface: color-mix(in oklab, var(--kl-color-primary) 6%, var(--kl-neutral-2));
+  --kl-color-surface-raised: color-mix(in oklab, var(--kl-color-primary) 9%, var(--kl-neutral-raised));
+  --kl-color-muted: color-mix(in oklab, var(--kl-color-primary) 10%, var(--kl-neutral-3));
+  --kl-color-muted-hover: color-mix(in oklab, var(--kl-color-primary) 14%, var(--kl-neutral-4));
+  --kl-color-selected: color-mix(in oklab, var(--kl-color-primary) 18%, var(--kl-neutral-3));
+  --kl-color-secondary: color-mix(in oklab, var(--kl-color-primary) 16%, var(--kl-neutral-3));
+  --kl-color-secondary-hover: color-mix(in oklab, var(--kl-color-primary) 24%, var(--kl-neutral-3));
+  --kl-color-primary-subtle: color-mix(in oklab, var(--kl-color-primary) 18%, var(--kl-color-bg));
+  --kl-color-surface-border: transparent;
+  --kl-color-border: color-mix(in oklab, var(--kl-color-primary) 10%, var(--kl-neutral-6));
+  --kl-color-border-strong: color-mix(in oklab, var(--kl-color-primary) 10%, var(--kl-neutral-8));
+  --kl-color-input: color-mix(in oklab, var(--kl-color-primary) 10%, var(--kl-neutral-8));
+  --kl-color-fg-muted: color-mix(
+    in oklab,
+    var(--kl-color-primary) 8%,
+    color-mix(in oklab, var(--kl-neutral-11) 75%, var(--kl-neutral-12))
+  );
+
+  /* State layers: a little of the text colour over the fill */
+  --kl-color-primary-hover: color-mix(in oklab, var(--kl-color-primary) 92%, var(--kl-color-primary-fg));
+  --kl-color-primary-active: color-mix(in oklab, var(--kl-color-primary) 88%, var(--kl-color-primary-fg));
+  --kl-color-danger-hover: color-mix(in oklab, var(--kl-color-danger) 92%, var(--kl-color-danger-fg));
+
+  /* Type */
+  --kl-heading-weight: var(--kl-weight-medium);
+  --kl-heading-tracking: var(--kl-tracking-normal);
+
+  /* Material-style elevation: key + ambient shadow per level */
+  --kl-shadow-1:
+    0 1px 2px oklch(from var(--kl-shadow-color) l c h / min(1, calc(var(--kl-shadow-alpha) * 3))),
+    0 1px 3px 1px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 1.5));
+  --kl-shadow-2:
+    0 1px 2px oklch(from var(--kl-shadow-color) l c h / min(1, calc(var(--kl-shadow-alpha) * 3))),
+    0 2px 6px 2px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 1.5));
+  --kl-shadow-3:
+    0 1px 3px oklch(from var(--kl-shadow-color) l c h / min(1, calc(var(--kl-shadow-alpha) * 3))),
+    0 4px 8px 3px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 1.5));
+  --kl-shadow-4:
+    0 2px 3px oklch(from var(--kl-shadow-color) l c h / min(1, calc(var(--kl-shadow-alpha) * 3))),
+    0 6px 10px 4px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 1.5));
+  --kl-shadow-5:
+    0 4px 4px oklch(from var(--kl-shadow-color) l c h / min(1, calc(var(--kl-shadow-alpha) * 3))),
+    0 8px 12px 6px oklch(from var(--kl-shadow-color) l c h / calc(var(--kl-shadow-alpha) * 1.5));
+
+  /* Emphasized motion */
+  --kl-motion-short: var(--kl-duration-fast);
+  --kl-motion-long: var(--kl-duration-slow);
+  --kl-motion-ease: var(--kl-ease-standard);
+  --kl-motion-ease-enter: var(--kl-ease-decelerate);
+  --kl-motion-ease-exit: var(--kl-ease-accelerate);
+
+  --kl-disabled-opacity: 0.38;
+}

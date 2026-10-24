@@ -16,5 +16,6 @@
 @import url("./styles/solo.css") layer(kl.styles);
 @import url("./styles/chorus.css") layer(kl.styles);
 
-/* Step 4: class layer     @import url("./css/reset.css")     layer(kl.reset);  */
-/*                         @import url("./css/base.css")      layer(kl.base);   */
+@import url("./css/reset.css") layer(kl.reset);
+@import url("./css/base.css") layer(kl.base);
+@import url("./css/utilities.css") layer(kl.utilities);

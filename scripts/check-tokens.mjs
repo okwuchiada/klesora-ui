@@ -282,7 +282,7 @@ for (const [k, v] of motionFullDecls)
   if (primitiveRule.decls.get(k) !== v) fail(`data-kl-motion="full" ${k} is ${v}, primitives say ${primitiveRule.decls.get(k)}`);
 
 console.log('\nStyle packs');
-const knobs = ['--kl-brand', '--kl-brand-fg', '--kl-radius-base', '--kl-density', '--kl-ring'];
+const knobs = ['--kl-brand', '--kl-brand-fg', '--kl-radius-base', '--kl-density', '--kl-ring', '--kl-link'];
 for (const [name, decls] of Object.entries(styles)) {
   const bad = [...decls.keys()].filter((k) => !semanticDecls.has(k) || knobs.includes(k));
   if (bad.length) fail(`${name}.css sets tokens that are not semantic: ${bad.join(', ')}`);
@@ -324,6 +324,9 @@ const pairs = [
   ['--kl-color-border-strong', '--kl-color-bg', UI, 'boundary'],
   ['--kl-color-input', '--kl-color-bg', UI, 'control boundary'],
   ['--kl-color-input', '--kl-color-surface', UI, 'control boundary'],
+  ['--kl-color-link', '--kl-color-bg', TEXT, 'link'],
+  ['--kl-color-link', '--kl-color-surface', TEXT, 'link'],
+  ['--kl-color-link', '--kl-color-muted', TEXT, 'link'],
   ['--kl-color-primary', '--kl-color-bg', UI, 'fill'],
   ['--kl-color-ring', '--kl-color-bg', UI, 'focus ring'],
   ['--kl-color-ring', '--kl-color-surface', UI, 'focus ring'],

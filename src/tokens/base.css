@@ -185,7 +185,7 @@
 /* ---------- 2. Semantic tokens (Mono defaults) ---------- */
 /*
  * Knobs a project may set (never declared by the library, so they inherit freely):
- *   --kl-brand, --kl-brand-fg, --kl-radius-base, --kl-density, --kl-ring
+ *   --kl-brand, --kl-brand-fg, --kl-radius-base, --kl-density, --kl-ring, --kl-link
  *
  * Mono is these defaults. [data-kl-style="mono"] is listed outside :where() so an explicit
  * Mono region nested inside another style beats that style's zero-specificity descendant rule.
@@ -196,6 +196,7 @@
   /* Style defaults: set by style packs, read through the knobs below. Projects use the knobs. */
   --kl-style-primary: var(--kl-neutral-9);
   --kl-style-ring: var(--kl-neutral-8);
+  --kl-style-link: var(--kl-neutral-12);
   --kl-style-radius: 0.5rem;
   --kl-style-density: 1;
 
@@ -228,6 +229,9 @@
   --kl-color-primary-hover: color-mix(in oklab, var(--kl-color-primary) 90%, var(--kl-color-bg));
   --kl-color-primary-active: color-mix(in oklab, var(--kl-color-primary) 80%, var(--kl-color-bg));
   --kl-color-primary-subtle: color-mix(in oklab, var(--kl-color-primary) 12%, var(--kl-color-bg));
+
+  /* Links: underlined everywhere; the colour comes from the style, not the brand, so it always meets 4.5:1 */
+  --kl-color-link: var(--kl-link, var(--kl-style-link));
 
   /* Secondary */
   --kl-color-secondary: var(--kl-neutral-3);

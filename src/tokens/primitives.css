@@ -135,6 +135,12 @@
   --kl-space-20: 5rem;
   --kl-space-24: 6rem;
 
+  /* Container widths */
+  --kl-container-sm: 40rem;
+  --kl-container-md: 48rem;
+  --kl-container-lg: 64rem;
+  --kl-container-xl: 80rem;
+
   /* Durations (reduced-motion overrides live in base.css) */
   --kl-duration-instant: 50ms;
   --kl-duration-fast: 120ms;

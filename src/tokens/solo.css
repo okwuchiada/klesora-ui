@@ -18,6 +18,7 @@
   ) {
   --kl-style-primary: var(--kl-blue-solid);
   --kl-style-ring: var(--kl-blue-solid);
+  --kl-style-link: var(--kl-blue-text);
   --kl-style-radius: 0.75rem;
   --kl-style-density: 1.1;
 

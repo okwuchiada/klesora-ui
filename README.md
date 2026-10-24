@@ -14,7 +14,7 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 3 of the roadmap: style packs). Not yet published.
+> Status: early development (Step 4 of the roadmap: CSS class layer (reset, base, utilities)). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -29,6 +29,8 @@ Set knobs on `<html>`, or on any element marked `data-kl-scope`:
 ```
 
 The text colour on the brand is picked automatically; set `--kl-brand-fg` to override it. See CONVENTIONS.md §2–3 for every token.
+
+The CSS also includes a gentle reset, page defaults (nested themes paint themselves) and a small set of utilities: `.kl-stack`, `.kl-cluster`, `.kl-grid`, `.kl-container`, `.kl-surface`, `.kl-sr-only`, `.kl-truncate` and more (CONVENTIONS.md §4).
 
 ## Project layout
 
@@ -50,7 +52,7 @@ tests/          test pages
 ## Develop
 
 ```sh
-npm run dev            # http://localhost:5173/docs/ (token test page: /tests/tokens.html)
+npm run dev            # http://localhost:5173/docs/ (test pages: /tests/tokens.html, /tests/base.html)
 npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 ```

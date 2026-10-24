@@ -19,7 +19,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 1. ✅ Setup and conventions
 2. ✅ Design tokens: `src/tokens/primitives.css`, `src/tokens/base.css`, `scripts/check-tokens.mjs`, `scripts/gen-palette.mjs`, `tests/tokens.html`
 3. ✅ Style packs: `src/tokens/{solo,mono,chorus}.css` (token remaps) + `src/styles/<style>.css` (structural stubs until components exist)
-4. CSS class layer: reset, base, utilities
+4. ✅ CSS class layer: `src/css/{reset,base,utilities}.css`, test page `tests/base.html`
 5. JS core: UIElement base class (attribute/property reflection, kl-* events, cleanup), form-associated elements via ElementInternals, directive registry (MutationObserver)
 6. Core inputs: button, input, select, checkbox, switch, form field
 7. Overlays and services: dialog, dropdown, tooltip directive, toast service, theme service
@@ -44,6 +44,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - Style packs: one rule each, an own selector plus a zero-specificity descendant rule with a `:not()` so the nearest style wins (CONVENTIONS §2, "Writing a style pack"). Packs set only semantic tokens and `--kl-style-*` defaults. `mono.css` is empty because Mono is the base.
 - Solo primary is blue (`--kl-blue-solid`). Chorus primary is Material-like violet (`--kl-violet-solid`, violet-700 ≈ #6750a4), with surfaces tinted from the primary.
 - Hover and press: Mono mixes toward the page bg (as specced). Solo presses away from the text colour. Chorus uses state layers (mixes in the text colour). The reason is contrast with white text on mid-tone primaries.
+- Step 4: the reset is gentle (keeps host margins). Base paints html + theme/style boundaries and styles only unclassed links. Utilities are a small set (CONVENTIONS §4) with data-* options. Links are coloured per style via `--kl-color-link` / `--kl-link`, not by the brand.
 - Styles never change duration primitives; they pick steps via `--kl-motion-*`, so reduced motion keeps working.
 
 ## Commands

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klesora UI · Base</title>
+  <link rel="stylesheet" href="../src/klesora-ui.css">
+  <!-- No page CSS: everything below is reset + base + utilities. -->
+</head>
+<body>
+  <a class="kl-sr-only-focusable" href="#main">Skip to content</a>
+
+  <header class="kl-surface" data-variant="raised" data-elevation="1" style="border-radius: var(--kl-radius-none)">
+    <div class="kl-container kl-cluster" data-justify="between" data-gap="4" style="padding-block: var(--kl-space-3)">
+      <strong>Klesora UI · Base</strong>
+      <div class="kl-cluster" data-gap="4">
+        <label class="kl-cluster">Style
+          <select id="style"><option value="">Mono</option><option value="solo">Solo</option><option value="chorus">Chorus</option></select>
+        </label>
+        <label class="kl-cluster">Theme
+          <select id="theme"><option value="">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
+        </label>
+        <label class="kl-cluster"><input id="brand-on" type="checkbox"> Brand <input id="brand" type="color" value="#0a7cff"></label>
+        <a href="tokens.html">Tokens page</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="kl-container kl-stack" data-gap="12" style="padding-block: var(--kl-space-10)">
+
+    <section class="kl-stack">
+      <h1>Prose</h1>
+      <p>The reset keeps browser spacing for headings, paragraphs and lists, so host content doesn't shift. Base paints the page from tokens, styles <a href="#links">unclassed links</a>, <code>inline code</code>, <kbd>⌘</kbd> <kbd>K</kbd>, <mark>marked text</mark>, <abbr title="Nigerian naira">NGN</abbr>, <small>small print</small> and H<sub>2</sub>O / x<sup>2</sup>.</p>
+      <h2>A second-level heading that is long enough to wrap and show balanced text wrapping</h2>
+      <ul><li>Lists keep their markers</li><li>And their indentation</li></ul>
+      <ol><li>Ordered too</li></ol>
+      <hr>
+      <pre><code>const fee = amount * 0.015; // tabular, monospaced</code></pre>
+      <h3 id="links">Heading three</h3>
+      <h4>Heading four</h4>
+      <p>Focus with the keyboard: every focusable element gets the ring. Select this text to see the selection colour.</p>
+    </section>
+
+    <section class="kl-stack">
+      <h2>Native controls</h2>
+      <p class="kl-text-muted">Fonts inherit; checkboxes, radios and ranges follow the local primary (accent-color).</p>
+      <div class="kl-cluster" data-gap="6">
+        <label class="kl-cluster"><input type="checkbox" checked> Checkbox</label>
+        <label class="kl-cluster"><input type="radio" name="r" checked> Radio</label>
+        <input type="range" value="60" aria-label="Range">
+        <progress value="40" max="100" aria-label="Progress"></progress>
+        <input type="text" placeholder="Placeholder text">
+        <input type="search" placeholder="Search">
+        <button type="button">Button</button>
+        <button type="button" disabled>Disabled</button>
+      </div>
+      <details><summary>Details / summary</summary><p>Hidden content.</p></details>
+      <p hidden style="display: block">This paragraph has [hidden] and inline display:block, and must stay hidden.</p>
+    </section>
+
+    <section class="kl-stack">
+      <h2>Nested themes paint themselves</h2>
+      <p class="kl-text-muted">No page CSS: each box only has data-kl-theme, data-kl-style or data-kl-scope.</p>
+      <div class="kl-grid" data-gap="4" style="--kl-min: 14rem">
+        <div data-kl-theme="dark" class="kl-stack" style="padding: var(--kl-space-5); border-radius: var(--kl-radius-lg)">
+          <strong>data-kl-theme="dark"</strong>
+          <p class="kl-text-muted" style="margin: 0">Muted text and a <a href="#">link</a>.</p>
+          <label class="kl-cluster"><input type="checkbox" checked> Accent</label>
+        </div>
+        <div data-kl-theme="light" class="kl-stack" style="padding: var(--kl-space-5); border-radius: var(--kl-radius-lg)">
+          <strong>data-kl-theme="light"</strong>
+          <p class="kl-text-muted" style="margin: 0">Muted text and a <a href="#">link</a>.</p>
+          <label class="kl-cluster"><input type="checkbox" checked> Accent</label>
+        </div>
+        <div data-kl-style="chorus" class="kl-stack" style="padding: var(--kl-space-5); border-radius: var(--kl-radius-lg)">
+          <strong>data-kl-style="chorus"</strong>
+          <p class="kl-text-muted" style="margin: 0">Muted text and a <a href="#">link</a>.</p>
+          <label class="kl-cluster"><input type="checkbox" checked> Accent</label>
+        </div>
+        <div data-kl-scope class="kl-stack kl-surface" style="padding: var(--kl-space-5); --kl-brand: oklch(52% 0.14 155)">
+          <strong>data-kl-scope, green brand</strong>
+          <p class="kl-text-muted" style="margin: 0">Muted text and a <a href="#">link</a>.</p>
+          <label class="kl-cluster"><input type="checkbox" checked> Accent</label>
+        </div>
+      </div>
+    </section>
+
+    <section class="kl-stack">
+      <h2>Utilities</h2>
+
+      <h3>Text</h3>
+      <div class="kl-stack" data-gap="2">
+        <p class="kl-truncate" style="max-inline-size: 20rem; margin: 0">kl-truncate: a long transaction description that will not fit on one line</p>
+        <p class="kl-line-clamp" style="--kl-lines: 2; max-inline-size: 24rem; margin: 0">kl-line-clamp (2 lines): Funds were sent from your savings wallet to the beneficiary account and will settle within one business day, subject to bank processing times and any compliance checks.</p>
+        <p class="kl-cluster" data-gap="4" style="margin: 0">
+          <span class="kl-text-muted">muted</span><span class="kl-text-info">info</span><span class="kl-text-success">success</span><span class="kl-text-warning">warning</span><span class="kl-text-danger">danger</span>
+        </p>
+        <div class="kl-stack kl-tabular" data-gap="0" data-align="end" style="max-inline-size: 12rem">
+          <span>₦1,111,111.11</span><span>₦98,000.50</span><span>₦7.00</span>
+        </div>
+        <p style="margin: 0">There is a <span class="kl-sr-only">screen-reader-only </span>hidden word in this sentence.</p>
+      </div>
+
+      <h3>Stack, cluster, grid</h3>
+      <div class="kl-stack" data-gap="6">
+        <div class="kl-cluster" data-justify="between">
+          <span class="kl-surface" data-variant="muted" style="padding: var(--kl-space-2) var(--kl-space-3)">cluster</span>
+          <span class="kl-surface" data-variant="muted" style="padding: var(--kl-space-2) var(--kl-space-3)">data-justify</span>
+          <span class="kl-surface" data-variant="muted" style="padding: var(--kl-space-2) var(--kl-space-3)">between</span>
+        </div>
+        <div class="kl-stack" data-gap="8" id="outer-stack">
+          <div class="kl-stack" id="inner-stack">
+            <span class="kl-surface" data-variant="muted" style="padding: var(--kl-space-2)">inner stack (default gap)</span>
+            <span class="kl-surface" data-variant="muted" style="padding: var(--kl-space-2)">inside a data-gap="8" stack</span>
+          </div>
+        </div>
+        <div class="kl-grid" style="--kl-min: 10rem">
+          <div class="kl-surface" style="padding: var(--kl-space-4)">grid</div>
+          <div class="kl-surface" style="padding: var(--kl-space-4)">--kl-min: 10rem</div>
+          <div class="kl-surface" style="padding: var(--kl-space-4)">auto-fit</div>
+          <div class="kl-surface" style="padding: var(--kl-space-4)">columns</div>
+        </div>
+      </div>
+
+      <h3>Surface</h3>
+      <div class="kl-grid" style="--kl-min: 9rem">
+        <div class="kl-surface" style="padding: var(--kl-space-4)">default</div>
+        <div class="kl-surface" data-variant="raised" style="padding: var(--kl-space-4)">raised</div>
+        <div class="kl-surface" data-variant="muted" style="padding: var(--kl-space-4)">muted</div>
+        <div class="kl-surface" data-elevation="2" style="padding: var(--kl-space-4)">elevation 2</div>
+        <div class="kl-surface" data-variant="raised" data-elevation="4" style="padding: var(--kl-space-4)">raised · 4</div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    const html = document.documentElement;
+    const $ = (id) => document.getElementById(id);
+    const set = (key, value) => (value ? (html.dataset[key] = value) : delete html.dataset[key]);
+    $('style').onchange = (e) => set('klStyle', e.target.value);
+    $('theme').onchange = (e) => set('klTheme', e.target.value);
+    const brand = () => ($('brand-on').checked ? html.style.setProperty('--kl-brand', $('brand').value) : html.style.removeProperty('--kl-brand'));
+    $('brand').oninput = () => (($('brand-on').checked = true), brand());
+    $('brand-on').onchange = brand;
+  </script>
+</body>
+</html>

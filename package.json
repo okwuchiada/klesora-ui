@@ -17,6 +17,7 @@
   "exports": {
     ".": "./src/index.js",
     "./css": "./src/klesora-ui.css",
+    "./css/*": "./src/css/*.css",
     "./tokens/*": "./src/tokens/*.css",
     "./styles/*": "./src/styles/*.css",
     "./components/*": "./src/components/*/*.js",

@@ -1,0 +1,102 @@
+/*
+ * Klesora UI base (layer kl.base): page defaults drawn from semantic tokens.
+ * Every selector is zero-specificity, so any project CSS wins.
+ */
+
+/* The page and every theme/style boundary paint themselves, so nested themes just work.
+   (color and background are computed once per element; repainting re-reads the local tokens.) */
+:where(html, [data-kl-theme], [data-kl-style]) {
+  background-color: var(--kl-color-bg);
+  color: var(--kl-color-fg);
+  font-family: var(--kl-font-body);
+}
+
+/* Native checkboxes, radios, ranges and progress bars follow the local primary (brand scopes too) */
+:where(html, [data-kl-theme], [data-kl-style], [data-kl-scope]) {
+  accent-color: var(--kl-color-primary);
+}
+
+:where(html) {
+  line-height: var(--kl-leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Type */
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--kl-font-heading);
+  font-weight: var(--kl-heading-weight);
+  letter-spacing: var(--kl-heading-tracking);
+  line-height: var(--kl-leading-tight);
+  text-wrap: balance;
+}
+
+:where(p, li, dd, blockquote) {
+  text-wrap: pretty;
+}
+
+:where(code, kbd, samp, pre) {
+  font-family: var(--kl-font-code);
+  font-size: 0.875em;
+}
+
+:where(:not(pre) > code) {
+  padding: 0.125em 0.375em;
+  border-radius: var(--kl-radius-sm);
+  background-color: var(--kl-color-muted);
+}
+
+:where(kbd) {
+  padding: 0.125em 0.375em;
+  border: var(--kl-border-width) solid var(--kl-color-border);
+  border-block-end-width: calc(var(--kl-border-width) * 2);
+  border-radius: var(--kl-radius-sm);
+  background-color: var(--kl-color-surface-raised);
+}
+
+:where(pre) {
+  overflow-x: auto;
+}
+
+:where(mark) {
+  background-color: var(--kl-color-warning-subtle);
+  color: inherit;
+}
+
+:where(hr) {
+  border: 0;
+  border-block-start: var(--kl-border-width) solid var(--kl-color-border);
+}
+
+/* Prose links: only unclassed <a>, so component and app links keep their own styling */
+:where(a:not([class])) {
+  color: var(--kl-color-link);
+  text-decoration-line: underline;
+  text-decoration-thickness: from-font;
+  text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+  text-underline-offset: 0.2em;
+  transition: var(--kl-transition-colors);
+}
+
+:where(a:not([class]):hover) {
+  text-decoration-color: currentColor;
+}
+
+/* Focus and selection */
+:where(:focus-visible) {
+  outline: var(--kl-ring-width) solid var(--kl-color-ring);
+  outline-offset: var(--kl-ring-offset);
+}
+
+::selection {
+  background-color: color-mix(in oklab, var(--kl-color-primary) 25%, transparent);
+}
+
+::placeholder {
+  color: var(--kl-color-fg-muted);
+  opacity: 1;
+}
+
+:where(:disabled) {
+  cursor: not-allowed;
+}

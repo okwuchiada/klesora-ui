@@ -13,6 +13,7 @@
   ) {
   --kl-style-primary: var(--kl-violet-solid);
   --kl-style-ring: var(--kl-violet-solid);
+  --kl-style-link: var(--kl-violet-text);
   --kl-style-radius: 0.75rem;
   --kl-style-density: 1;
 

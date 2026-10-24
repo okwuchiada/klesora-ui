@@ -59,7 +59,7 @@ Mono is the semantic defaults in `base.css`, so `mono.css` remaps nothing. Every
 - The own rule has specificity 0,1,0. The descendant rule re-applies the style on nested boundaries with zero specificity; it still beats `base.css`, which comes first in `kl.tokens`.
 - The `:not()` skips boundaries inside a different style nested within this one, so the nearest style wins. Keep it attached to the compound selector with no space before `:not(`.
 - A pack may set only semantic tokens and the `--kl-style-*` defaults. Never knobs, primitives, ramps or durations. `check:tokens` enforces this and the selector shape.
-- Style defaults (`--kl-style-primary`, `--kl-style-ring`, `--kl-style-radius`, `--kl-style-density`) are what the knobs fall back to. Projects use the knobs, not these.
+- Style defaults (`--kl-style-primary`, `--kl-style-ring`, `--kl-style-link`, `--kl-style-radius`, `--kl-style-density`) are what the knobs fall back to. Projects use the knobs, not these.
 - Limitation: with three or more levels of alternating styles (Solo › Chorus › Solo › theme boundary), repeat `data-kl-style` on the inner boundary.
 
 ### Knobs
@@ -72,7 +72,8 @@ Knobs are the supported way for a project to customise the library. The library 
 | `--kl-brand-fg` | text on primary | picked automatically: near-black or white, by OKLCH lightness (threshold 0.58) |
 | `--kl-radius-base` | the whole radius scale derives from it. Use a length (`0px`, not `0`). | `0.5rem` |
 | `--kl-density` | scales control heights (32/40/48px at 1) and control padding | `1` |
-| `--kl-ring` | focus ring colour | brand, else `--kl-neutral-8` |
+| `--kl-ring` | focus ring colour | brand, else the style's ring |
+| `--kl-link` | prose link colour | the style's link colour (not the brand, so it always meets 4.5:1) |
 
 ### Scope boundaries
 
@@ -143,6 +144,7 @@ Component CSS reads only semantic or component tokens, never primitives, ramps o
 | Spacing | `--kl-space-0` … `--kl-space-12`, `16`, `20`, `24`; 4px base (`--kl-space-n` = n × 0.25rem) |
 | Duration | `--kl-duration-instant` 50ms · `fast` 120ms · `base` 200ms · `slow` 320ms |
 | Easing | `--kl-ease-linear` · `standard` · `out` · `in` · `spring` · `smooth` · `decelerate` · `accelerate` |
+| Container | `--kl-container-sm` 40rem · `md` 48rem · `lg` 64rem · `xl` 80rem |
 | Z-index | `--kl-z-dropdown` 1000 · `sticky` 1100 · `overlay` 1200 · `modal` 1300 · `toast` 1400 · `tooltip` 1500 |
 
 Reduced motion sets every duration to `1ms` (not `0`, so `transitionend` still fires). It follows the OS unless `data-kl-motion` says otherwise. Components animate with the semantic `--kl-motion-*` tokens, which pick a duration step per style, so reduced motion still applies.
@@ -157,6 +159,7 @@ Reduced motion sets every duration to `1ms` (not `0`, so `transitionend` still f
 | Primary | `--kl-color-primary`, `primary-fg`, `primary-hover`, `primary-active`, `primary-subtle` |
 | Secondary | `--kl-color-secondary`, `secondary-hover`, `secondary-fg` |
 | Status | `--kl-color-{info,success,warning,danger}`, each with `-fg`, `-text`, `-subtle`, `-border`; plus `--kl-color-danger-hover` |
+| Links | `--kl-color-link` |
 | Focus | `--kl-color-ring`, `--kl-ring-width`, `--kl-ring-offset` |
 | Fonts | `--kl-font-body`, `heading`, `code`, `numeric` (use with `font-variant-numeric: tabular-nums`); `--kl-heading-weight`, `--kl-heading-tracking` |
 | Radius | `--kl-radius-none`, `xs` (¼ base), `sm` (½), `md` (base), `lg` (1½), `xl` (2×), `full` |
@@ -186,6 +189,24 @@ All library CSS lives in cascade layers, declared once in `src/klesora-ui.css`:
 - `kl.styles` comes after `kl.components`, so a style's structural overrides win over the default component CSS.
 - Any un-layered CSS in a consuming project beats every library layer, so projects can override without `!important` or specificity tricks.
 - Selectors stay low-specificity: one class, plus `:where()` for anything extra.
+
+### Reset, base and utilities (`src/css/`)
+
+- **Reset** (`kl.reset`): gentle, modern-normalize level. It covers box-sizing, the body margin, media max-width, form controls inheriting type, and the `[hidden]` fix. It keeps heading, list and paragraph margins, so host content doesn't shift.
+- **Base** (`kl.base`): `html` and every `[data-kl-theme]` / `[data-kl-style]` boundary paints its own background, text colour and body font. `accent-color` follows the local primary, and `[data-kl-scope]` re-reads it too. Base also styles headings (font, weight, tracking, balance), unclassed links only (`a:not([class])`), inline code, kbd, mark and hr, plus the `:focus-visible` ring, `::selection` and placeholders. All selectors use `:where()`.
+- **Utilities** (`kl.utilities`): a small set, all public API. Options use `data-*`.
+
+| Class | Options |
+| --- | --- |
+| `.kl-sr-only`, `.kl-sr-only-focusable` | visible again when focused (skip links) |
+| `.kl-truncate`, `.kl-line-clamp` | `--kl-lines` (default 2) |
+| `.kl-tabular` | numeric font + tabular figures |
+| `.kl-text-muted`, `-info`, `-success`, `-warning`, `-danger` | |
+| `.kl-stack` (column, gap 4), `.kl-cluster` (wrapping row, gap 2), `.kl-grid` (auto-fit, `--kl-min` 16rem) | `data-gap` 0–6, 8, 10, 12, 16; stack/cluster `data-align`, `data-justify` (`start`, `center`, `end`, `between`/`stretch`) |
+| `.kl-container` | `data-size` `sm`, `md`, `lg` (default), `xl` |
+| `.kl-surface` | `data-variant` `raised`, `muted`; `data-elevation` 0–5 |
+
+Layout utilities own their direct children's block margins (set to 0; the gap does the spacing). `--kl-gap`, `--kl-min` and `--kl-lines` are registered with `inherits: false`, so nested layouts start from their own defaults.
 
 **Variants and state use attributes, not modifier classes:**
 
@@ -251,7 +272,8 @@ Source files ship as native ES modules and plain CSS, so no build step is needed
 | Import | Gives you |
 | --- | --- |
 | `klesora-ui` | everything: registers all elements and directives |
-| `klesora-ui/css` | all CSS (tokens for all three styles + components) |
+| `klesora-ui/css` | all CSS (tokens for all three styles, reset, base, components, utilities) |
+| `klesora-ui/css/reset.css`, `base.css`, `utilities.css` | one part; import with `layer(kl.reset)` etc. after declaring the layer order |
 | `klesora-ui/components/button` | just `<kl-button>` |
 | `klesora-ui/components/button.css` | just the button CSS |
 | `klesora-ui/services/toast` | just the toast service |

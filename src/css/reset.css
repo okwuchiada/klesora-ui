@@ -1,0 +1,116 @@
+/*
+ * Klesora UI reset (layer kl.reset). Gentle, modern-normalize level.
+ * It fixes browser inconsistencies but keeps heading, list and paragraph spacing,
+ * so pages that already have content and CSS don't shift. Any project CSS beats it.
+ */
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+body {
+  margin: 0;
+}
+
+:where(img, video) {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+/* Form controls use the surrounding type instead of the UA's */
+:where(button, input, select, textarea, optgroup) {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+:where(button, select) {
+  text-transform: none;
+}
+
+:where(button, [type="button"], [type="reset"], [type="submit"]) {
+  -webkit-appearance: button;
+}
+
+:where(textarea) {
+  resize: vertical;
+}
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  block-size: auto;
+}
+
+:where([type="search"]) {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+:where(abbr[title]) {
+  text-decoration: underline dotted;
+}
+
+:where(b, strong) {
+  font-weight: bolder;
+}
+
+:where(small) {
+  font-size: 80%;
+}
+
+:where(sub, sup) {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+:where(sub) {
+  bottom: -0.25em;
+}
+
+:where(sup) {
+  top: -0.5em;
+}
+
+:where(table) {
+  text-indent: 0;
+  border-color: inherit;
+}
+
+:where(summary) {
+  display: list-item;
+}
+
+/* hidden must hide, even against a project's display rules (important + lowest layer wins) */
+:where([hidden]:not([hidden="until-found"])) {
+  display: none !important;
+}
+
+/* Smooth scrolling (if a project sets it) yields to reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  :where(html:not([data-kl-motion="full"])) {
+    scroll-behavior: auto;
+  }
+}
+
+:where([data-kl-motion="reduce"]) {
+  scroll-behavior: auto;
+}

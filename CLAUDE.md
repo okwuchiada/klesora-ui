@@ -29,7 +29,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 9. ✅ Fintech extras: `src/components/{amount-input,otp-input,transaction-list,stepper}/`, `src/core/money.js`, `src/core/inner-control.js`; test page `tests/fintech.html`, tests `e2e/fintech.spec.ts`
 10. ✅ Encryption and secure storage: `src/services/crypto.js` (`encryption`), `src/services/secure-storage.js` (`secureStorage`), SECURITY.md (honest threat model + reporting); test page `tests/security.html`, tests `e2e/security.spec.ts`
 11. ✅ Framework integration: `scripts/build-manifest.mjs` (+ `tsconfig.build.json`) generates `types/` and `custom-elements.json` from code + meta; type tests in `types-test/`; FRAMEWORKS.md (HTML, React 19/18, Next.js, Vue, Angular CVA, Svelte)
-12. Docs site generated from each component's `*.meta.json`, with a live style and theme switcher
+12. ✅ Docs site: `scripts/build-docs.mjs` (+ `scripts/lib/markdown.mjs`), guides in `docs/pages/`, assets in `docs/assets/`, output `site/` (git-ignored), `vercel.json`; tests `e2e/docs.spec.ts` (site built in `e2e/global-setup.ts`)
 13. CLI: init (choose style), switch-style, add/eject
 14. Testing: Playwright + axe, visual checks across 3 styles × light/dark
 15. Publishing and updates
@@ -55,6 +55,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - Step 9 (user chose): amounts are exact decimal strings (`minorUnits` helper, BigInt beyond MAX_SAFE); live grouping while typing; OTP = one real input drawn as boxes; transaction list = classes + data-driven element; stepper = indicator only.
 - Step 10 (user chose): device-key and passphrase modes (device default); PBKDF2 600k; passphrase stores auto-lock after 5 idle minutes, optional lockOnHide. Store/key names are bound as AES-GCM aad. Chromium rejects `additionalData: undefined`, so only pass it when set.
 - Step 11 (user chose): React = types only (React 19 native custom elements; React 18 via refs); Angular forms = copy-paste ControlValueAccessor in FRAMEWORKS.md (no Angular dependency). Next.js: register elements after hydration.
+- Step 12 (user chose via a decision page): static generation, live editable examples with Copy (plus Reset, Compare styles, Run for JS), built on Vercel and not committed. Deploying waits for the user's go (Step 15). Added `--kl-color-primary-text` (primary as text) after axe caught a brand-coloured Chorus tab below 4.5:1.
 - Open item: validation messages in amount/OTP/dialog/toast default to English. A consistent i18n option (like the transaction list's `labels`) would help before 1.0.
 - Styles never change duration primitives; they pick steps via `--kl-motion-*`, so reduced motion keeps working.
 
@@ -63,6 +64,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - `npm run dev`: static server at http://localhost:5173 (test pages under /tests/).
 - `npm run check:tokens`: gamut, WCAG contrast (light + dark), drift. It must pass. Extend its `pairs` list when you add colour pairs.
 - `npm run gen:palette`: regenerate the colour scales.
+- `npm run docs` (build + watch + serve /site/) / `npm run build:docs`.
 - `npm run build:types` / `npm run check:types`: generated typings + manifest, and their type tests. Run build:types after changing any element's properties or meta.
 - `npm test`: Playwright (`e2e/`) in chromium, firefox and webkit; the config starts the dev server on port 5180.
 

@@ -229,6 +229,9 @@
   --kl-color-primary-hover: color-mix(in oklab, var(--kl-color-primary) 90%, var(--kl-color-bg));
   --kl-color-primary-active: color-mix(in oklab, var(--kl-color-primary) 80%, var(--kl-color-bg));
   --kl-color-primary-subtle: color-mix(in oklab, var(--kl-color-primary) 12%, var(--kl-color-bg));
+  /* Primary used as text (selected tab, current link, focused label): pulled toward the text
+     colour, so it stays readable on light and dark pages whatever the brand. */
+  --kl-color-primary-text: color-mix(in oklab, var(--kl-color-primary) 70%, var(--kl-color-fg));
 
   /* Links: underlined everywhere; the colour comes from the style, not the brand, so it always meets 4.5:1 */
   --kl-color-link: var(--kl-link, var(--kl-style-link));

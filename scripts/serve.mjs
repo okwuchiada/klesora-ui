@@ -41,5 +41,5 @@ createServer(async (req, res) => {
     res.writeHead(404, { 'Content-Type': 'text/plain' }).end('Not found');
   }
 }).listen(port, () => {
-  console.log(`Klesora UI dev server: http://localhost:${port}/docs/`);
+  console.log(`Klesora UI dev server: http://localhost:${port}/ (docs: /site/ after npm run build:docs, test pages: /tests/)`);
 });

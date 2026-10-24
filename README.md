@@ -14,7 +14,7 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 11 of the roadmap: framework integration (typings, custom-elements.json, setup notes)). Not yet published.
+> Status: early development (Step 12 of the roadmap: docs site). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -107,6 +107,8 @@ npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: 
 npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 npm test               # Playwright tests in Chromium, Firefox and WebKit (starts the dev server)
+npm run docs           # build the docs site, watch for changes, serve at http://localhost:5173/site/
+npm run build:docs     # build the docs site into site/ (fails on broken links)
 npm run build:types    # regenerate types/ and custom-elements.json from the components
 npm run check:types    # fail if typings drift from the code or stop type-checking
 ```

@@ -334,6 +334,8 @@ const pairs = [
   ['--kl-color-link', '--kl-color-surface', TEXT, 'link'],
   ['--kl-color-link', '--kl-color-muted', TEXT, 'link'],
   ['--kl-color-primary', '--kl-color-bg', UI, 'fill'],
+  ['--kl-color-primary-text', '--kl-color-bg', TEXT, 'primary as text'],
+  ['--kl-color-primary-text', '--kl-color-surface', TEXT, 'primary as text'],
   ['--kl-color-fg', '--kl-input-bg', TEXT, 'input text'],
   ['--kl-color-fg-muted', '--kl-input-bg', TEXT, 'placeholder'],
   ['--kl-input-border-color', '--kl-input-bg', UI, 'input boundary'],

@@ -70,7 +70,7 @@
     },
     {
       "title": "Class layer",
-      "html": "<button class=\"kl-btn\" data-variant=\"outline\" data-size=\"sm\">Cancel</button>\n<a class=\"kl-btn\" href=\"/statements\">Statements</a>"
+      "html": "<button class=\"kl-btn\" data-variant=\"outline\" data-size=\"sm\">Cancel</button>\n<a class=\"kl-btn\" href=\"#statements\">Statements</a>"
     }
   ],
   "notes": [

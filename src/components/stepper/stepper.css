@@ -80,7 +80,7 @@
 
 .kl-stepper__step[data-state="current"] {
   --_marker-border: var(--kl-color-primary);
-  --_marker-fg: var(--kl-color-primary);
+  --_marker-fg: var(--kl-color-primary-text);
   color: var(--kl-color-fg);
 }
 

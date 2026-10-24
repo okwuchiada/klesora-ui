@@ -157,7 +157,7 @@ Reduced motion sets every duration to `1ms` (not `0`, so `transitionend` still f
 | Surfaces | `--kl-color-bg`, `surface`, `surface-raised`, `muted`, `muted-hover`, `selected`, `overlay` |
 | Text | `--kl-color-fg`, `fg-muted`, `fg-subtle` (decorative only, not for text) |
 | Borders | `--kl-color-border`, `surface-border` (edge of cards and panels; transparent in Solo and Chorus), `border-strong`, `input` (control boundary, ≥3:1) |
-| Primary | `--kl-color-primary`, `primary-fg`, `primary-hover`, `primary-active`, `primary-subtle` |
+| Primary | `--kl-color-primary`, `primary-fg`, `primary-hover`, `primary-active`, `primary-subtle`, `primary-text` (primary used as text: pulled 30% toward `fg` so it reads on light and dark pages with any brand) |
 | Secondary | `--kl-color-secondary`, `secondary-hover`, `secondary-fg` |
 | Status | `--kl-color-{info,success,warning,danger}`, each with `-fg`, `-text`, `-subtle`, `-border`; plus `--kl-color-danger-hover` |
 | Links | `--kl-color-link` |
@@ -430,6 +430,17 @@ Source files ship as native ES modules and plain CSS, so no build step is needed
 - In `*.meta.json`, `type` may be any readable text. Add `tsType` when it isn't valid TypeScript (e.g. `TransactionItem[]`). Give events a `detailType`, and mark attributes read with `getAttribute` (not reactive properties) as `attributeOnly`.
 - Annotate every `static properties` with `/** @type {import('…/core/element.js').PropertyDeclarations} */`, so subclasses type-check against their base.
 - Framework typings are opt-in, type-only imports: `klesora-ui/types/react`, `/vue`, `/svelte`.
+
+## 9c. Docs site
+
+- **Source:**
+  - component pages come from `src/components/*/*.meta.json` plus `custom-elements.json`;
+  - guides are `docs/pages/*.md` (with front matter: `title`, `description`, `order`), plus FRAMEWORKS.md and SECURITY.md;
+  - site assets live in `docs/assets/`.
+- **Build:** `npm run build:docs` writes static HTML to `site/` (git-ignored), copying `src/` to `site/lib/`. It fails on any broken internal link. `npm run docs` builds, watches and serves at `/site/`. Vercel builds it with `vercel.json`.
+- **Markdown:** fences marked ```` ```html live ```` become editable examples (add `compare` to start in the three-style view). ```` ```js live ```` becomes a runnable example with the library's exports in scope. `## Title {#id}` sets an anchor. Raw HTML blocks pass through.
+- **Examples in meta files** are live and editable: keep their links in-page (`#…`), because the link check rejects paths that don't exist.
+- **Styling:** the docs use tokens only (`docs/assets/site.css`), so the style, theme and brand switcher re-skins every page.
 
 ## 10. Browser support
 

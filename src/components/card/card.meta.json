@@ -33,7 +33,7 @@
     },
     {
       "title": "Whole-card link",
-      "html": "<article class=\"kl-card\">\n  <div class=\"kl-card__header\"><h3 class=\"kl-card__title\"><a class=\"kl-card__link\" href=\"/statements/march\">March statement</a></h3></div>\n</article>"
+      "html": "<article class=\"kl-card\">\n  <div class=\"kl-card__header\"><h3 class=\"kl-card__title\"><a class=\"kl-card__link\" href=\"#march-statement\">March statement</a></h3></div>\n</article>"
     }
   ]
 }

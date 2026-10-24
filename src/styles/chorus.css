@@ -84,7 +84,7 @@
   }
 
   &:focus-within > :is([data-kl-part="label"], .kl-field__label) {
-    color: var(--kl-color-primary);
+    color: var(--kl-color-primary-text);
   }
 
   &[data-invalid] > :is([data-kl-part="label"], .kl-field__label) {

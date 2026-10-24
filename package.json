@@ -73,7 +73,9 @@
     "check:tokens": "node scripts/check-tokens.mjs",
     "test": "playwright test",
     "build:types": "rm -rf types && tsc -p tsconfig.build.json && node scripts/build-manifest.mjs",
-    "check:types": "node scripts/build-manifest.mjs --check && tsc -p types-test/tsconfig.json"
+    "check:types": "node scripts/build-manifest.mjs --check && tsc -p types-test/tsconfig.json",
+    "build:docs": "node scripts/build-docs.mjs",
+    "docs": "node scripts/build-docs.mjs --watch"
   },
   "engines": {
     "node": ">=18"

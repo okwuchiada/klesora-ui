@@ -1,0 +1,104 @@
+/*
+ * Text input: <input class="kl-input">, <textarea class="kl-input">, <kl-input>.
+ * <kl-input> is the box; it creates its own <input> inside. Children with slot="start"
+ * or slot="end" (₦, icons, a clear button) sit before or after it; nothing is moved.
+ * data-size: sm | md (default) | lg.  aria-invalid="true" or :user-invalid: error border.
+ */
+:is(.kl-input, kl-input) {
+  inline-size: 100%;
+  block-size: var(--kl-input-height);
+  padding-inline: var(--kl-input-padding-x);
+  border-style: solid;
+  border-width: var(--kl-input-border-width);
+  border-color: var(--kl-input-border-color);
+  border-radius: var(--kl-input-radius);
+  background-color: var(--kl-input-bg);
+  color: var(--kl-color-fg);
+  font: inherit;
+  font-size: var(--kl-text-md); /* 16px: iOS doesn't zoom into the field */
+  line-height: var(--kl-leading-normal);
+  transition:
+    var(--kl-transition-colors),
+    box-shadow var(--kl-motion-short) var(--kl-motion-ease);
+}
+
+.kl-input:focus,
+kl-input:focus-within {
+  border-color: var(--kl-input-focus-border-color);
+  outline: var(--kl-input-focus-outline);
+  outline-offset: 0;
+  box-shadow: var(--kl-input-focus-shadow);
+}
+
+:is(.kl-input, kl-input):is([aria-invalid="true"], :has(> input[aria-invalid="true"])),
+.kl-input:user-invalid {
+  border-color: var(--kl-color-danger);
+}
+
+:is(.kl-input, kl-input):is([aria-invalid="true"], :has(> input[aria-invalid="true"])):focus-within {
+  outline-color: var(--kl-color-danger);
+}
+
+.kl-input:disabled,
+kl-input:has(> input:disabled) {
+  opacity: var(--kl-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.kl-input:read-only:not(:disabled),
+kl-input:has(> input:read-only:not(:disabled)) {
+  background-color: var(--kl-color-muted);
+}
+
+:is(.kl-input, kl-input)[data-size="sm"] {
+  block-size: var(--kl-control-height-sm);
+}
+
+:is(.kl-input, kl-input)[data-size="lg"] {
+  block-size: var(--kl-control-height-lg);
+}
+
+textarea.kl-input {
+  block-size: auto;
+  min-block-size: calc(var(--kl-input-height) * 2);
+  padding-block: var(--kl-space-2);
+  resize: vertical;
+}
+
+/* <kl-input> internals */
+kl-input {
+  display: flex;
+  align-items: center;
+  gap: var(--kl-space-2);
+  cursor: text;
+}
+
+kl-input > input {
+  flex: 1;
+  order: 0;
+  min-inline-size: 0;
+  block-size: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+  cursor: inherit;
+}
+
+kl-input > [slot="start"],
+kl-input > [slot="end"] {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--kl-color-fg-muted);
+}
+
+kl-input > [slot="start"] {
+  order: -1;
+}
+
+kl-input > [slot="end"] {
+  order: 1;
+}

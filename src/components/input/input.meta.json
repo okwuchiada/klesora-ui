@@ -1,0 +1,125 @@
+{
+  "name": "input",
+  "title": "Input",
+  "element": "kl-input",
+  "class": "kl-input",
+  "description": "Single-line text input. Form-associated; copies the native validity of its inner <input>.",
+  "attributes": [
+    {
+      "name": "value",
+      "type": "string"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "default": "text"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "placeholder",
+      "type": "string"
+    },
+    {
+      "name": "autocomplete",
+      "type": "string"
+    },
+    {
+      "name": "inputmode",
+      "type": "string"
+    },
+    {
+      "name": "required",
+      "type": "boolean"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean"
+    },
+    {
+      "name": "minlength",
+      "type": "number"
+    },
+    {
+      "name": "maxlength",
+      "type": "number"
+    },
+    {
+      "name": "pattern",
+      "type": "string"
+    },
+    {
+      "name": "min",
+      "type": "string"
+    },
+    {
+      "name": "max",
+      "type": "string"
+    },
+    {
+      "name": "step",
+      "type": "string"
+    },
+    {
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "md",
+      "data": "data-size"
+    }
+  ],
+  "slots": [
+    {
+      "name": "start",
+      "description": "Before the text (₦, an icon)."
+    },
+    {
+      "name": "end",
+      "description": "After the text (unit, clear button)."
+    }
+  ],
+  "events": [
+    {
+      "name": "input",
+      "native": true
+    },
+    {
+      "name": "change",
+      "native": true
+    }
+  ],
+  "methods": [
+    "focus()",
+    "blur()",
+    "select()",
+    "setCustomValidity(message)",
+    "checkValidity()",
+    "reportValidity()"
+  ],
+  "tokens": [
+    "--kl-input-height",
+    "--kl-input-padding-x",
+    "--kl-input-bg",
+    "--kl-input-border-width",
+    "--kl-input-border-color",
+    "--kl-input-radius",
+    "--kl-input-focus-border-color",
+    "--kl-input-focus-outline",
+    "--kl-input-focus-shadow"
+  ],
+  "examples": [
+    {
+      "title": "With a prefix",
+      "html": "<kl-input name=\"amount\" inputmode=\"decimal\"><span slot=\"start\">₦</span></kl-input>"
+    },
+    {
+      "title": "Class layer",
+      "html": "<input class=\"kl-input\" type=\"email\" placeholder=\"you@example.com\">\n<textarea class=\"kl-input\"></textarea>"
+    }
+  ]
+}

@@ -3,6 +3,8 @@
  * so the control submits with native <form>s, resets, restores, validates, and is disabled
  * by a disabled <fieldset>, which also makes it work with framework form libraries.
  *
+ * Mirrors the effective disabled state (own or fieldset) as `data-disabled` for CSS.
+ *
  * Subclasses own `value`. In `update()`, call `super.update(changed, first)` and then
  * `this.setFormValue(...)` / `this.setValidity(...)` as needed. Implement the standard
  * `formResetCallback()` and `formStateRestoreCallback(state)` to support reset and restore.
@@ -10,6 +12,19 @@
 import { UIElement } from './element.js';
 
 const FORM_DISABLED = Symbol('formDisabled');
+
+/**
+ * Call form methods through the prototype: a control named or id'd "reset", "requestSubmit"
+ * or "querySelector" replaces the method on the form object (DOM clobbering).
+ */
+export const formActions = {
+  /** @param {HTMLFormElement} form */
+  submit: (form) => HTMLFormElement.prototype.requestSubmit.call(form),
+  /** @param {HTMLFormElement} form */
+  reset: (form) => HTMLFormElement.prototype.reset.call(form),
+  /** @param {HTMLFormElement} form @param {string} selector */
+  find: (form, selector) => Element.prototype.querySelector.call(form, selector),
+};
 
 export class FormElement extends UIElement {
   static formAssociated = true;
@@ -85,6 +100,8 @@ export class FormElement extends UIElement {
   update(changed, first) {
     if (first || changed.has('disabled') || changed.has('isDisabled')) {
       this.internals.ariaDisabled = this.isDisabled ? 'true' : null;
+      // CSS can't see a disabled <fieldset> ancestor, so mirror the effective state.
+      this.toggleAttribute('data-disabled', this.isDisabled);
     }
     if (first || changed.has('required')) {
       this.internals.ariaRequired = this.required ? 'true' : null;

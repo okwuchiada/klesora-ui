@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klesora UI · Inputs</title>
+  <link rel="stylesheet" href="../src/klesora-ui.css">
+  <script type="module" src="../src/index.js"></script>
+</head>
+<body>
+  <header class="kl-surface" data-variant="raised" data-elevation="1" style="position: sticky; top: 0; z-index: var(--kl-z-sticky); border-radius: var(--kl-radius-none)">
+    <div class="kl-container kl-cluster" data-justify="between" data-gap="4" style="padding-block: var(--kl-space-3)">
+      <h1 style="font-size: var(--kl-text-md); margin: 0">Klesora UI · Inputs</h1>
+      <div class="kl-cluster" data-gap="4">
+        <label class="kl-cluster">Style
+          <select id="style" class="kl-select" data-size="sm" style="inline-size: auto; block-size: var(--kl-control-height-sm)"><option value="">Mono</option><option value="solo">Solo</option><option value="chorus">Chorus</option></select>
+        </label>
+        <label class="kl-cluster">Theme
+          <select id="theme" class="kl-select" style="inline-size: auto; block-size: var(--kl-control-height-sm)"><option value="">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
+        </label>
+        <label class="kl-cluster"><input id="brand-on" type="checkbox" class="kl-checkbox"> Brand <input id="brand" type="color" value="#0a7cff" aria-label="Brand colour"></label>
+        <label class="kl-cluster">Density <input id="density" type="range" min="0.8" max="1.2" step="0.05" value="1" aria-label="Density"></label>
+      </div>
+    </div>
+  </header>
+
+  <main class="kl-container kl-stack" data-gap="12" style="padding-block: var(--kl-space-10)">
+
+    <section class="kl-stack" data-gap="4">
+      <h2>Button</h2>
+      <div class="kl-cluster">
+        <kl-button>Solid</kl-button>
+        <kl-button variant="secondary">Secondary</kl-button>
+        <kl-button variant="outline">Outline</kl-button>
+        <kl-button variant="ghost">Ghost</kl-button>
+        <kl-button variant="danger">Danger</kl-button>
+        <kl-button variant="link">Link</kl-button>
+        <kl-button disabled>Disabled</kl-button>
+        <kl-button loading>Sending</kl-button>
+        <kl-button icon aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></kl-button>
+      </div>
+      <div class="kl-cluster">
+        <kl-button size="sm">Small</kl-button>
+        <kl-button>Medium</kl-button>
+        <kl-button size="lg">Large</kl-button>
+        <kl-button variant="outline" size="lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Send money</kl-button>
+      </div>
+      <p class="kl-text-muted" style="margin: 0">Class layer:</p>
+      <div class="kl-cluster">
+        <button class="kl-btn" data-kl-ripple>Solid</button>
+        <button class="kl-btn" data-variant="secondary">Secondary</button>
+        <button class="kl-btn" data-variant="outline">Outline</button>
+        <a class="kl-btn" data-variant="ghost" href="#">Link as button</a>
+        <button class="kl-btn" disabled>Disabled</button>
+        <button class="kl-btn" data-loading aria-busy="true">Loading</button>
+      </div>
+    </section>
+
+    <section class="kl-stack" data-gap="4">
+      <h2>Input and select</h2>
+      <div class="kl-grid" style="--kl-min: 16rem">
+        <kl-input placeholder="kl-input" aria-label="Plain"></kl-input>
+        <kl-input placeholder="0.00" inputmode="decimal" aria-label="Amount"><span slot="start">₦</span><span slot="end">NGN</span></kl-input>
+        <kl-input type="search" placeholder="Search transactions" aria-label="Search"><svg slot="start" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></kl-input>
+        <kl-input value="Disabled" disabled aria-label="Disabled"></kl-input>
+        <kl-input value="Read only" readonly aria-label="Read only"></kl-input>
+        <kl-input value="Invalid" aria-invalid="true" aria-label="Invalid"></kl-input>
+        <input class="kl-input" placeholder="Native .kl-input" aria-label="Native">
+        <select class="kl-select" aria-label="Bank"><option>Access Bank</option><option>GTBank</option><option>Zenith Bank</option></select>
+        <textarea class="kl-input" placeholder="Textarea" aria-label="Notes"></textarea>
+      </div>
+    </section>
+
+    <section class="kl-stack" data-gap="4">
+      <h2>Checkbox and switch</h2>
+      <div class="kl-cluster" data-gap="6">
+        <kl-checkbox checked>Checked</kl-checkbox>
+        <kl-checkbox>Unchecked</kl-checkbox>
+        <kl-checkbox indeterminate>Indeterminate</kl-checkbox>
+        <kl-checkbox disabled checked>Disabled</kl-checkbox>
+        <kl-switch checked>Alerts</kl-switch>
+        <kl-switch>Off</kl-switch>
+        <kl-switch disabled>Disabled</kl-switch>
+      </div>
+      <div class="kl-cluster" data-gap="6">
+        <label class="kl-cluster"><input type="checkbox" class="kl-checkbox" checked> Native checkbox</label>
+        <label class="kl-cluster"><input type="checkbox" class="kl-checkbox" id="native-indeterminate"> Native indeterminate</label>
+        <label class="kl-cluster"><input type="checkbox" role="switch" class="kl-switch" checked> Native switch</label>
+        <label class="kl-cluster"><input type="checkbox" role="switch" class="kl-switch"> Native off</label>
+      </div>
+    </section>
+
+    <section class="kl-stack" data-gap="4">
+      <h2>Form</h2>
+      <form id="transfer" class="kl-surface kl-stack" data-gap="5" style="padding: var(--kl-space-6); max-inline-size: 32rem">
+        <kl-field>
+          <label>Account number</label>
+          <kl-input name="account" inputmode="numeric" pattern="\d{10}" required autocomplete="off"></kl-input>
+          <p slot="hint">10 digits (NUBAN)</p>
+        </kl-field>
+        <kl-field>
+          <label>Bank</label>
+          <select class="kl-select" name="bank" required>
+            <option value="">Choose a bank</option><option>Access Bank</option><option>GTBank</option><option>Zenith Bank</option>
+          </select>
+        </kl-field>
+        <kl-field>
+          <label>Amount</label>
+          <kl-input name="amount" type="number" min="100" step="0.01" required inputmode="decimal"><span slot="start">₦</span></kl-input>
+          <p slot="hint">Minimum ₦100</p>
+        </kl-field>
+        <kl-field>
+          <label>Email for receipt</label>
+          <kl-input name="email" type="email" autocomplete="email"></kl-input>
+        </kl-field>
+        <kl-field>
+          <label>Narration</label>
+          <input class="kl-input" name="narration" maxlength="40">
+        </kl-field>
+        <kl-field id="server-field" error="">
+          <label>Promo code</label>
+          <kl-input name="promo"></kl-input>
+        </kl-field>
+        <kl-field>
+          <kl-checkbox name="terms" required>I confirm the details are correct</kl-checkbox>
+        </kl-field>
+        <kl-switch name="save" checked>Save beneficiary</kl-switch>
+        <div class="kl-cluster" data-justify="end">
+          <kl-button type="reset" variant="ghost">Reset</kl-button>
+          <kl-button type="submit">Send money</kl-button>
+        </div>
+        <pre id="output" class="kl-text-muted" style="margin: 0" aria-live="polite"></pre>
+      </form>
+    </section>
+
+    <section class="kl-stack" data-gap="4">
+      <h2>Styles side by side</h2>
+      <div class="kl-grid" style="--kl-min: 18rem" id="side-by-side"></div>
+    </section>
+  </main>
+
+  <template id="mini">
+    <div class="kl-stack" data-gap="4" style="padding: var(--kl-space-5); border-radius: var(--kl-radius-lg)">
+      <strong class="kl-text-muted" data-name></strong>
+      <kl-field><label>Account name</label><kl-input value="Ada Obi"></kl-input></kl-field>
+      <kl-field><label>Email</label><kl-input type="email"></kl-input></kl-field>
+      <div class="kl-cluster"><kl-checkbox checked>Remember</kl-checkbox><kl-switch checked>Alerts</kl-switch></div>
+      <div class="kl-cluster"><kl-button>Continue</kl-button><kl-button variant="outline">Back</kl-button></div>
+    </div>
+  </template>
+
+  <script type="module">
+    const html = document.documentElement;
+    const $ = (id) => document.getElementById(id);
+    const set = (key, value) => (value ? (html.dataset[key] = value) : delete html.dataset[key]);
+    $('style').onchange = (e) => set('klStyle', e.target.value);
+    $('theme').onchange = (e) => set('klTheme', e.target.value);
+    const brand = () => ($('brand-on').checked ? html.style.setProperty('--kl-brand', $('brand').value) : html.style.removeProperty('--kl-brand'));
+    $('brand').oninput = () => (($('brand-on').checked = true), brand());
+    $('brand-on').onchange = brand;
+    $('density').oninput = (e) => html.style.setProperty('--kl-density', e.target.value);
+    $('native-indeterminate').indeterminate = true;
+
+    for (const [style, theme] of [['mono'], ['solo'], ['chorus'], ['chorus', 'dark']]) {
+      const node = $('mini').content.firstElementChild.cloneNode(true);
+      node.dataset.klStyle = style;
+      if (theme) node.dataset.klTheme = theme;
+      node.querySelector('[data-name]').textContent = style + (theme ? ` · ${theme}` : '');
+      $('side-by-side').append(node);
+    }
+
+    $('transfer').addEventListener('submit', (e) => {
+      e.preventDefault();
+      $('output').textContent = JSON.stringify(Object.fromEntries(new FormData(e.target)), null, 2);
+    });
+    $('transfer').addEventListener('reset', () => ($('output').textContent = ''));
+  </script>
+</body>
+</html>

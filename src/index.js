@@ -7,6 +7,13 @@ export { UIElement, define } from './core/element.js';
 export { FormElement } from './core/form-element.js';
 export { registerDirective, observeRoot, scan, directiveNames } from './core/directives.js';
 
+export { KlButton } from './components/button/button.js';
+export { KlInput } from './components/input/input.js';
+export { KlCheckbox } from './components/checkbox/checkbox.js';
+export { KlSwitch } from './components/switch/switch.js';
+export { KlField } from './components/field/field.js';
+import './directives/ripple.js';
+
 export const VERSION = '0.0.0';
 export const PREFIX = 'kl';
 export const STYLES = Object.freeze(['solo', 'mono', 'chorus']);

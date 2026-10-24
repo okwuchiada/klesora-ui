@@ -1,0 +1,101 @@
+/*
+ * Switch: <input type="checkbox" role="switch" class="kl-switch">, <kl-switch>Label</kl-switch>.
+ * Native: the input is the track, ::before the thumb. <kl-switch>: ::before track, ::after thumb.
+ */
+:is(input.kl-switch, kl-switch) {
+  --_bw: var(--kl-switch-track-border-width);
+  --_inner: calc(var(--kl-switch-height) - 2 * var(--_bw));
+  --_thumb: var(--kl-switch-thumb-size);
+  --_gap: calc((var(--_inner) - var(--_thumb)) / 2);
+  --_start: var(--_gap);
+  --_thumb-bg: var(--kl-switch-thumb-off);
+  --_track: var(--kl-switch-track-off);
+  --_track-border: var(--kl-switch-track-border-color);
+}
+
+:is(input.kl-switch:checked, kl-switch[checked]) {
+  --_thumb: var(--kl-switch-thumb-size-checked);
+  --_start: calc(var(--kl-switch-width) - 2 * var(--_bw) - var(--_thumb) - var(--_gap));
+  --_thumb-bg: var(--kl-switch-thumb-on);
+  --_track: var(--kl-color-primary);
+  --_track-border: var(--kl-color-primary);
+}
+
+/* Track */
+input.kl-switch,
+kl-switch::before {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  inline-size: var(--kl-switch-width);
+  block-size: var(--kl-switch-height);
+  margin: 0;
+  border: var(--_bw) solid var(--_track-border);
+  border-radius: var(--kl-radius-full);
+  background-color: var(--_track);
+  transition: var(--kl-transition-colors);
+}
+
+input.kl-switch {
+  appearance: none;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Thumb */
+input.kl-switch::before,
+kl-switch::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  inline-size: var(--_thumb);
+  block-size: var(--_thumb);
+  translate: 0 -50%;
+  border-radius: var(--kl-radius-full);
+  background-color: var(--_thumb-bg);
+  box-shadow: var(--kl-switch-thumb-shadow);
+  transition:
+    inset-inline-start var(--kl-motion-short) var(--kl-motion-ease),
+    inline-size var(--kl-motion-short) var(--kl-motion-ease),
+    block-size var(--kl-motion-short) var(--kl-motion-ease),
+    background-color var(--kl-motion-short) var(--kl-motion-ease);
+}
+
+input.kl-switch::before {
+  inset-inline-start: var(--_start);
+}
+
+kl-switch::after {
+  inset-inline-start: calc(var(--_bw) + var(--_start));
+}
+
+input.kl-switch:disabled,
+kl-switch[data-disabled] {
+  opacity: var(--kl-disabled-opacity);
+  cursor: not-allowed;
+}
+
+/* <kl-switch> host: track + label text */
+kl-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kl-space-3);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+kl-switch::before {
+  content: "";
+}
+
+kl-switch:focus-visible {
+  outline: none;
+}
+
+kl-switch:focus-visible::before {
+  outline: var(--kl-ring-width) solid var(--kl-color-ring);
+  outline-offset: var(--kl-ring-offset);
+}

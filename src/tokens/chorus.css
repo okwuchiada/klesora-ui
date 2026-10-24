@@ -71,4 +71,29 @@
   --kl-motion-ease-exit: var(--kl-ease-accelerate);
 
   --kl-disabled-opacity: 0.38;
+
+  /* Components: pill buttons with ripple, filled text fields, Material switch */
+  --kl-btn-radius: var(--kl-radius-full);
+  --kl-btn-ripple: 0.16;
+  --kl-input-height: calc(var(--kl-control-height-md) * 1.4);
+  --kl-input-padding-x: var(--kl-space-4);
+  --kl-input-bg: var(--kl-color-muted);
+  --kl-input-border-color: var(--kl-color-fg-muted);
+  --kl-input-border-width: 0 0 var(--kl-border-width);
+  --kl-input-radius: var(--kl-radius-xs) var(--kl-radius-xs) 0 0;
+  --kl-input-focus-border-color: var(--kl-color-primary);
+  --kl-input-focus-outline: none;
+  --kl-input-focus-shadow: inset 0 calc(-1 * var(--kl-border-width)) 0 var(--kl-color-primary);
+  --kl-checkbox-size: 1.125rem;
+  --kl-checkbox-radius: var(--kl-radius-xs);
+  --kl-checkbox-border-width: calc(var(--kl-border-width) * 2);
+  --kl-switch-width: 3.25rem;
+  --kl-switch-height: 2rem;
+  --kl-switch-thumb-size: 1rem;
+  --kl-switch-thumb-size-checked: 1.5rem;
+  --kl-switch-track-off: var(--kl-color-muted);
+  --kl-switch-track-border-width: calc(var(--kl-border-width) * 2);
+  --kl-switch-track-border-color: var(--kl-color-input);
+  --kl-switch-thumb-off: var(--kl-color-fg-muted);
+  --kl-switch-thumb-shadow: none;
 }

@@ -1,0 +1,201 @@
+/*
+ * Button: <button class="kl-btn">, <a class="kl-btn">, <kl-button>.
+ * data-variant: solid (default) | secondary | outline | ghost | danger | link
+ * data-size: sm | md (default) | lg     data-icon: square icon-only button
+ * data-loading: spinner, not clickable  disabled / aria-disabled="true": dimmed
+ */
+:is(.kl-btn, kl-button) {
+  --_bg: var(--kl-color-primary);
+  --_bg-hover: var(--kl-color-primary-hover);
+  --_bg-active: var(--kl-color-primary-active);
+  --_fg: var(--kl-color-primary-fg);
+  --_border: transparent;
+  --_height: var(--kl-control-height-md);
+  --_padding: var(--kl-control-padding-md);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--kl-btn-gap);
+  block-size: var(--_height);
+  min-inline-size: var(--_height);
+  padding-inline: var(--_padding);
+  border: var(--kl-border-width) solid var(--_border);
+  border-radius: var(--kl-btn-radius);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  font: inherit;
+  font-size: var(--kl-btn-font-size);
+  font-weight: var(--kl-btn-font-weight);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    var(--kl-transition-colors),
+    scale var(--kl-motion-short) var(--kl-motion-ease);
+}
+
+/* Hover only where a pointer can hover, so taps don't leave buttons stuck in hover */
+@media (hover: hover) {
+  :is(.kl-btn, kl-button):hover {
+    background-color: var(--_bg-hover);
+  }
+}
+
+:is(.kl-btn, kl-button):active:not(:disabled, [aria-disabled="true"], [data-disabled], [data-loading]) {
+  background-color: var(--_bg-active);
+  scale: var(--kl-btn-press-scale);
+}
+
+/* Variants */
+:is(.kl-btn, kl-button)[data-variant="secondary"] {
+  --_bg: var(--kl-color-secondary);
+  --_bg-hover: var(--kl-color-secondary-hover);
+  --_bg-active: var(--kl-color-selected);
+  --_fg: var(--kl-color-secondary-fg);
+}
+
+:is(.kl-btn, kl-button)[data-variant="outline"] {
+  --_bg: transparent;
+  --_bg-hover: var(--kl-color-muted-hover);
+  --_bg-active: var(--kl-color-selected);
+  --_fg: var(--kl-color-fg);
+  --_border: var(--kl-color-input);
+}
+
+:is(.kl-btn, kl-button)[data-variant="ghost"] {
+  --_bg: transparent;
+  --_bg-hover: var(--kl-color-muted-hover);
+  --_bg-active: var(--kl-color-selected);
+  --_fg: var(--kl-color-fg);
+}
+
+:is(.kl-btn, kl-button)[data-variant="danger"] {
+  --_bg: var(--kl-color-danger);
+  --_bg-hover: var(--kl-color-danger-hover);
+  --_bg-active: var(--kl-color-danger-hover);
+  --_fg: var(--kl-color-danger-fg);
+}
+
+:is(.kl-btn, kl-button)[data-variant="link"] {
+  --_bg: transparent;
+  --_bg-hover: transparent;
+  --_bg-active: transparent;
+  --_fg: var(--kl-color-link);
+  --_padding: 0px;
+  min-inline-size: 0;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+@media (hover: hover) {
+  :is(.kl-btn, kl-button)[data-variant="link"]:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* Sizes */
+:is(.kl-btn, kl-button)[data-size="sm"] {
+  --_height: var(--kl-control-height-sm);
+  --_padding: var(--kl-control-padding-sm);
+  font-size: var(--kl-text-sm);
+}
+
+:is(.kl-btn, kl-button)[data-size="lg"] {
+  --_height: var(--kl-control-height-lg);
+  --_padding: var(--kl-control-padding-lg);
+  font-size: var(--kl-text-md);
+}
+
+:is(.kl-btn, kl-button)[data-icon] {
+  --_padding: 0px;
+  inline-size: var(--_height);
+}
+
+:is(.kl-btn, kl-button) :where(svg) {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  flex-shrink: 0;
+}
+
+/* States */
+:is(.kl-btn, kl-button):is(:disabled, [aria-disabled="true"], [data-disabled]) {
+  opacity: var(--kl-disabled-opacity);
+  cursor: not-allowed;
+  background-color: var(--_bg);
+}
+
+:is(.kl-btn, kl-button)[data-loading] {
+  cursor: progress;
+  background-color: var(--_bg);
+}
+
+:is(.kl-btn, kl-button)[data-loading]::before {
+  content: "";
+  inline-size: 1em;
+  block-size: 1em;
+  flex-shrink: 0;
+  border: 0.15em solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: var(--kl-radius-full);
+  animation: kl-spin 0.7s linear infinite;
+}
+
+/* Reduced motion slows the spinner instead of stopping it: it still has to say "busy". */
+@media (prefers-reduced-motion: reduce) {
+  :is(.kl-btn, kl-button)[data-loading]::before {
+    animation-duration: 1.6s;
+  }
+}
+
+@keyframes kl-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+/* Ripple layer: drawn only where --kl-btn-ripple > 0 (Chorus). See src/core/press.js. */
+:is(.kl-btn, kl-button, .kl-ripple)::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: var(--kl-press-x, 50%);
+  inset-block-start: var(--kl-press-y, 50%);
+  z-index: -1;
+  inline-size: var(--kl-press-size, 200%);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0;
+  scale: 0;
+  pointer-events: none;
+}
+
+:is(.kl-btn, kl-button, .kl-ripple)[data-pressed]::after {
+  animation: kl-ripple var(--kl-motion-long) var(--kl-motion-ease-enter);
+}
+
+.kl-ripple {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+@keyframes kl-ripple {
+  from {
+    scale: 0;
+    opacity: var(--kl-btn-ripple);
+  }
+  to {
+    scale: 1;
+    opacity: 0;
+  }
+}

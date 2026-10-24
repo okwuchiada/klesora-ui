@@ -7,10 +7,18 @@
 
 @import url("./tokens/primitives.css") layer(kl.tokens);
 @import url("./tokens/base.css") layer(kl.tokens);
+@import url("./tokens/components.css") layer(kl.tokens);
 
 @import url("./tokens/mono.css") layer(kl.tokens);
 @import url("./tokens/solo.css") layer(kl.tokens);
 @import url("./tokens/chorus.css") layer(kl.tokens);
+
+@import url("./components/button/button.css") layer(kl.components);
+@import url("./components/input/input.css") layer(kl.components);
+@import url("./components/select/select.css") layer(kl.components);
+@import url("./components/checkbox/checkbox.css") layer(kl.components);
+@import url("./components/switch/switch.css") layer(kl.components);
+@import url("./components/field/field.css") layer(kl.components);
 
 @import url("./styles/mono.css") layer(kl.styles);
 @import url("./styles/solo.css") layer(kl.styles);

@@ -1,5 +1,93 @@
 /*
  * Chorus structural overrides (layer kl.styles, after kl.components).
- * Shape and behaviour that tokens cannot express, scoped to :where([data-kl-style="chorus"]).
- * Empty until components land (Step 6+). Planned: ripple (data-kl-ripple), floating labels on filled/outlined fields, pill buttons, tonal containers.
+ * Only what tokens can't express. Component tokens (src/tokens/chorus.css) already give
+ * Chorus pill buttons, the ripple, filled text fields and the Material switch.
+ *
+ * Selector pattern: like the token packs, `:where([data-kl-style="chorus"]) X:not(…)` applies
+ * to X under Chorus unless a different style sits in between, so the nearest style wins.
  */
+
+/* Floating labels on text fields. <kl-field> sets data-filled; for .kl-field give the input
+   a placeholder (placeholder=" " is fine) so :placeholder-shown can tell when it's empty. */
+:where([data-kl-style="chorus"])
+  :is(kl-field, .kl-field):has(> :is(kl-input, .kl-input, select.kl-select)):not(
+    :where([data-kl-style="chorus"] [data-kl-style]:not([data-kl-style="chorus"])) *
+  ) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--kl-space-1);
+
+  & > :is([data-kl-part="label"], .kl-field__label) {
+    grid-area: 1 / 1;
+    z-index: 1;
+    align-self: center;
+    margin-inline-start: var(--kl-input-padding-x);
+    color: var(--kl-color-fg-muted);
+    font-size: var(--kl-text-md);
+    font-weight: var(--kl-weight-regular);
+    pointer-events: none;
+    transform-origin: 0 0;
+    transition:
+      translate var(--kl-motion-short) var(--kl-motion-ease),
+      scale var(--kl-motion-short) var(--kl-motion-ease),
+      color var(--kl-motion-short) var(--kl-motion-ease);
+  }
+
+  & > :is(kl-input, .kl-input, select.kl-select) {
+    grid-area: 1 / 1;
+  }
+
+  /* Text sits below the floated label */
+  & > .kl-input,
+  & > kl-input > input,
+  & > select.kl-select {
+    padding-block-start: var(--kl-space-4);
+  }
+
+  & > kl-input > [slot] {
+    padding-block-start: var(--kl-space-4);
+  }
+
+  /* Placeholders only show once the label has moved out of the way */
+  & :is(input, textarea)::placeholder {
+    opacity: 0;
+    transition: opacity var(--kl-motion-short) var(--kl-motion-ease);
+  }
+
+  &:focus-within :is(input, textarea)::placeholder {
+    opacity: 1;
+  }
+
+  /* Floated: focused, filled, a select (always has a value), or an input with a prefix.
+     <kl-field> knows when it's filled (data-filled); .kl-field relies on :placeholder-shown. */
+  &:is(
+      :focus-within,
+      kl-field[data-filled],
+      .kl-field:has(> .kl-input:not(:placeholder-shown)),
+      :has(> select.kl-select),
+      :has(> kl-input > [slot="start"])
+    )
+    > :is([data-kl-part="label"], .kl-field__label) {
+    align-self: start;
+    translate: 0 calc(var(--kl-space-2) - 0.1em);
+    scale: 0.75;
+  }
+
+  &:focus-within > :is([data-kl-part="label"], .kl-field__label) {
+    color: var(--kl-color-primary);
+  }
+
+  &[data-invalid] > :is([data-kl-part="label"], .kl-field__label) {
+    color: var(--kl-color-danger-text);
+  }
+
+  & > :is([data-kl-part="hint"], [data-kl-part="error"], .kl-field__hint, .kl-field__error) {
+    padding-inline: var(--kl-input-padding-x);
+    font-size: var(--kl-text-xs);
+  }
+
+  /* The required asterisk stays with the label as it floats */
+  &[data-required] > :is([data-kl-part="label"], .kl-field__label)::after {
+    color: inherit;
+  }
+}

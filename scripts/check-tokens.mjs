@@ -18,6 +18,7 @@ import {
 const src = (p) => fileURLToPath(new URL(`../src/tokens/${p}`, import.meta.url));
 const primitivesCss = await readFile(src('primitives.css'), 'utf8');
 const baseCss = await readFile(src('base.css'), 'utf8');
+const componentsCss = await readFile(src('components.css'), 'utf8');
 const styleNames = ['mono', 'solo', 'chorus'];
 const styleCss = Object.fromEntries(
   await Promise.all(styleNames.map(async (n) => [n, await readFile(src(`${n}.css`), 'utf8')])),
@@ -88,7 +89,11 @@ const systemDarkDecls = find(
   (r) => r.media?.includes('prefers-color-scheme: dark'),
   'system-dark block',
 );
-const semanticDecls = find((r) => r.selector.startsWith(':where('), 'semantic block');
+const semanticDecls = new Map([
+  ...find((r) => r.selector.startsWith(':where('), 'semantic block'),
+  // Component tokens live on the same boundaries and count as semantic for style packs.
+  ...parseRules(componentsCss)[0].decls,
+]);
 const motionFullDecls = find((r) => r.selector === '[data-kl-motion="full"]', 'motion full block');
 
 /* ---------- Value resolution ---------- */
@@ -328,6 +333,16 @@ const pairs = [
   ['--kl-color-link', '--kl-color-surface', TEXT, 'link'],
   ['--kl-color-link', '--kl-color-muted', TEXT, 'link'],
   ['--kl-color-primary', '--kl-color-bg', UI, 'fill'],
+  ['--kl-color-fg', '--kl-input-bg', TEXT, 'input text'],
+  ['--kl-color-fg-muted', '--kl-input-bg', TEXT, 'placeholder'],
+  ['--kl-input-border-color', '--kl-input-bg', UI, 'input boundary'],
+  ['--kl-input-border-color', '--kl-color-bg', UI, 'input boundary'],
+  ['--kl-input-focus-border-color', '--kl-input-bg', UI, 'input focus'],
+  ['--kl-color-primary', '--kl-input-bg', UI, 'checked fill'],
+  ['--kl-switch-track-border-color', '--kl-color-bg', UI, 'switch off boundary'],
+  ['--kl-switch-thumb-off', '--kl-switch-track-off', UI, 'switch thumb off'],
+  ['--kl-switch-thumb-on', '--kl-color-primary', UI, 'switch thumb on'],
+  ['--kl-color-danger-text', '--kl-color-surface', TEXT, 'field error'],
   ['--kl-color-ring', '--kl-color-bg', UI, 'focus ring'],
   ['--kl-color-ring', '--kl-color-surface', UI, 'focus ring'],
   ['--kl-neutral-8', '--kl-neutral-1', UI, 'ramp 8'],

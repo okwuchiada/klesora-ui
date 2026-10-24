@@ -1,0 +1,63 @@
+{
+  "name": "checkbox",
+  "title": "Checkbox",
+  "element": "kl-checkbox",
+  "class": "kl-checkbox",
+  "description": "A checkbox whose content is its label. Submits value when checked.",
+  "attributes": [
+    {
+      "name": "checked",
+      "type": "boolean"
+    },
+    {
+      "name": "indeterminate",
+      "type": "boolean"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "default": "on"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "required",
+      "type": "boolean"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean"
+    }
+  ],
+  "events": [
+    {
+      "name": "input",
+      "native": true
+    },
+    {
+      "name": "change",
+      "native": true
+    }
+  ],
+  "methods": [
+    "toggle()",
+    "setCustomValidity(message)"
+  ],
+  "tokens": [
+    "--kl-checkbox-size",
+    "--kl-checkbox-radius",
+    "--kl-checkbox-border-width"
+  ],
+  "examples": [
+    {
+      "title": "Element",
+      "html": "<kl-checkbox name=\"save\" checked>Save beneficiary</kl-checkbox>"
+    },
+    {
+      "title": "Class layer",
+      "html": "<label><input type=\"checkbox\" class=\"kl-checkbox\"> Save beneficiary</label>"
+    }
+  ]
+}

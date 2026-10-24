@@ -1,0 +1,41 @@
+{
+  "name": "field",
+  "title": "Form field",
+  "element": "kl-field",
+  "class": "kl-field",
+  "description": "Wires a label, control, hint and inline error together. Errors show after blur or a submit attempt.",
+  "attributes": [
+    {
+      "name": "error",
+      "type": "string",
+      "description": "Show this message now and mark the control invalid until cleared."
+    }
+  ],
+  "slots": [
+    {
+      "name": "hint",
+      "description": "Help text, linked with aria-describedby."
+    },
+    {
+      "name": "error",
+      "description": "Optional fixed error text; otherwise the control's validation message is used."
+    }
+  ],
+  "tokens": [
+    "--kl-field-gap",
+    "--kl-label-weight"
+  ],
+  "examples": [
+    {
+      "title": "Element",
+      "html": "<kl-field>\n  <label>Email</label>\n  <kl-input name=\"email\" type=\"email\" required></kl-input>\n  <p slot=\"hint\">We'll send the receipt here.</p>\n</kl-field>"
+    },
+    {
+      "title": "Class layer",
+      "html": "<div class=\"kl-field\" data-invalid>\n  <label class=\"kl-field__label\" for=\"acct\">Account number</label>\n  <input class=\"kl-input\" id=\"acct\" aria-invalid=\"true\" aria-describedby=\"acct-err\">\n  <p class=\"kl-field__error\" id=\"acct-err\">Enter 10 digits</p>\n</div>"
+    }
+  ],
+  "notes": [
+    "Chorus floats the label inside text fields. With the class layer, give the input a placeholder (\" \" works)."
+  ]
+}

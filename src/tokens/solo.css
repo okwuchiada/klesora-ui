@@ -55,4 +55,18 @@
   --kl-motion-ease-exit: var(--kl-ease-smooth);
 
   --kl-disabled-opacity: 0.4;
+
+  /* Components: pill buttons with a gentle press, larger round-cornered controls, iOS-like switch */
+  --kl-btn-radius: var(--kl-radius-full);
+  --kl-btn-font-weight: var(--kl-weight-regular);
+  --kl-btn-font-size: var(--kl-text-md);
+  --kl-btn-press-scale: 0.97;
+  --kl-checkbox-size: 1.25rem;
+  --kl-switch-width: 3.25rem;
+  --kl-switch-height: 2rem;
+  --kl-switch-thumb-size: 1.75rem;
+  --kl-switch-thumb-size-checked: 1.75rem;
+  --kl-switch-thumb-off: var(--kl-white);
+  --kl-switch-thumb-on: var(--kl-white);
+  --kl-switch-thumb-shadow: var(--kl-shadow-2);
 }

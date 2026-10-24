@@ -1,0 +1,42 @@
+/*
+ * Field: <kl-field> (wires itself) or <div class="kl-field"> with .kl-field__label,
+ * .kl-field__hint and .kl-field__error (add data-invalid / data-required yourself).
+ */
+:is(.kl-field, kl-field) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kl-field-gap);
+  min-inline-size: 0;
+}
+
+:is(.kl-field__label, kl-field > [data-kl-part="label"]) {
+  color: var(--kl-color-fg);
+  font-size: var(--kl-text-sm);
+  font-weight: var(--kl-label-weight);
+  line-height: var(--kl-leading-tight);
+}
+
+/* Required marker, hidden from screen readers (the control already says "required") */
+:is(.kl-field, kl-field)[data-required] > :is(.kl-field__label, [data-kl-part="label"])::after {
+  content: " *" / "";
+  color: var(--kl-color-danger-text);
+}
+
+:is(.kl-field__hint, kl-field > [data-kl-part="hint"]),
+:is(.kl-field__error, kl-field > [data-kl-part="error"]) {
+  margin: 0;
+  font-size: var(--kl-text-sm);
+  line-height: var(--kl-leading-snug);
+}
+
+:is(.kl-field__hint, kl-field > [data-kl-part="hint"]) {
+  color: var(--kl-color-fg-muted);
+}
+
+:is(.kl-field__error, kl-field > [data-kl-part="error"]) {
+  color: var(--kl-color-danger-text);
+}
+
+:is(.kl-field, kl-field)[data-disabled] > :is(.kl-field__label, [data-kl-part="label"]) {
+  opacity: var(--kl-disabled-opacity);
+}

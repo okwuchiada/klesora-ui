@@ -21,7 +21,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 3. ✅ Style packs: `src/tokens/{solo,mono,chorus}.css` (token remaps) + `src/styles/<style>.css` (structural stubs until components exist)
 4. ✅ CSS class layer: `src/css/{reset,base,utilities}.css`, test page `tests/base.html`
 5. ✅ JS core: `src/core/{element,form-element,directives}.js`; tests in `e2e/core.spec.ts` (fixtures `tests/fixtures/core.js`, page `tests/core.html`)
-6. Core inputs: button, input, select, checkbox, switch, form field
+6. ✅ Core inputs: `src/components/{button,input,select,checkbox,switch,field}/`, ripple directive, test page `tests/components.html`, tests `e2e/components.spec.ts`
 7. Overlays and services: dialog, dropdown, tooltip directive, toast service, theme service
 8. Layout and data: card, tabs, table, navbar, sidebar
 9. Fintech extras: amount input (₦/$ locale formatting), OTP/PIN input, transaction list, stepper
@@ -46,6 +46,8 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - Hover and press: Mono mixes toward the page bg (as specced). Solo presses away from the text colour. Chorus uses state layers (mixes in the text colour). The reason is contrast with white text on mid-tone primaries.
 - Step 4: the reset is gentle (keeps host margins). Base paints html + theme/style boundaries and styles only unclassed links. Utilities are a small set (CONVENTIONS §4) with data-* options. Links are coloured per style via `--kl-color-link` / `--kl-link`, not by the brand.
 - Step 5: elements never move or wrap author children; the element itself is the control (framework-safe). Elements never add classes to themselves; CSS selects `:is(.kl-x, kl-x)`, variants via mirrored `data-*`, ARIA defaults via `internals`. Updates are batched in a microtask (`updateComplete`), Lit-style static `properties`.
+- Step 6: component tokens live in `src/tokens/components.css` (boundaries, Mono defaults), and style packs remap them. Structural style CSS (only Chorus floating labels so far) uses the nearest-style guard. Select stays native (`.kl-select`); `<kl-select>` comes in Step 7 with the dropdown. Inside `<kl-field>`, errors are inline (after blur or a submit attempt) and the native bubble is suppressed. Call form methods via `formActions` (DOM clobbering).
+- Open question for the user: some tools (Playwright `getByRole`, Testing Library/jsdom) don't see ElementInternals roles. I could also set role/aria-* attributes as a fallback.
 - Styles never change duration primitives; they pick steps via `--kl-motion-*`, so reduced motion keeps working.
 
 ## Commands

@@ -1,0 +1,95 @@
+/*
+ * Checkbox: <input type="checkbox" class="kl-checkbox">, <kl-checkbox>Label</kl-checkbox>.
+ * <kl-checkbox> draws the box in ::before and the mark in ::after; its content is the label.
+ */
+input.kl-checkbox,
+kl-checkbox::before {
+  flex-shrink: 0;
+  inline-size: var(--kl-checkbox-size);
+  block-size: var(--kl-checkbox-size);
+  margin: 0;
+  border: var(--kl-checkbox-border-width) solid var(--kl-color-input);
+  border-radius: var(--kl-checkbox-radius);
+  background-color: var(--kl-color-bg);
+  transition: var(--kl-transition-colors);
+}
+
+input.kl-checkbox {
+  appearance: none;
+  display: inline-grid;
+  place-content: center;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Mark */
+input.kl-checkbox::before,
+kl-checkbox::after {
+  content: "";
+  inline-size: calc(var(--kl-checkbox-size) * 0.75);
+  block-size: calc(var(--kl-checkbox-size) * 0.75);
+  background-color: var(--kl-color-primary-fg);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  scale: 0;
+  transition: scale var(--kl-motion-short) var(--kl-motion-ease-enter);
+}
+
+input.kl-checkbox:indeterminate::before,
+kl-checkbox[indeterminate]::after {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8h8' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+input.kl-checkbox:is(:checked, :indeterminate),
+:is(kl-checkbox[checked], kl-checkbox[indeterminate])::before {
+  border-color: var(--kl-color-primary);
+  background-color: var(--kl-color-primary);
+}
+
+input.kl-checkbox:is(:checked, :indeterminate)::before,
+:is(kl-checkbox[checked], kl-checkbox[indeterminate])::after {
+  scale: 1;
+}
+
+input.kl-checkbox[aria-invalid="true"],
+kl-checkbox[aria-invalid="true"]::before {
+  border-color: var(--kl-color-danger);
+}
+
+input.kl-checkbox:disabled,
+kl-checkbox[data-disabled] {
+  opacity: var(--kl-disabled-opacity);
+  cursor: not-allowed;
+}
+
+/* <kl-checkbox> host: box + label text */
+kl-checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kl-space-2);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+kl-checkbox::before {
+  content: "";
+}
+
+kl-checkbox::after {
+  position: absolute;
+  inset-inline-start: calc((var(--kl-checkbox-size) - var(--kl-checkbox-size) * 0.75) / 2);
+  inset-block-start: 50%;
+  translate: 0 -50%;
+}
+
+/* Ring around the box, not the whole label */
+kl-checkbox:focus-visible {
+  outline: none;
+}
+
+kl-checkbox:focus-visible::before {
+  outline: var(--kl-ring-width) solid var(--kl-color-ring);
+  outline-offset: var(--kl-ring-offset);
+}

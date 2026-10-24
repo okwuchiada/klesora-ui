@@ -1,0 +1,49 @@
+/*
+ * Component tokens (Mono defaults). Per-component knobs that style packs remap.
+ *
+ * Declared on the same scope boundaries as the semantic tokens (base.css), so a style's
+ * component look follows the nearest style on nested panels too. Component CSS reads these
+ * with no fallback; set them in project CSS to restyle one component everywhere.
+ */
+:where(:root, [data-kl-theme], [data-kl-style], [data-kl-scope], [data-kl-motion]),
+[data-kl-style="mono"] {
+  /* Button */
+  --kl-btn-radius: var(--kl-radius-md);
+  --kl-btn-font-weight: var(--kl-weight-medium);
+  --kl-btn-font-size: var(--kl-text-sm);
+  --kl-btn-gap: var(--kl-space-2);
+  --kl-btn-press-scale: 1;
+  --kl-btn-ripple: 0; /* ripple opacity; 0 = no ripple */
+
+  /* Input, select, kl-input */
+  --kl-input-height: var(--kl-control-height-md);
+  --kl-input-padding-x: var(--kl-space-3);
+  --kl-input-bg: var(--kl-color-bg);
+  --kl-input-border-width: var(--kl-border-width);
+  --kl-input-border-color: var(--kl-color-input);
+  --kl-input-radius: var(--kl-radius-md);
+  --kl-input-focus-border-color: var(--kl-color-ring);
+  --kl-input-focus-outline: var(--kl-ring-width) solid var(--kl-color-ring);
+  --kl-input-focus-shadow: none;
+
+  /* Checkbox */
+  --kl-checkbox-size: 1rem;
+  --kl-checkbox-radius: var(--kl-radius-sm);
+  --kl-checkbox-border-width: var(--kl-border-width);
+
+  /* Switch */
+  --kl-switch-width: 2.25rem;
+  --kl-switch-height: 1.25rem;
+  --kl-switch-thumb-size: 1rem;
+  --kl-switch-thumb-size-checked: 1rem;
+  --kl-switch-track-off: var(--kl-color-input);
+  --kl-switch-track-border-width: 0px;
+  --kl-switch-track-border-color: var(--kl-switch-track-off); /* the off-state boundary */
+  --kl-switch-thumb-off: var(--kl-color-bg);
+  --kl-switch-thumb-on: var(--kl-color-primary-fg);
+  --kl-switch-thumb-shadow: var(--kl-shadow-1);
+
+  /* Field */
+  --kl-field-gap: var(--kl-space-2);
+  --kl-label-weight: var(--kl-weight-medium);
+}

@@ -14,7 +14,7 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 5 of the roadmap: JS core (base element, form controls, directives)). Not yet published.
+> Status: early development (Step 6 of the roadmap: core inputs (button, input, select, checkbox, switch, form field)). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -29,6 +29,20 @@ Set knobs on `<html>`, or on any element marked `data-kl-scope`:
 ```
 
 The text colour on the brand is picked automatically; set `--kl-brand-fg` to override it. See CONVENTIONS.md §2–3 for every token.
+
+Components work as classes on native elements or as custom elements:
+
+```html
+<kl-field>
+  <label>Amount</label>
+  <kl-input name="amount" inputmode="decimal" required><span slot="start">₦</span></kl-input>
+  <p slot="hint">Minimum ₦100</p>
+</kl-field>
+<kl-checkbox name="save" checked>Save beneficiary</kl-checkbox>
+<kl-button type="submit">Send money</kl-button>
+
+<button class="kl-btn" data-variant="outline">Cancel</button>
+```
 
 The CSS also includes a gentle reset, page defaults (nested themes paint themselves) and a small set of utilities: `.kl-stack`, `.kl-cluster`, `.kl-grid`, `.kl-container`, `.kl-surface`, `.kl-sr-only`, `.kl-truncate` and more (CONVENTIONS.md §4).
 
@@ -52,7 +66,7 @@ tests/          test pages
 ## Develop
 
 ```sh
-npm run dev            # http://localhost:5173/docs/ (test pages: /tests/tokens.html, /tests/base.html, /tests/core.html)
+npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: tokens, base, core, components)
 npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 npm test               # Playwright tests in Chromium, Firefox and WebKit (starts the dev server)

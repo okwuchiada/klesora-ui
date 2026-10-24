@@ -1,0 +1,108 @@
+/*
+ * Select: <select class="kl-select"> (native, so mobile pickers and keyboard behaviour stay native).
+ * Shares the input tokens. Where the browser supports customizable select
+ * (appearance: base-select), the picker list is styled too; elsewhere it stays the OS list.
+ * A custom <kl-select> with its own list arrives with the dropdown in Step 7.
+ */
+select.kl-select {
+  appearance: none;
+  inline-size: 100%;
+  block-size: var(--kl-input-height);
+  padding-inline: var(--kl-input-padding-x) calc(var(--kl-input-padding-x) + 1.25em);
+  border-style: solid;
+  border-width: var(--kl-input-border-width);
+  border-color: var(--kl-input-border-color);
+  border-radius: var(--kl-input-radius);
+  /* Chevron drawn with two gradients in the text colour: no image, follows the theme */
+  background:
+    linear-gradient(45deg, transparent 50%, var(--kl-color-fg-muted) 50%) no-repeat
+      calc(100% - var(--kl-input-padding-x) - 0.3em) 55% / 0.35em 0.35em,
+    linear-gradient(-45deg, transparent 50%, var(--kl-color-fg-muted) 50%) no-repeat
+      calc(100% - var(--kl-input-padding-x)) 55% / 0.35em 0.35em,
+    var(--kl-input-bg);
+  color: var(--kl-color-fg);
+  font: inherit;
+  font-size: var(--kl-text-md);
+  line-height: var(--kl-leading-normal);
+  cursor: pointer;
+  transition:
+    var(--kl-transition-colors),
+    box-shadow var(--kl-motion-short) var(--kl-motion-ease);
+}
+
+select.kl-select:dir(rtl) {
+  background-position:
+    calc(var(--kl-input-padding-x)) 55%,
+    calc(var(--kl-input-padding-x) + 0.3em) 55%,
+    0 0;
+  padding-inline: calc(var(--kl-input-padding-x) + 1.25em) var(--kl-input-padding-x);
+}
+
+select.kl-select:focus-visible {
+  border-color: var(--kl-input-focus-border-color);
+  outline: var(--kl-input-focus-outline);
+  outline-offset: 0;
+  box-shadow: var(--kl-input-focus-shadow);
+}
+
+select.kl-select:is([aria-invalid="true"], :user-invalid) {
+  border-color: var(--kl-color-danger);
+}
+
+select.kl-select:disabled {
+  opacity: var(--kl-disabled-opacity);
+  cursor: not-allowed;
+}
+
+select.kl-select:is([multiple], [size]:not([size="1"])) {
+  block-size: auto;
+  padding: var(--kl-space-1);
+  background: var(--kl-input-bg);
+}
+
+select.kl-select option {
+  background-color: var(--kl-color-surface-raised);
+  color: var(--kl-color-fg);
+}
+
+/* Customizable select (progressive enhancement) */
+@supports (appearance: base-select) {
+  select.kl-select,
+  select.kl-select::picker(select) {
+    appearance: base-select;
+  }
+
+  select.kl-select::picker-icon {
+    display: none; /* we draw our own chevron */
+  }
+
+  select.kl-select::picker(select) {
+    margin-block: var(--kl-space-1);
+    padding: var(--kl-space-1);
+    border: var(--kl-border-width) solid var(--kl-color-border);
+    border-radius: var(--kl-radius-md);
+    background-color: var(--kl-color-surface-raised);
+    color: var(--kl-color-fg);
+    box-shadow: var(--kl-shadow-3);
+  }
+
+  select.kl-select option {
+    padding: var(--kl-space-2) var(--kl-space-3);
+    border-radius: var(--kl-radius-sm);
+    background-color: transparent;
+  }
+
+  select.kl-select option:is(:hover, :focus-visible) {
+    background-color: var(--kl-color-muted-hover);
+    outline: none;
+  }
+
+  select.kl-select option:checked {
+    background-color: var(--kl-color-selected);
+    font-weight: var(--kl-weight-medium);
+  }
+
+  select.kl-select option::checkmark {
+    display: none;
+  }
+}

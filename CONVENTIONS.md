@@ -58,8 +58,9 @@ Mono is the semantic defaults in `base.css`, so `mono.css` remaps nothing. Every
 
 - The own rule has specificity 0,1,0. The descendant rule re-applies the style on nested boundaries with zero specificity; it still beats `base.css`, which comes first in `kl.tokens`.
 - The `:not()` skips boundaries inside a different style nested within this one, so the nearest style wins. Keep it attached to the compound selector with no space before `:not(`.
-- A pack may set only semantic tokens and the `--kl-style-*` defaults. Never knobs, primitives, ramps or durations. `check:tokens` enforces this and the selector shape.
+- A pack may set only semantic tokens, component tokens and the `--kl-style-*` defaults. Never knobs, primitives, ramps or durations. `check:tokens` enforces this and the selector shape.
 - Style defaults (`--kl-style-primary`, `--kl-style-ring`, `--kl-style-link`, `--kl-style-radius`, `--kl-style-density`) are what the knobs fall back to. Projects use the knobs, not these.
+- Prefer component tokens to structural CSS. When a style needs CSS that tokens can't express (Chorus floating labels), put it in `src/styles/<style>.css` with the same guard: `:where([data-kl-style="x"]) .target:not(:where([data-kl-style="x"] [data-kl-style]:not([data-kl-style="x"])) *)`.
 - Limitation: with three or more levels of alternating styles (Solo › Chorus › Solo › theme boundary), repeat `data-kl-style` on the inner boundary.
 
 ### Knobs
@@ -127,7 +128,7 @@ Three tiers. Each tier may only reference the tier below it.
 
 1. **Primitive** (`src/tokens/primitives.css`): raw values on `:root`.
 2. **Scheme ramps and semantic** (`src/tokens/base.css`): meaning.
-3. **Component**: per-component knobs, e.g. `--kl-btn-height`, `--kl-btn-radius`, `--kl-input-bg`.
+3. **Component** (`src/tokens/components.css`): per-component knobs, e.g. `--kl-btn-radius`, `--kl-input-bg`, `--kl-switch-width`. They're declared on the same scope boundaries as the semantic tokens, with Mono defaults, and style packs remap them. That makes a style's component look follow the nearest style on nested panels too. Set one in project CSS to restyle that component everywhere.
 
 Component CSS reads only semantic or component tokens, never primitives, ramps or hard-coded values (except `0`, `1px` hairlines and `100%`). This is what lets a style or brand colour change everything at once. Hover and active states come from `color-mix(in oklab, … , var(--kl-color-bg))`, so they work for any brand colour.
 
@@ -206,6 +207,23 @@ All library CSS lives in cascade layers, declared once in `src/klesora-ui.css`:
 | `.kl-container` | `data-size` `sm`, `md`, `lg` (default), `xl` |
 | `.kl-surface` | `data-variant` `raised`, `muted`; `data-elevation` 0–5 |
 
+### Component class layer
+
+Each component's CSS selects the class and the element alike, e.g. `:is(.kl-btn, kl-button)`. The same variants work on native elements and custom elements:
+
+| Component | Class layer | Element | Options |
+| --- | --- | --- | --- |
+| Button | `<button class="kl-btn">`, `<a class="kl-btn">` | `<kl-button>` | `data-variant` solid, secondary, outline, ghost, danger, link; `data-size` sm, md, lg; `data-icon`; `data-loading` |
+| Input | `<input class="kl-input">`, `<textarea class="kl-input">` | `<kl-input>` (children with `slot="start"` / `slot="end"`) | `data-size`; `aria-invalid="true"` |
+| Select | `<select class="kl-select">` | (`<kl-select>` in Step 7) | customizable select styles the list where supported |
+| Checkbox | `<input type="checkbox" class="kl-checkbox">` | `<kl-checkbox>Label</kl-checkbox>` | `indeterminate` |
+| Switch | `<input type="checkbox" role="switch" class="kl-switch">` | `<kl-switch>Label</kl-switch>` | |
+| Field | `.kl-field` with `.kl-field__label`, `__hint`, `__error`, `data-invalid` | `<kl-field>` (children with `slot="hint"` / `slot="error"`) | `error="…"` |
+
+The `slot` attribute is only a marker for light-DOM parts (no Shadow DOM). Elements read it and never move the marked nodes. Hover styles sit inside `@media (hover: hover)`, so taps don't leave a button stuck in hover.
+
+`data-kl-ripple` (`src/directives/ripple.js`) adds press feedback to any element. Presses only record `--kl-press-x/y/size` and `data-pressed`. Only styles with `--kl-btn-ripple` > 0 (Chorus) draw the ripple. `<kl-button>` has it built in.
+
 Layout utilities own their direct children's block margins (set to 0; the gap does the spacing). `--kl-gap`, `--kl-min` and `--kl-lines` are registered with `inherits: false`, so nested layouts start from their own defaults.
 
 **Variants and state use attributes, not modifier classes:**
@@ -262,6 +280,10 @@ define('kl-button', KlButton);
 
 Native events (`input`, `change`, `click`) keep firing as usual. Library events use `this.emit('kl-<verb>', detail, { cancelable })`: a `CustomEvent` with `bubbles: true, composed: true` and data in `detail`. `emit` returns `false` when a cancelable event was prevented, and throws for names not starting with `kl-`.
 
+### Accessibility and testing
+
+Roles and states set through `internals` are in the browser's real accessibility tree, but some tools don't read ElementInternals. Playwright's `getByRole` and Testing Library in jsdom are two examples. Test roles and states through the browser's accessibility tree (see `e2e/components.spec.ts`), or query by tag or label.
+
 ### Form controls
 
 `FormElement` is form-associated (`static formAssociated = true` + ElementInternals), so controls submit with native forms, validate, and are disabled by a disabled `<fieldset>`. That also makes them work with framework form libraries.
@@ -269,6 +291,9 @@ Native events (`input`, `change`, `click`) keep firing as usual. Library events 
 - Built in: `name`, `disabled`, `required` properties; `isDisabled` (own or fieldset); `form`, `labels`, `validity`, `validationMessage`, `willValidate`, `checkValidity()`, `reportValidity()`; ARIA disabled and required kept in sync.
 - The subclass owns `value`. In `update()`, call `super.update(changed, first)`, then `this.setFormValue(value)` and `this.setValidity(flags, message, anchor)` (`setValidity()` with no arguments means valid).
 - Implement the standard `formResetCallback()` (restore the initial value) and `formStateRestoreCallback(state)`.
+- Call form methods through `formActions` (`submit`, `reset`, `find`), never `form.reset()`: a control named or id'd `reset` or `requestSubmit` replaces the method on the form object (DOM clobbering).
+- `FormElement` mirrors the effective disabled state (own or from a `<fieldset>`) as `data-disabled`. Style that attribute, not `[disabled]`.
+- Shared bases: `ToggleElement` (`src/core/toggle-element.js`) backs checkbox and switch. Press feedback is in `src/core/press.js`.
 
 ## 6. Directives
 

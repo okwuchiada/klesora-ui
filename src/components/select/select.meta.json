@@ -1,0 +1,15 @@
+{
+  "name": "select",
+  "title": "Select",
+  "class": "kl-select",
+  "description": "Styled native <select>. Uses the input tokens; customizable select styles the list where supported.",
+  "examples": [
+    {
+      "title": "Native",
+      "html": "<select class=\"kl-select\" name=\"bank\">\n  <option>Access Bank</option>\n  <option>GTBank</option>\n</select>"
+    }
+  ],
+  "notes": [
+    "A custom <kl-select> comes with the dropdown in Step 7."
+  ]
+}

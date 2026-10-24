@@ -1,0 +1,58 @@
+{
+  "name": "switch",
+  "title": "Switch",
+  "element": "kl-switch",
+  "class": "kl-switch",
+  "description": "On/off switch (role=switch) whose content is its label. For settings that apply immediately.",
+  "attributes": [
+    {
+      "name": "checked",
+      "type": "boolean"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "default": "on"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean"
+    }
+  ],
+  "events": [
+    {
+      "name": "input",
+      "native": true
+    },
+    {
+      "name": "change",
+      "native": true
+    }
+  ],
+  "tokens": [
+    "--kl-switch-width",
+    "--kl-switch-height",
+    "--kl-switch-thumb-size",
+    "--kl-switch-thumb-size-checked",
+    "--kl-switch-track-off",
+    "--kl-switch-track-border-width",
+    "--kl-switch-track-border-color",
+    "--kl-switch-thumb-off",
+    "--kl-switch-thumb-on",
+    "--kl-switch-thumb-shadow"
+  ],
+  "examples": [
+    {
+      "title": "Element",
+      "html": "<kl-switch name=\"alerts\" checked>Transaction alerts</kl-switch>"
+    },
+    {
+      "title": "Class layer",
+      "html": "<label><input type=\"checkbox\" role=\"switch\" class=\"kl-switch\"> Transaction alerts</label>"
+    }
+  ]
+}

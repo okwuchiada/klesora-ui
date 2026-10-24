@@ -1,0 +1,2273 @@
+{
+  "schemaVersion": "2.1.0",
+  "readme": "README.md",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/components/amount-input/amount-input.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlAmountInput",
+          "tagName": "kl-amount-input",
+          "customElement": true,
+          "description": "Money entry with live, locale-aware grouping. value is an exact decimal string; never a float.",
+          "superclass": {
+            "name": "FormElement",
+            "module": "src/core/form-element.js"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Decimal in the main unit, e.g. \"45000.50\". Submitted padded to the currency's decimals."
+            },
+            {
+              "name": "currency",
+              "fieldName": "currency",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"NGN\""
+            },
+            {
+              "name": "locale",
+              "fieldName": "locale",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "min",
+              "fieldName": "min",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "max",
+              "fieldName": "max",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "placeholder",
+              "fieldName": "placeholder",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "allow-negative",
+              "fieldName": "allowNegative",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "readonly",
+              "fieldName": "readOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "size",
+              "fieldName": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "name",
+              "fieldName": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "disabled",
+              "fieldName": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "required",
+              "fieldName": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value",
+              "default": "\"\"",
+              "description": "Decimal in the main unit, e.g. \"45000.50\". Submitted padded to the currency's decimals."
+            },
+            {
+              "kind": "field",
+              "name": "currency",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "currency",
+              "default": "\"NGN\""
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "allowNegative",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "allow-negative",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "readOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "readonly",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "attribute": "size",
+              "default": "\"md\""
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "required",
+              "reflects": true,
+              "default": "false"
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "cssProperties": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlAmountInput",
+          "declaration": {
+            "name": "KlAmountInput",
+            "module": "src/components/amount-input/amount-input.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-amount-input",
+          "declaration": {
+            "name": "KlAmountInput",
+            "module": "src/components/amount-input/amount-input.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/button/button.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlButton",
+          "tagName": "kl-button",
+          "customElement": true,
+          "description": "Triggers an action. The element itself is the button; inside a form it submits or resets.",
+          "superclass": {
+            "name": "FormElement",
+            "module": "src/core/form-element.js"
+          },
+          "attributes": [
+            {
+              "name": "variant",
+              "fieldName": "variant",
+              "type": {
+                "text": "'solid' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link'"
+              },
+              "default": "\"solid\""
+            },
+            {
+              "name": "size",
+              "fieldName": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "icon",
+              "fieldName": "icon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Square, icon-only. Give it an aria-label."
+            },
+            {
+              "name": "loading",
+              "fieldName": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a spinner, sets aria-busy and ignores activation."
+            },
+            {
+              "name": "type",
+              "fieldName": "type",
+              "type": {
+                "text": "'submit' | 'reset' | 'button'"
+              },
+              "default": "\"submit\""
+            },
+            {
+              "name": "popovertarget",
+              "fieldName": "popoverTarget",
+              "type": {
+                "text": "string"
+              },
+              "description": "Id of a popover to toggle, like on <button>."
+            },
+            {
+              "name": "popovertargetaction",
+              "fieldName": "popoverTargetAction",
+              "type": {
+                "text": "'toggle' | 'show' | 'hide'"
+              },
+              "default": "\"toggle\""
+            },
+            {
+              "name": "name",
+              "fieldName": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "disabled",
+              "fieldName": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "required",
+              "fieldName": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "'solid' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link'"
+              },
+              "attribute": "variant",
+              "default": "\"solid\""
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "attribute": "size",
+              "default": "\"md\""
+            },
+            {
+              "kind": "field",
+              "name": "icon",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "icon",
+              "default": "false",
+              "description": "Square, icon-only. Give it an aria-label."
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "loading",
+              "reflects": true,
+              "default": "false",
+              "description": "Shows a spinner, sets aria-busy and ignores activation."
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "'submit' | 'reset' | 'button'"
+              },
+              "attribute": "type",
+              "default": "\"submit\""
+            },
+            {
+              "kind": "field",
+              "name": "popoverTarget",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "popovertarget",
+              "description": "Id of a popover to toggle, like on <button>."
+            },
+            {
+              "kind": "field",
+              "name": "popoverTargetAction",
+              "type": {
+                "text": "'toggle' | 'show' | 'hide'"
+              },
+              "attribute": "popovertargetaction",
+              "default": "\"toggle\""
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "required",
+              "reflects": true,
+              "default": "false"
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "cssProperties": [
+            {
+              "name": "--kl-btn-radius"
+            },
+            {
+              "name": "--kl-btn-font-weight"
+            },
+            {
+              "name": "--kl-btn-font-size"
+            },
+            {
+              "name": "--kl-btn-gap"
+            },
+            {
+              "name": "--kl-btn-press-scale"
+            },
+            {
+              "name": "--kl-btn-ripple"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlButton",
+          "declaration": {
+            "name": "KlButton",
+            "module": "src/components/button/button.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-button",
+          "declaration": {
+            "name": "KlButton",
+            "module": "src/components/button/button.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/checkbox/checkbox.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlCheckbox",
+          "tagName": "kl-checkbox",
+          "customElement": true,
+          "description": "A checkbox whose content is its label. Submits value when checked.",
+          "superclass": {
+            "name": "ToggleElement",
+            "module": "src/core/toggle-element.js"
+          },
+          "attributes": [
+            {
+              "name": "indeterminate",
+              "fieldName": "indeterminate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "checked",
+              "fieldName": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"on\""
+            },
+            {
+              "name": "name",
+              "fieldName": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "disabled",
+              "fieldName": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "required",
+              "fieldName": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "indeterminate",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "indeterminate",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "checked",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value",
+              "default": "\"on\""
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "required",
+              "reflects": true,
+              "default": "false"
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "cssProperties": [
+            {
+              "name": "--kl-checkbox-size"
+            },
+            {
+              "name": "--kl-checkbox-radius"
+            },
+            {
+              "name": "--kl-checkbox-border-width"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlCheckbox",
+          "declaration": {
+            "name": "KlCheckbox",
+            "module": "src/components/checkbox/checkbox.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-checkbox",
+          "declaration": {
+            "name": "KlCheckbox",
+            "module": "src/components/checkbox/checkbox.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/field/field.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlField",
+          "tagName": "kl-field",
+          "customElement": true,
+          "description": "Wires a label, control, hint and inline error together. Errors show after blur or a submit attempt.",
+          "superclass": {
+            "name": "UIElement",
+            "module": "src/core/element.js"
+          },
+          "attributes": [
+            {
+              "name": "error",
+              "fieldName": "error",
+              "type": {
+                "text": "string"
+              },
+              "description": "Show this message now and mark the control invalid until cleared."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "error",
+              "description": "Show this message now and mark the control invalid until cleared."
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "hint",
+              "description": "Help text, linked with aria-describedby."
+            },
+            {
+              "name": "error",
+              "description": "Optional fixed error text; otherwise the control's validation message is used."
+            }
+          ],
+          "cssProperties": [
+            {
+              "name": "--kl-field-gap"
+            },
+            {
+              "name": "--kl-label-weight"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlField",
+          "declaration": {
+            "name": "KlField",
+            "module": "src/components/field/field.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-field",
+          "declaration": {
+            "name": "KlField",
+            "module": "src/components/field/field.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/input/input.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlInput",
+          "tagName": "kl-input",
+          "customElement": true,
+          "description": "Single-line text input. Form-associated; copies the native validity of its inner <input>.",
+          "superclass": {
+            "name": "FormElement",
+            "module": "src/core/form-element.js"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "type",
+              "fieldName": "type",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"text\""
+            },
+            {
+              "name": "placeholder",
+              "fieldName": "placeholder",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "autocomplete",
+              "fieldName": "autocomplete",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "inputmode",
+              "fieldName": "inputMode",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "minlength",
+              "fieldName": "minLength",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "maxlength",
+              "fieldName": "maxLength",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "pattern",
+              "fieldName": "pattern",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "readonly",
+              "fieldName": "readOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "min",
+              "fieldName": "min",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "max",
+              "fieldName": "max",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "step",
+              "fieldName": "step",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "size",
+              "fieldName": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "name",
+              "fieldName": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "disabled",
+              "fieldName": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "required",
+              "fieldName": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "type",
+              "default": "\"text\""
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "autocomplete"
+            },
+            {
+              "kind": "field",
+              "name": "inputMode",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "inputmode"
+            },
+            {
+              "kind": "field",
+              "name": "minLength",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "minlength"
+            },
+            {
+              "kind": "field",
+              "name": "maxLength",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "maxlength"
+            },
+            {
+              "kind": "field",
+              "name": "pattern",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "pattern"
+            },
+            {
+              "kind": "field",
+              "name": "readOnly",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "readonly",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "min",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "min"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "step",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "step"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "attribute": "size",
+              "default": "\"md\""
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "required",
+              "reflects": true,
+              "default": "false"
+            }
+          ],
+          "events": [],
+          "slots": [
+            {
+              "name": "start",
+              "description": "Before the text (₦, an icon)."
+            },
+            {
+              "name": "end",
+              "description": "After the text (unit, clear button)."
+            }
+          ],
+          "cssProperties": [
+            {
+              "name": "--kl-input-height"
+            },
+            {
+              "name": "--kl-input-padding-x"
+            },
+            {
+              "name": "--kl-input-bg"
+            },
+            {
+              "name": "--kl-input-border-width"
+            },
+            {
+              "name": "--kl-input-border-color"
+            },
+            {
+              "name": "--kl-input-radius"
+            },
+            {
+              "name": "--kl-input-focus-border-color"
+            },
+            {
+              "name": "--kl-input-focus-outline"
+            },
+            {
+              "name": "--kl-input-focus-shadow"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlInput",
+          "declaration": {
+            "name": "KlInput",
+            "module": "src/components/input/input.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-input",
+          "declaration": {
+            "name": "KlInput",
+            "module": "src/components/input/input.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/menu/menu.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlMenu",
+          "tagName": "kl-menu",
+          "customElement": true,
+          "description": "A popover menu opened by any button with popovertarget. Arrow keys, type-to-find, Escape and outside click to close.",
+          "superclass": {
+            "name": "UIElement",
+            "module": "src/core/element.js"
+          },
+          "attributes": [
+            {
+              "name": "placement",
+              "fieldName": "placement",
+              "type": {
+                "text": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'"
+              },
+              "default": "\"bottom-start\""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'"
+              },
+              "attribute": "placement",
+              "default": "\"bottom-start\""
+            }
+          ],
+          "events": [
+            {
+              "name": "kl-select",
+              "type": {
+                "text": "CustomEvent<{ item: Element; value: string | null }>"
+              }
+            }
+          ],
+          "slots": [],
+          "cssProperties": [
+            {
+              "name": "--kl-menu-bg"
+            },
+            {
+              "name": "--kl-menu-border-color"
+            },
+            {
+              "name": "--kl-menu-radius"
+            },
+            {
+              "name": "--kl-menu-shadow"
+            },
+            {
+              "name": "--kl-menu-padding"
+            },
+            {
+              "name": "--kl-menu-item-height"
+            },
+            {
+              "name": "--kl-menu-item-padding-x"
+            },
+            {
+              "name": "--kl-menu-item-radius"
+            },
+            {
+              "name": "--kl-menu-item-active-bg"
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "KlMenuItem",
+          "tagName": "kl-menu-item",
+          "customElement": true,
+          "description": "Child of <kl-menu>.",
+          "superclass": {
+            "name": "UIElement",
+            "module": "src/core/element.js"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "disabled",
+              "fieldName": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled",
+              "reflects": true,
+              "default": "false"
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "cssProperties": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlMenu",
+          "declaration": {
+            "name": "KlMenu",
+            "module": "src/components/menu/menu.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-menu",
+          "declaration": {
+            "name": "KlMenu",
+            "module": "src/components/menu/menu.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "KlMenuItem",
+          "declaration": {
+            "name": "KlMenuItem",
+            "module": "src/components/menu/menu.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-menu-item",
+          "declaration": {
+            "name": "KlMenuItem",
+            "module": "src/components/menu/menu.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/select/select.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlOption",
+          "tagName": "kl-option",
+          "customElement": true,
+          "description": "Child of <kl-select>.",
+          "superclass": {
+            "name": "UIElement",
+            "module": "src/core/element.js"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Defaults to the label."
+            },
+            {
+              "name": "disabled",
+              "fieldName": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "selected",
+              "fieldName": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Initial choice."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value",
+              "description": "Defaults to the label."
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "selected",
+              "reflects": true,
+              "default": "false",
+              "description": "Initial choice."
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "cssProperties": []
+        },
+        {
+          "kind": "class",
+          "name": "KlSelect",
+          "tagName": "kl-select",
+          "customElement": true,
+          "description": "Choose one option. <kl-select> is a custom select-only combobox; <select class=\"kl-select\"> is the styled native one (OS picker).",
+          "superclass": {
+            "name": "FormElement",
+            "module": "src/core/form-element.js"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "placeholder",
+              "fieldName": "placeholder",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "placement",
+              "fieldName": "placement",
+              "type": {
+                "text": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'"
+              },
+              "default": "\"bottom-start\""
+            },
+            {
+              "name": "size",
+              "fieldName": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "name",
+              "fieldName": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "disabled",
+              "fieldName": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "required",
+              "fieldName": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'"
+              },
+              "attribute": "placement",
+              "default": "\"bottom-start\""
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg'"
+              },
+              "attribute": "size",
+              "default": "\"md\""
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "required",
+              "reflects": true,
+              "default": "false"
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "cssProperties": []
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlOption",
+          "declaration": {
+            "name": "KlOption",
+            "module": "src/components/select/select.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-option",
+          "declaration": {
+            "name": "KlOption",
+            "module": "src/components/select/select.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "KlSelect",
+          "declaration": {
+            "name": "KlSelect",
+            "module": "src/components/select/select.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-select",
+          "declaration": {
+            "name": "KlSelect",
+            "module": "src/components/select/select.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/otp-input/otp-input.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlOtpInput",
+          "tagName": "kl-otp-input",
+          "customElement": true,
+          "description": "Boxes drawn over one real input, so SMS autofill, paste, password managers and screen readers work.",
+          "superclass": {
+            "name": "FormElement",
+            "module": "src/core/form-element.js"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "name": "length",
+              "fieldName": "length",
+              "type": {
+                "text": "number"
+              },
+              "default": "6"
+            },
+            {
+              "name": "type",
+              "fieldName": "type",
+              "type": {
+                "text": "'numeric' | 'alphanumeric'"
+              },
+              "default": "\"numeric\""
+            },
+            {
+              "name": "mask",
+              "fieldName": "mask",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Dots, password field."
+            },
+            {
+              "name": "autocomplete",
+              "fieldName": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"one-time-code\""
+            },
+            {
+              "name": "name",
+              "fieldName": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "disabled",
+              "fieldName": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "required",
+              "fieldName": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "length",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "length",
+              "default": "6"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "'numeric' | 'alphanumeric'"
+              },
+              "attribute": "type",
+              "default": "\"numeric\""
+            },
+            {
+              "kind": "field",
+              "name": "mask",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "mask",
+              "reflects": true,
+              "default": "false",
+              "description": "Dots, password field."
+            },
+            {
+              "kind": "field",
+              "name": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "autocomplete",
+              "default": "\"one-time-code\""
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "required",
+              "reflects": true,
+              "default": "false"
+            }
+          ],
+          "events": [
+            {
+              "name": "kl-complete",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              }
+            }
+          ],
+          "slots": [],
+          "cssProperties": [
+            {
+              "name": "--kl-otp-size"
+            },
+            {
+              "name": "--kl-otp-gap"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlOtpInput",
+          "declaration": {
+            "name": "KlOtpInput",
+            "module": "src/components/otp-input/otp-input.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-otp-input",
+          "declaration": {
+            "name": "KlOtpInput",
+            "module": "src/components/otp-input/otp-input.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/stepper/stepper.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlStepper",
+          "tagName": "kl-stepper",
+          "customElement": true,
+          "description": "Progress indicator for multi-step flows. Markers are numbered by CSS; complete steps show a check.",
+          "superclass": {
+            "name": "UIElement",
+            "module": "src/core/element.js"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Current step (1-based)."
+            },
+            {
+              "name": "orientation",
+              "fieldName": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "\"horizontal\""
+            },
+            {
+              "name": "labels",
+              "fieldName": "labels",
+              "type": {
+                "text": "{ completed?: string }"
+              },
+              "default": "{}",
+              "description": "{ completed }"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "value",
+              "reflects": true,
+              "default": "1",
+              "description": "Current step (1-based)."
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "attribute": "orientation",
+              "default": "\"horizontal\""
+            },
+            {
+              "kind": "field",
+              "name": "labels",
+              "type": {
+                "text": "{ completed?: string }"
+              },
+              "attribute": "labels",
+              "default": "{}",
+              "description": "{ completed }"
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "cssProperties": [
+            {
+              "name": "--kl-stepper-marker-size"
+            },
+            {
+              "name": "--kl-stepper-line-color"
+            },
+            {
+              "name": "--kl-stepper-line-done-color"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlStepper",
+          "declaration": {
+            "name": "KlStepper",
+            "module": "src/components/stepper/stepper.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-stepper",
+          "declaration": {
+            "name": "KlStepper",
+            "module": "src/components/stepper/stepper.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/switch/switch.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlSwitch",
+          "tagName": "kl-switch",
+          "customElement": true,
+          "description": "On/off switch (role=switch) whose content is its label. For settings that apply immediately.",
+          "superclass": {
+            "name": "ToggleElement",
+            "module": "src/core/toggle-element.js"
+          },
+          "attributes": [
+            {
+              "name": "checked",
+              "fieldName": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"on\""
+            },
+            {
+              "name": "name",
+              "fieldName": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "disabled",
+              "fieldName": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "required",
+              "fieldName": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "checked",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value",
+              "default": "\"on\""
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled",
+              "reflects": true,
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "required",
+              "reflects": true,
+              "default": "false"
+            }
+          ],
+          "events": [],
+          "slots": [],
+          "cssProperties": [
+            {
+              "name": "--kl-switch-width"
+            },
+            {
+              "name": "--kl-switch-height"
+            },
+            {
+              "name": "--kl-switch-thumb-size"
+            },
+            {
+              "name": "--kl-switch-thumb-size-checked"
+            },
+            {
+              "name": "--kl-switch-track-off"
+            },
+            {
+              "name": "--kl-switch-track-border-width"
+            },
+            {
+              "name": "--kl-switch-track-border-color"
+            },
+            {
+              "name": "--kl-switch-thumb-off"
+            },
+            {
+              "name": "--kl-switch-thumb-on"
+            },
+            {
+              "name": "--kl-switch-thumb-shadow"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlSwitch",
+          "declaration": {
+            "name": "KlSwitch",
+            "module": "src/components/switch/switch.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-switch",
+          "declaration": {
+            "name": "KlSwitch",
+            "module": "src/components/switch/switch.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/tabs/tabs.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlTabs",
+          "tagName": "kl-tabs",
+          "customElement": true,
+          "description": "WAI-ARIA tabs over your own buttons and panels (paired by value or order). Your elements are never moved.",
+          "superclass": {
+            "name": "UIElement",
+            "module": "src/core/element.js"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "fieldName": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Selected tab's value."
+            },
+            {
+              "name": "activation",
+              "fieldName": "activation",
+              "type": {
+                "text": "'auto' | 'manual'"
+              },
+              "default": "\"auto\""
+            },
+            {
+              "name": "orientation",
+              "fieldName": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "\"horizontal\""
+            },
+            {
+              "name": "variant",
+              "fieldName": "variant",
+              "type": {
+                "text": "'segmented' | 'underline'"
+              },
+              "description": "Default: the style's own."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value",
+              "reflects": true,
+              "description": "Selected tab's value."
+            },
+            {
+              "kind": "field",
+              "name": "activation",
+              "type": {
+                "text": "'auto' | 'manual'"
+              },
+              "attribute": "activation",
+              "default": "\"auto\""
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "attribute": "orientation",
+              "default": "\"horizontal\""
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "'segmented' | 'underline'"
+              },
+              "attribute": "variant",
+              "description": "Default: the style's own."
+            }
+          ],
+          "events": [
+            {
+              "name": "kl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string; tab: Element; panel: Element | null }>"
+              }
+            }
+          ],
+          "slots": [],
+          "cssProperties": [
+            {
+              "name": "--kl-tabs-list-bg"
+            },
+            {
+              "name": "--kl-tabs-list-padding"
+            },
+            {
+              "name": "--kl-tabs-list-radius"
+            },
+            {
+              "name": "--kl-tabs-list-border-color"
+            },
+            {
+              "name": "--kl-tabs-list-width"
+            },
+            {
+              "name": "--kl-tab-height"
+            },
+            {
+              "name": "--kl-tab-radius"
+            },
+            {
+              "name": "--kl-tab-fg"
+            },
+            {
+              "name": "--kl-tab-selected-fg"
+            },
+            {
+              "name": "--kl-tab-selected-bg"
+            },
+            {
+              "name": "--kl-tab-selected-shadow"
+            },
+            {
+              "name": "--kl-tab-indicator-height"
+            },
+            {
+              "name": "--kl-tab-indicator-color"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlTabs",
+          "declaration": {
+            "name": "KlTabs",
+            "module": "src/components/tabs/tabs.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-tabs",
+          "declaration": {
+            "name": "KlTabs",
+            "module": "src/components/tabs/tabs.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/transaction-list/transaction-list.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "KlTransactionList",
+          "tagName": "kl-transaction-list",
+          "customElement": true,
+          "description": "Grouped, formatted transactions. The element renders from data (text only, safe links); the classes are for framework-rendered markup.",
+          "superclass": {
+            "name": "UIElement",
+            "module": "src/core/element.js"
+          },
+          "attributes": [
+            {
+              "name": "items",
+              "fieldName": "items",
+              "type": {
+                "text": "TransactionItem[]"
+              },
+              "default": "[]",
+              "description": "{ id, title, amount, currency?, direction?, date, meta?, status?, icon?, href? }"
+            },
+            {
+              "name": "currency",
+              "fieldName": "currency",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"NGN\""
+            },
+            {
+              "name": "locale",
+              "fieldName": "locale",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "group-by",
+              "fieldName": "groupBy",
+              "type": {
+                "text": "'day' | 'none'"
+              },
+              "default": "\"day\""
+            },
+            {
+              "name": "heading-level",
+              "fieldName": "headingLevel",
+              "type": {
+                "text": "number"
+              },
+              "default": "3"
+            },
+            {
+              "name": "selectable",
+              "fieldName": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
+            },
+            {
+              "name": "labels",
+              "fieldName": "labels",
+              "type": {
+                "text": "Partial<Record<'today' | 'yesterday' | 'received' | 'sent' | 'pending' | 'failed' | 'empty', string>>"
+              },
+              "default": "{}",
+              "description": "today, yesterday, received, sent, pending, failed, empty"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "TransactionItem[]"
+              },
+              "attribute": "items",
+              "default": "[]",
+              "description": "{ id, title, amount, currency?, direction?, date, meta?, status?, icon?, href? }"
+            },
+            {
+              "kind": "field",
+              "name": "currency",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "currency",
+              "default": "\"NGN\""
+            },
+            {
+              "kind": "field",
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "locale"
+            },
+            {
+              "kind": "field",
+              "name": "groupBy",
+              "type": {
+                "text": "'day' | 'none'"
+              },
+              "attribute": "group-by",
+              "default": "\"day\""
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "heading-level",
+              "default": "3"
+            },
+            {
+              "kind": "field",
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "selectable",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "labels",
+              "type": {
+                "text": "Partial<Record<'today' | 'yesterday' | 'received' | 'sent' | 'pending' | 'failed' | 'empty', string>>"
+              },
+              "attribute": "labels",
+              "default": "{}",
+              "description": "today, yesterday, received, sent, pending, failed, empty"
+            }
+          ],
+          "events": [
+            {
+              "name": "kl-select",
+              "type": {
+                "text": "CustomEvent<{ item: TransactionItem }>"
+              }
+            }
+          ],
+          "slots": [],
+          "cssProperties": [
+            {
+              "name": "--kl-txn-icon-size"
+            },
+            {
+              "name": "--kl-txn-icon-bg"
+            },
+            {
+              "name": "--kl-txn-icon-radius"
+            },
+            {
+              "name": "--kl-txn-row-padding-y"
+            },
+            {
+              "name": "--kl-txn-credit-fg"
+            },
+            {
+              "name": "--kl-txn-divider-color"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "KlTransactionList",
+          "declaration": {
+            "name": "KlTransactionList",
+            "module": "src/components/transaction-list/transaction-list.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "kl-transaction-list",
+          "declaration": {
+            "name": "KlTransactionList",
+            "module": "src/components/transaction-list/transaction-list.js"
+          }
+        }
+      ]
+    }
+  ]
+}

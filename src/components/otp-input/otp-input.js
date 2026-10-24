@@ -16,6 +16,7 @@ import { define } from '../../core/element.js';
 import { createInnerInput, connectInnerInput, syncInnerAria } from '../../core/inner-control.js';
 
 export class KlOtpInput extends FormElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     value: { type: String, default: '' },
     length: { type: Number, default: 6 },

@@ -28,6 +28,7 @@ const ensureId = (el, prefix) => (el.id ||= `kl-${prefix}-${++uid}`);
 let focusQueued = null;
 
 export class KlField extends UIElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     error: { type: String },
   };

@@ -166,6 +166,7 @@ export function menuController(panel, { signal, placement = () => 'bottom-start'
 }
 
 export class KlMenu extends UIElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     placement: { type: String, default: 'bottom-start' },
   };

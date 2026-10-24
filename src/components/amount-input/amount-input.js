@@ -31,6 +31,7 @@ import {
 } from '../../core/money.js';
 
 export class KlAmountInput extends FormElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     value: { type: String, default: '' },
     currency: { type: String, default: 'NGN' },

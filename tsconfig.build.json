@@ -1,0 +1,19 @@
+{
+  "//": "Emits .d.ts files from the JSDoc in src/ into types/src/. Run via npm run build:types.",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "types",
+    "rootDir": ".",
+    "target": "es2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "strict": false,
+    "skipLibCheck": true,
+    "types": []
+  },
+  "include": ["src/**/*.js"]
+}

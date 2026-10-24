@@ -20,6 +20,7 @@ function valueMissingMessage() {
 }
 
 export class ToggleElement extends FormElement {
+  /** @type {import('./element.js').PropertyDeclarations} */
   static properties = {
     checked: { type: Boolean, reflect: true },
     value: { type: String, default: 'on' },

@@ -1,0 +1,15 @@
+{
+  "//": "Type tests for the published typings: npm run check:types",
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "target": "es2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["es2023", "dom", "dom.iterable"],
+    "jsx": "react-jsx",
+    "skipLibCheck": false,
+    "types": []
+  },
+  "include": ["*.ts", "*.tsx"]
+}

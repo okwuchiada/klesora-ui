@@ -37,7 +37,8 @@
   "events": [
     {
       "name": "kl-change",
-      "detail": "{ value, tab, panel }"
+      "detail": "{ value, tab, panel }",
+      "detailType": "{ value: string; tab: Element; panel: Element | null }"
     }
   ],
   "tokens": [

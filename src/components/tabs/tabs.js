@@ -148,6 +148,7 @@ export function tabsController(root, { signal, activation = () => 'auto', orient
 }
 
 export class KlTabs extends UIElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     value: { type: String, reflect: true },
     activation: { type: String, default: 'auto' },

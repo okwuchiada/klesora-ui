@@ -30,6 +30,7 @@ const FORWARD = {
 };
 
 export class KlInput extends FormElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     value: { type: String, default: '' },
     type: { type: String, default: 'text' },

@@ -16,6 +16,7 @@ import { define } from '../../core/element.js';
 import { press, onPressEnd } from '../../core/press.js';
 
 export class KlButton extends FormElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     variant: { type: String, data: true, default: 'solid' },
     size: { type: String, data: true, default: 'md' },

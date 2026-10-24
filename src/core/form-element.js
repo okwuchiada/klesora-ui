@@ -29,6 +29,7 @@ export const formActions = {
 export class FormElement extends UIElement {
   static formAssociated = true;
 
+  /** @type {import('./element.js').PropertyDeclarations} */
   static properties = {
     name: { type: String, reflect: true },
     disabled: { type: Boolean, reflect: true },

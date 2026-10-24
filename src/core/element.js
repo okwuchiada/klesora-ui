@@ -24,6 +24,8 @@
  * @property {unknown | (() => unknown)} [default] Initial value. Use a function for objects and arrays.
  */
 
+/** @typedef {Record<string, PropertyOptions>} PropertyDeclarations */
+
 const Base = /** @type {typeof HTMLElement} */ (globalThis.HTMLElement ?? class {});
 
 const VALUES = Symbol('values');
@@ -106,7 +108,7 @@ function finalize(cls) {
 }
 
 export class UIElement extends Base {
-  /** @type {Record<string, PropertyOptions>} */
+  /** @type {PropertyDeclarations} */
   static properties = {};
 
   static get observedAttributes() {

@@ -7,25 +7,30 @@
     {
       "name": "value",
       "type": "string",
-      "description": "Decimal in the main unit, e.g. \"45000.50\". Submitted padded to the currency's decimals."
+      "description": "Decimal in the main unit, e.g. \"45000.50\". Submitted padded to the currency's decimals.",
+      "tsType": "string"
     },
     {
       "name": "currency",
       "type": "ISO 4217 code",
-      "default": "NGN"
+      "default": "NGN",
+      "tsType": "string"
     },
     {
       "name": "locale",
       "type": "BCP 47",
-      "default": "<html lang>"
+      "default": "<html lang>",
+      "tsType": "string"
     },
     {
       "name": "min",
-      "type": "decimal string"
+      "type": "decimal string",
+      "tsType": "string"
     },
     {
       "name": "max",
-      "type": "decimal string"
+      "type": "decimal string",
+      "tsType": "string"
     },
     {
       "name": "required",

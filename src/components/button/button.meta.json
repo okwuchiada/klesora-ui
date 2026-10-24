@@ -37,6 +37,16 @@
       "name": "type",
       "type": "'submit' | 'reset' | 'button'",
       "default": "submit"
+    },
+    {
+      "name": "popovertarget",
+      "type": "string",
+      "description": "Id of a popover to toggle, like on <button>."
+    },
+    {
+      "name": "popovertargetaction",
+      "type": "'toggle' | 'show' | 'hide'",
+      "default": "toggle"
     }
   ],
   "events": [

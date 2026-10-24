@@ -53,6 +53,7 @@ const safeHref = (href) => {
 const dayKey = (d) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
 
 export class KlTransactionList extends UIElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     items: { type: Array, default: () => [] },
     currency: { type: String, default: 'NGN' },

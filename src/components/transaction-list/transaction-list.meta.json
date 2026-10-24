@@ -8,7 +8,8 @@
     {
       "name": "items",
       "type": "TransactionItem[]",
-      "description": "{ id, title, amount, currency?, direction?, date, meta?, status?, icon?, href? }"
+      "description": "{ id, title, amount, currency?, direction?, date, meta?, status?, icon?, href? }",
+      "tsType": "TransactionItem[]"
     },
     {
       "name": "currency",
@@ -36,7 +37,8 @@
     {
       "name": "labels",
       "type": "object",
-      "description": "today, yesterday, received, sent, pending, failed, empty"
+      "description": "today, yesterday, received, sent, pending, failed, empty",
+      "tsType": "Partial<Record<'today' | 'yesterday' | 'received' | 'sent' | 'pending' | 'failed' | 'empty', string>>"
     }
   ],
   "parts": [
@@ -56,7 +58,8 @@
   "events": [
     {
       "name": "kl-select",
-      "detail": "{ item }"
+      "detail": "{ item }",
+      "detailType": "{ item: TransactionItem }"
     }
   ],
   "tokens": [

@@ -423,6 +423,14 @@ Source files ship as native ES modules and plain CSS, so no build step is needed
 | `klesora-ui/services/toast` | just the toast service |
 | `klesora-ui/directives/tooltip` | just the tooltip directive |
 
+## 9b. Typings and manifest
+
+- `types/` and `custom-elements.json` are generated (`npm run build:types`) and committed. Never edit them by hand.
+- Attributes, types and defaults come from each element's `static properties`, read by importing the modules in Node. Descriptions, events, slots and tokens come from `*.meta.json`. `npm run check:types` fails when an attribute is in code but not documented (or the reverse), when outputs are stale, or when `types-test/` stops type-checking.
+- In `*.meta.json`, `type` may be any readable text. Add `tsType` when it isn't valid TypeScript (e.g. `TransactionItem[]`). Give events a `detailType`, and mark attributes read with `getAttribute` (not reactive properties) as `attributeOnly`.
+- Annotate every `static properties` with `/** @type {import('…/core/element.js').PropertyDeclarations} */`, so subclasses type-check against their base.
+- Framework typings are opt-in, type-only imports: `klesora-ui/types/react`, `/vue`, `/svelte`.
+
 ## 10. Browser support
 
 Chrome / Edge 119+, Firefox 128+, Safari 17+. This baseline gives cascade layers, `color-mix()`, relative colour syntax (used for the automatic `--kl-brand-fg`), custom elements, form-associated elements and `<dialog>` with no polyfills.

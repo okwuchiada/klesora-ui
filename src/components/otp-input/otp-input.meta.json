@@ -44,7 +44,8 @@
   "events": [
     {
       "name": "kl-complete",
-      "detail": "{ value }"
+      "detail": "{ value }",
+      "detailType": "{ value: string }"
     },
     {
       "name": "input",

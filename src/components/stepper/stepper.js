@@ -15,6 +15,7 @@
 import { UIElement, define } from '../../core/element.js';
 
 export class KlStepper extends UIElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     value: { type: Number, reflect: true, default: 1 },
     orientation: { type: String, data: true, default: 'horizontal' },

@@ -36,6 +36,7 @@ function valueMissingMessage() {
 }
 
 export class KlOption extends UIElement {
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     value: { type: String },
     disabled: { type: Boolean, reflect: true },

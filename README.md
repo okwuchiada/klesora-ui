@@ -14,7 +14,7 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 10 of the roadmap: encryption and secure storage). Not yet published.
+> Status: early development (Step 11 of the roadmap: framework integration (typings, custom-elements.json, setup notes)). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -68,6 +68,10 @@ theme.set({ style: 'solo', theme: 'dark' }); // remembered; see CONVENTIONS.md ย
 
 The CSS also includes a gentle reset, page defaults (nested themes paint themselves) and a small set of utilities: `.kl-stack`, `.kl-cluster`, `.kl-grid`, `.kl-container`, `.kl-surface`, `.kl-sr-only`, `.kl-truncate` and more (CONVENTIONS.md ยง4).
 
+## Frameworks
+
+Works in plain HTML, React, Vue, Angular and Svelte. Setup, binding, typed templates and server-rendering notes: [FRAMEWORKS.md](./FRAMEWORKS.md).
+
 ## Secure storage
 
 ```js
@@ -103,6 +107,8 @@ npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: 
 npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 npm test               # Playwright tests in Chromium, Firefox and WebKit (starts the dev server)
+npm run build:types    # regenerate types/ and custom-elements.json from the components
+npm run check:types    # fail if typings drift from the code or stop type-checking
 ```
 
 ## Rules

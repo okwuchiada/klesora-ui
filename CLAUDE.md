@@ -28,7 +28,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 8. ✅ Layout and data: `src/components/{card,tabs,table,navbar,sidebar}/`, directives `tabs`, `table`, `navbar`, `sidebar`; test page `tests/layout.html` (app shell), tests `e2e/layout.spec.ts`
 9. ✅ Fintech extras: `src/components/{amount-input,otp-input,transaction-list,stepper}/`, `src/core/money.js`, `src/core/inner-control.js`; test page `tests/fintech.html`, tests `e2e/fintech.spec.ts`
 10. ✅ Encryption and secure storage: `src/services/crypto.js` (`encryption`), `src/services/secure-storage.js` (`secureStorage`), SECURITY.md (honest threat model + reporting); test page `tests/security.html`, tests `e2e/security.spec.ts`
-11. Framework integration: .d.ts files, custom-elements.json, Angular/Vue setup notes
+11. ✅ Framework integration: `scripts/build-manifest.mjs` (+ `tsconfig.build.json`) generates `types/` and `custom-elements.json` from code + meta; type tests in `types-test/`; FRAMEWORKS.md (HTML, React 19/18, Next.js, Vue, Angular CVA, Svelte)
 12. Docs site generated from each component's `*.meta.json`, with a live style and theme switcher
 13. CLI: init (choose style), switch-style, add/eject
 14. Testing: Playwright + axe, visual checks across 3 styles × light/dark
@@ -54,6 +54,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - Step 8 (user chose): table sorting is event-based (`kl-sort`), DOM re-ordering only with `data-kl-table="dom"`. Phones get a scrolling table wrapper (sticky header and first column) plus opt-in `data-stacked`. Tabs: segmented in Mono/Solo, underline in Chorus, with `variant` to override. Elements only where there's behaviour (`<kl-tabs>`); the rest are classes + directives.
 - Step 9 (user chose): amounts are exact decimal strings (`minorUnits` helper, BigInt beyond MAX_SAFE); live grouping while typing; OTP = one real input drawn as boxes; transaction list = classes + data-driven element; stepper = indicator only.
 - Step 10 (user chose): device-key and passphrase modes (device default); PBKDF2 600k; passphrase stores auto-lock after 5 idle minutes, optional lockOnHide. Store/key names are bound as AES-GCM aad. Chromium rejects `additionalData: undefined`, so only pass it when set.
+- Step 11 (user chose): React = types only (React 19 native custom elements; React 18 via refs); Angular forms = copy-paste ControlValueAccessor in FRAMEWORKS.md (no Angular dependency). Next.js: register elements after hydration.
 - Open item: validation messages in amount/OTP/dialog/toast default to English. A consistent i18n option (like the transaction list's `labels`) would help before 1.0.
 - Styles never change duration primitives; they pick steps via `--kl-motion-*`, so reduced motion keeps working.
 
@@ -62,6 +63,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - `npm run dev`: static server at http://localhost:5173 (test pages under /tests/).
 - `npm run check:tokens`: gamut, WCAG contrast (light + dark), drift. It must pass. Extend its `pairs` list when you add colour pairs.
 - `npm run gen:palette`: regenerate the colour scales.
+- `npm run build:types` / `npm run check:types`: generated typings + manifest, and their type tests. Run build:types after changing any element's properties or meta.
 - `npm test`: Playwright (`e2e/`) in chromium, firefox and webkit; the config starts the dev server on port 5180.
 
 ## How the user likes to work
@@ -69,7 +71,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - Ask clarifying questions before big or ambiguous work. One focused step at a time; they will correct assumptions quickly.
 - Keep it simple and direct. Short summaries of what changed, not long recaps.
 - Before finishing each step:
-  - `npm run check:tokens` and `npm test` pass. Add e2e tests for new behaviour.
+  - `npm run check:tokens`, `npm run check:types` and `npm test` pass. Add e2e tests for new behaviour.
   - Check the relevant test page in light and dark, and in every style built so far. Fix anything that looks wrong.
   - Update CONVENTIONS.md and README.md if anything public changed.
   - **Do not commit** (since Step 3). Leave changes uncommitted for the user; a suggested conventional message (feat:, fix:, docs:…) is fine.

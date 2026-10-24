@@ -15,23 +15,51 @@
     "framework-agnostic"
   ],
   "exports": {
-    ".": "./src/index.js",
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    },
     "./css": "./src/klesora-ui.css",
     "./css/*": "./src/css/*.css",
     "./tokens/*": "./src/tokens/*.css",
     "./styles/*": "./src/styles/*.css",
-    "./core/*": "./src/core/*.js",
-    "./components/*": "./src/components/*/*.js",
+    "./core/*": {
+      "types": "./types/src/core/*.d.ts",
+      "default": "./src/core/*.js"
+    },
     "./components/*.css": "./src/components/*/*.css",
-    "./directives/*": "./src/directives/*.js",
-    "./services/*": "./src/services/*.js",
+    "./components/*": {
+      "types": "./types/src/components/*/*.d.ts",
+      "default": "./src/components/*/*.js"
+    },
+    "./directives/*": {
+      "types": "./types/src/directives/*.d.ts",
+      "default": "./src/directives/*.js"
+    },
+    "./services/*": {
+      "types": "./types/src/services/*.d.ts",
+      "default": "./src/services/*.js"
+    },
+    "./types/react": {
+      "types": "./types/react.d.ts"
+    },
+    "./types/vue": {
+      "types": "./types/vue.d.ts"
+    },
+    "./types/svelte": {
+      "types": "./types/svelte.d.ts"
+    },
+    "./custom-elements.json": "./custom-elements.json",
     "./package.json": "./package.json"
   },
   "files": [
     "src",
     "dist",
     "CONVENTIONS.md",
-    "SECURITY.md"
+    "SECURITY.md",
+    "types",
+    "custom-elements.json",
+    "FRAMEWORKS.md"
   ],
   "sideEffects": [
     "**/*.css",
@@ -43,7 +71,9 @@
     "dev": "node scripts/serve.mjs",
     "gen:palette": "node scripts/gen-palette.mjs",
     "check:tokens": "node scripts/check-tokens.mjs",
-    "test": "playwright test"
+    "test": "playwright test",
+    "build:types": "rm -rf types && tsc -p tsconfig.build.json && node scripts/build-manifest.mjs",
+    "check:types": "node scripts/build-manifest.mjs --check && tsc -p types-test/tsconfig.json"
   },
   "engines": {
     "node": ">=18"
@@ -61,6 +91,12 @@
     "@custom-elements-manifest/analyzer": "^0.11.0",
     "@playwright/test": "^1.64.1",
     "@types/node": "^26.6.5",
-    "esbuild": "^0.28.2"
-  }
+    "@types/react": "^19.3.0",
+    "esbuild": "^0.28.2",
+    "svelte": "^5.57.2",
+    "typescript": "^7.0.2",
+    "vue": "^3.5.44"
+  },
+  "types": "./types/index.d.ts",
+  "customElements": "custom-elements.json"
 }

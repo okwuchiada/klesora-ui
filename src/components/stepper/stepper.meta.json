@@ -19,7 +19,8 @@
     {
       "name": "labels",
       "type": "object",
-      "description": "{ completed }"
+      "description": "{ completed }",
+      "tsType": "{ completed?: string }"
     }
   ],
   "parts": [

@@ -13,7 +13,8 @@
     {
       "name": "placement",
       "type": "Placement",
-      "default": "bottom-start"
+      "default": "bottom-start",
+      "tsType": "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end' | 'right-start' | 'right-end'"
     }
   ],
   "children": [
@@ -40,7 +41,8 @@
     {
       "name": "kl-select",
       "detail": "{ item: Element, value: string | null }",
-      "cancelable": true
+      "cancelable": true,
+      "detailType": "{ item: Element; value: string | null }"
     }
   ],
   "tokens": [

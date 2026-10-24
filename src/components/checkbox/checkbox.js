@@ -12,6 +12,7 @@ import { define } from '../../core/element.js';
 export class KlCheckbox extends ToggleElement {
   static role = 'checkbox';
 
+  /** @type {import('../../core/element.js').PropertyDeclarations} */
   static properties = {
     indeterminate: { type: Boolean, reflect: true },
   };

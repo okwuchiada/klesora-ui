@@ -1,0 +1,182 @@
+/*
+ * Toasts, rendered by the toast service (src/services/toast.js) into .kl-toaster.
+ * Placement comes from --kl-toaster-align (per style) or data-position (toast.configure).
+ */
+.kl-toaster {
+  --_gap: var(--kl-space-4);
+
+  position: fixed;
+  inset: auto var(--_gap) var(--_gap);
+  inline-size: auto; /* the UA popover style is fit-content; we want the full-width band */
+  block-size: auto;
+  max-inline-size: none;
+  z-index: var(--kl-z-toast);
+  display: flex;
+  flex-direction: column;
+  align-items: var(--kl-toaster-align);
+  gap: var(--kl-space-2);
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+.kl-toaster[data-position^="top"] {
+  inset-block: var(--_gap) auto;
+  flex-direction: column-reverse;
+}
+
+.kl-toaster[data-position$="start"] { align-items: start; }
+.kl-toaster[data-position$="center"] { align-items: center; }
+.kl-toaster[data-position$="end"] { align-items: end; }
+
+.kl-toast {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--kl-space-3);
+  inline-size: min(24rem, 100%);
+  min-block-size: var(--kl-control-height-lg);
+  padding: var(--kl-space-3) var(--kl-space-3) var(--kl-space-3) var(--kl-space-4);
+  border: var(--kl-border-width) solid var(--kl-toast-border-color);
+  border-radius: var(--kl-toast-radius);
+  background-color: var(--kl-toast-bg);
+  color: var(--kl-toast-fg);
+  box-shadow: var(--kl-toast-shadow);
+  font-family: var(--kl-font-body);
+  font-size: var(--kl-text-sm);
+  line-height: var(--kl-leading-snug);
+  pointer-events: auto;
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity var(--kl-motion-long) var(--kl-motion-ease-enter),
+    translate var(--kl-motion-long) var(--kl-motion-ease-enter);
+}
+
+@starting-style {
+  .kl-toast {
+    opacity: 0;
+    translate: 0 0.75rem;
+  }
+}
+
+.kl-toaster[data-position^="top"] .kl-toast {
+  @starting-style {
+    translate: 0 -0.75rem;
+  }
+}
+
+.kl-toast[data-state="closing"] {
+  opacity: 0;
+  translate: 0 0.5rem;
+  transition-timing-function: var(--kl-motion-ease-exit);
+}
+
+.kl-toast__icon {
+  display: var(--kl-toast-icon-display);
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  flex-shrink: 0;
+  background-color: var(--_tone, currentColor);
+  mask: var(--_icon) center / contain no-repeat;
+}
+
+.kl-toast[data-tone="neutral"] .kl-toast__icon {
+  display: none;
+}
+
+.kl-toast[data-tone="info"] {
+  --_tone: var(--kl-color-info-text);
+  --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 15h-2v-6h2v6Zm0-8h-2V7h2v2Z'/%3E%3C/svg%3E");
+}
+
+.kl-toast[data-tone="success"] {
+  --_tone: var(--kl-color-success-text);
+  --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.5 14.5-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7Z'/%3E%3C/svg%3E");
+}
+
+.kl-toast[data-tone="warning"] {
+  --_tone: var(--kl-color-warning-text);
+  --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M1 21h22L12 2 1 21Zm12-3h-2v-2h2v2Zm0-4h-2v-4h2v4Z'/%3E%3C/svg%3E");
+}
+
+.kl-toast[data-tone="danger"] {
+  --_tone: var(--kl-color-danger-text);
+  --_icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 15h-2v-2h2v2Zm0-4h-2V7h2v6Z'/%3E%3C/svg%3E");
+}
+
+.kl-toast__text {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.kl-toast__title {
+  margin: 0;
+  font-weight: var(--kl-weight-medium);
+}
+
+.kl-toast__description {
+  margin: var(--kl-space-1) 0 0;
+  color: var(--kl-toast-muted);
+}
+
+/* The action and close buttons sit on the toast's own surface (inverse in Chorus) */
+.kl-toast .kl-toast__action {
+  --_fg: var(--kl-toast-fg);
+  --_bg-hover: color-mix(in oklab, var(--kl-toast-fg) 10%, transparent);
+  --_bg-active: color-mix(in oklab, var(--kl-toast-fg) 16%, transparent);
+  flex-shrink: 0;
+  font-weight: var(--kl-weight-semibold);
+}
+
+.kl-toast__close {
+  flex-shrink: 0;
+  inline-size: var(--kl-control-height-sm);
+  block-size: var(--kl-control-height-sm);
+  padding: 0;
+  border: 0;
+  border-radius: var(--kl-radius-sm);
+  background-color: transparent;
+  color: var(--kl-toast-muted);
+  cursor: pointer;
+}
+
+.kl-toast__close::before {
+  content: "";
+  display: block;
+  inline-size: 1rem;
+  block-size: 1rem;
+  margin: auto;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+@media (hover: hover) {
+  .kl-toast__close:hover {
+    background-color: color-mix(in oklab, var(--kl-toast-fg) 10%, transparent);
+    color: var(--kl-toast-fg);
+  }
+}
+
+.kl-toast :focus-visible {
+  outline: var(--kl-ring-width) solid currentColor;
+  outline-offset: 1px;
+}
+
+/* Phones: full width, bottom centre */
+@media (max-width: 40rem) {
+  .kl-toaster,
+  .kl-toaster[data-position] {
+    inset: auto var(--kl-space-2) var(--kl-space-2);
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .kl-toast {
+    inline-size: 100%;
+  }
+}

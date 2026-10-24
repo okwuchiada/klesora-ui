@@ -1,0 +1,67 @@
+{
+  "name": "toast",
+  "title": "Toast",
+  "class": "kl-toast",
+  "service": "toast",
+  "description": "Short, non-blocking notifications. Announced politely (errors assertively), paused on hover/focus, placed per style.",
+  "api": [
+    "toast(message, options) → { id, update(options), dismiss() }",
+    "toast.info / success / warning / error(message, options)",
+    "toast.dismiss(id?)",
+    "toast.configure({ position, max, container, label })"
+  ],
+  "options": [
+    {
+      "name": "description",
+      "type": "string"
+    },
+    {
+      "name": "tone",
+      "type": "'neutral' | 'info' | 'success' | 'warning' | 'danger'"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "default": "5000 (errors 8000); Infinity = until dismissed"
+    },
+    {
+      "name": "action",
+      "type": "{ label, onClick(toast) }",
+      "description": "onClick returning false keeps the toast open."
+    },
+    {
+      "name": "dismissible",
+      "type": "boolean",
+      "default": "true"
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "description": "Reuse to update in place."
+    },
+    {
+      "name": "dismissLabel",
+      "type": "string",
+      "default": "Dismiss"
+    }
+  ],
+  "tokens": [
+    "--kl-toast-bg",
+    "--kl-toast-fg",
+    "--kl-toast-muted",
+    "--kl-toast-border-color",
+    "--kl-toast-radius",
+    "--kl-toast-shadow",
+    "--kl-toast-icon-display",
+    "--kl-toaster-align"
+  ],
+  "examples": [
+    {
+      "title": "Service",
+      "js": "toast.success('Payment sent', { description: '₦45,000 to Ada Obi' });\nconst t = toast('Uploading…', { duration: Infinity });\nt.update({ message: 'Uploaded', tone: 'success', duration: 4000 });"
+    }
+  ],
+  "notes": [
+    "While a modal dialog is open, the toaster moves inside it so toast buttons stay usable."
+  ]
+}

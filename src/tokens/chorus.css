@@ -105,4 +105,16 @@
   --kl-menu-item-radius: 0;
   --kl-menu-item-active-bg: color-mix(in oklab, var(--kl-color-fg) 10%, var(--kl-menu-bg));
   --kl-tooltip-radius: var(--kl-radius-xs);
+  --kl-dialog-radius: calc(var(--kl-radius-xl) * 1.17);
+  --kl-dialog-border-color: transparent;
+  --kl-dialog-shadow: var(--kl-shadow-3);
+  /* Material snackbar: inverse surface, no icon, bottom-start */
+  --kl-toast-bg: var(--kl-color-fg);
+  --kl-toast-fg: var(--kl-color-bg);
+  --kl-toast-muted: color-mix(in oklab, var(--kl-color-bg) 80%, var(--kl-color-fg));
+  --kl-toast-border-color: transparent;
+  --kl-toast-radius: var(--kl-radius-xs);
+  --kl-toast-shadow: var(--kl-shadow-3);
+  --kl-toast-icon-display: none;
+  --kl-toaster-align: start;
 }

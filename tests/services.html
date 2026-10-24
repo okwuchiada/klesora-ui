@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- themeInitScript (from klesora-ui/services/theme), inlined first so the stored theme applies before paint -->
+  <script>(function applyStored(key) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(key) || 'null');
+    if (!saved) return;
+    const root = document.documentElement;
+    if (saved.style) root.setAttribute('data-kl-style', saved.style);
+    if (saved.theme) root.setAttribute('data-kl-theme', saved.theme);
+    if (saved.brand) root.style.setProperty('--kl-brand', saved.brand);
+  } catch {
+    /* storage blocked or corrupt: keep the page defaults */
+  }
+})("kl-theme");</script>
+  <script>window.__early = { theme: document.documentElement.getAttribute('data-kl-theme'), style: document.documentElement.getAttribute('data-kl-style') };</script>
+  <title>Klesora UI · Services</title>
+  <link rel="stylesheet" href="../src/klesora-ui.css">
+  <script type="module" src="../src/index.js"></script>
+</head>
+<body>
+  <header class="kl-surface" data-variant="raised" data-elevation="1" style="position: sticky; top: 0; z-index: var(--kl-z-sticky); border-radius: var(--kl-radius-none)">
+    <div class="kl-container kl-cluster" data-justify="between" data-gap="4" style="padding-block: var(--kl-space-3)">
+      <h1 style="font-size: var(--kl-text-md); margin: 0">Klesora UI · Services</h1>
+      <div class="kl-cluster" data-gap="4">
+        <label class="kl-cluster">Style
+          <select id="style" class="kl-select" style="inline-size: auto; block-size: var(--kl-control-height-sm)"><option value="mono">Mono</option><option value="solo">Solo</option><option value="chorus">Chorus</option></select>
+        </label>
+        <label class="kl-cluster">Theme
+          <select id="theme" class="kl-select" style="inline-size: auto; block-size: var(--kl-control-height-sm)"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
+        </label>
+        <label class="kl-cluster">Brand <input id="brand" type="color" value="#0a7cff" aria-label="Brand colour"></label>
+        <kl-button size="sm" variant="ghost" id="toggle">Toggle light/dark</kl-button>
+        <kl-button size="sm" variant="ghost" id="reset">Reset</kl-button>
+      </div>
+    </div>
+  </header>
+
+  <main class="kl-container kl-stack" data-gap="12" style="padding-block: var(--kl-space-10)">
+    <section class="kl-stack" data-gap="4">
+      <h2>Theme service</h2>
+      <p class="kl-text-muted" style="margin: 0">Choices are remembered in localStorage and applied before paint by the inline head snippet. Reload to check.</p>
+      <pre id="theme-state" class="kl-surface" data-variant="muted" style="margin: 0; padding: var(--kl-space-3)"></pre>
+    </section>
+
+    <section class="kl-stack" data-gap="4">
+      <h2>Dialog service</h2>
+      <div class="kl-cluster">
+        <kl-button id="alert">Alert</kl-button>
+        <kl-button id="confirm" variant="secondary">Confirm</kl-button>
+        <kl-button id="danger" variant="danger">Delete beneficiary</kl-button>
+        <kl-button id="prompt" variant="outline">Rename card</kl-button>
+      </div>
+      <p id="dialog-result" class="kl-text-muted" style="margin: 0" aria-live="polite"></p>
+    </section>
+
+    <section class="kl-stack" data-gap="4">
+      <h2>Dialog markup</h2>
+      <div class="kl-cluster">
+        <kl-button variant="outline" data-kl-dialog-open="transfer-dialog" id="open-markup">Open transfer dialog</kl-button>
+      </div>
+      <dialog class="kl-dialog" id="transfer-dialog" data-kl-dialog closedby="any" aria-labelledby="transfer-title" aria-describedby="transfer-desc">
+        <form method="dialog">
+          <div class="kl-dialog__header">
+            <h2 class="kl-dialog__title" id="transfer-title">Send money</h2>
+            <p class="kl-dialog__description" id="transfer-desc">Funds arrive within one business day.</p>
+          </div>
+          <button class="kl-btn kl-dialog__close" data-variant="ghost" data-icon type="button" data-kl-close="close" aria-label="Close">✕</button>
+          <div class="kl-dialog__body">
+            <kl-field><label>Amount</label><kl-input name="amount" inputmode="decimal" required><span slot="start">₦</span></kl-input></kl-field>
+            <kl-field><label>Bank</label><kl-select name="bank" placeholder="Choose a bank"><kl-option>GTBank</kl-option><kl-option>Kuda</kl-option></kl-select></kl-field>
+          </div>
+          <div class="kl-dialog__footer">
+            <button class="kl-btn" data-variant="outline" type="button" data-kl-close="cancel">Cancel</button>
+            <button class="kl-btn" value="send">Send</button>
+          </div>
+        </form>
+      </dialog>
+      <p id="markup-result" class="kl-text-muted" style="margin: 0"></p>
+    </section>
+
+    <section class="kl-stack" data-gap="4">
+      <h2>Toast service</h2>
+      <div class="kl-cluster">
+        <kl-button variant="secondary" id="t-neutral">Neutral</kl-button>
+        <kl-button variant="secondary" id="t-info">Info</kl-button>
+        <kl-button variant="secondary" id="t-success">Success</kl-button>
+        <kl-button variant="secondary" id="t-warning">Warning</kl-button>
+        <kl-button variant="secondary" id="t-error">Error + action</kl-button>
+        <kl-button variant="secondary" id="t-progress">Progress → done</kl-button>
+        <kl-button variant="ghost" id="t-clear">Dismiss all</kl-button>
+      </div>
+      <label class="kl-cluster">Position
+        <select id="t-position" class="kl-select" style="inline-size: auto"><option value="">Style default</option><option>bottom-start</option><option>bottom-center</option><option>bottom-end</option><option>top-start</option><option>top-center</option><option>top-end</option></select>
+      </label>
+    </section>
+  </main>
+
+  <script type="module">
+    import { theme, dialog, toast } from '../src/index.js';
+    const $ = (id) => document.getElementById(id);
+    const sync = () => {
+      const s = theme.get();
+      $('style').value = s.style;
+      $('theme').value = s.theme;
+      if (s.brand) $('brand').value = s.brand;
+      $('theme-state').textContent = JSON.stringify({ ...s, stored: localStorage.getItem(theme.storageKey) }, null, 2);
+    };
+    theme.subscribe(sync);
+    sync();
+    $('style').onchange = (e) => theme.set({ style: e.target.value === 'mono' ? null : e.target.value });
+    $('theme').onchange = (e) => theme.set({ theme: e.target.value === 'system' ? null : e.target.value });
+    $('brand').oninput = (e) => theme.set({ brand: e.target.value });
+    $('toggle').onclick = () => theme.toggle();
+    $('reset').onclick = () => theme.reset();
+
+    const show = (v) => ($('dialog-result').textContent = `Result: ${JSON.stringify(v)}`);
+    $('alert').onclick = async () => show(await dialog.alert({ title: 'Statement ready', message: 'Your March statement has been emailed to you.' }));
+    $('confirm').onclick = async () => show(await dialog.confirm({ title: 'Send ₦45,000 to Ada Obi?', message: 'GTBank · 0123456789', confirmText: 'Send' }));
+    $('danger').onclick = async () => show(await dialog.confirm({ title: 'Delete beneficiary?', message: 'Ada Obi will be removed from your saved list.', confirmText: 'Delete', tone: 'danger' }));
+    $('prompt').onclick = async () => show(await dialog.prompt({ title: 'Rename card', label: 'Card name', defaultValue: 'Travel card', required: true, confirmText: 'Save' }));
+
+    $('transfer-dialog').addEventListener('close', (e) => ($('markup-result').textContent = `Closed with: ${JSON.stringify(e.target.returnValue)}`));
+
+    $('t-neutral').onclick = () => toast('Copied account number');
+    $('t-info').onclick = () => toast.info('Transfer scheduled', { description: 'Arrives within one business day.' });
+    $('t-success').onclick = () => toast.success('Payment sent', { description: '₦45,000.00 to Ada Obi' });
+    $('t-warning').onclick = () => toast.warning('Limit almost reached', { description: '₦12,500 left today.' });
+    $('t-error').onclick = () => toast.error('Transfer failed', { description: 'The bank did not respond.', action: { label: 'Retry', onClick: () => toast.success('Retried') } });
+    $('t-progress').onclick = () => {
+      const t = toast('Uploading statement…', { duration: Infinity, dismissible: false });
+      setTimeout(() => t.update({ message: 'Statement uploaded', tone: 'success', duration: 3000, dismissible: true }), 1500);
+    };
+    $('t-clear').onclick = () => toast.dismiss();
+    $('t-position').onchange = (e) => toast.configure({ position: e.target.value || null });
+  </script>
+</body>
+</html>

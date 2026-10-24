@@ -76,4 +76,10 @@
   --kl-menu-item-height: var(--kl-control-height-sm);
   --kl-menu-item-radius: var(--kl-radius-sm);
   --kl-tooltip-radius: var(--kl-radius-md);
+  --kl-dialog-radius: var(--kl-radius-xl);
+  --kl-dialog-border-color: transparent;
+  --kl-dialog-padding: var(--kl-space-8);
+  --kl-toast-radius: var(--kl-radius-lg);
+  --kl-toast-border-color: transparent;
+  --kl-toaster-align: center;
 }

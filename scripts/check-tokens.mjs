@@ -300,7 +300,7 @@ const TEXT = 4.5;
 const BODY = 7;
 const UI = 3;
 const pairs = [
-  // [foreground, background, minimum, label]
+  // [foreground, background, minimum, label, when?(vars)]
   ['--kl-color-fg', '--kl-color-bg', BODY, 'body text'],
   ['--kl-color-fg', '--kl-color-surface', BODY, 'body text on surface'],
   ['--kl-color-fg', '--kl-color-surface-raised', BODY, 'body text on raised'],
@@ -347,6 +347,15 @@ const pairs = [
   ['--kl-color-fg-muted', '--kl-menu-bg', TEXT, 'menu muted text'],
   ['--kl-color-fg', '--kl-menu-item-active-bg', TEXT, 'menu active item'],
   ['--kl-tooltip-fg', '--kl-tooltip-bg', TEXT, 'tooltip'],
+  ['--kl-color-fg', '--kl-dialog-bg', BODY, 'dialog text'],
+  ['--kl-color-fg-muted', '--kl-dialog-bg', TEXT, 'dialog description'],
+  ['--kl-toast-fg', '--kl-toast-bg', BODY, 'toast text'],
+  ['--kl-toast-muted', '--kl-toast-bg', TEXT, 'toast description'],
+  // Only where the style draws toast icons.
+  ...['info', 'success', 'warning', 'danger'].map((s) => [
+    `--kl-color-${s}-text`, '--kl-toast-bg', UI, `toast ${s} icon`,
+    (vars) => resolve('var(--kl-toast-icon-display)', vars).trim() !== 'none',
+  ]),
   ['--kl-color-ring', '--kl-color-bg', UI, 'focus ring'],
   ['--kl-color-ring', '--kl-color-surface', UI, 'focus ring'],
   ['--kl-neutral-8', '--kl-neutral-1', UI, 'ramp 8'],
@@ -358,7 +367,7 @@ const pairs = [
 const schemes = { light: lightDecls, dark: darkDecls };
 const short = (n) => n.replace('--kl-color-', '').replace('--kl-', '');
 const runPairs = (vars) =>
-  pairs.map(([fg, bg, min, label]) => {
+  pairs.filter(([, , , , when]) => !when || when(vars)).map(([fg, bg, min, label]) => {
     const ratio = contrast(toRgb(color(vars, fg)), toRgb(color(vars, bg)));
     return { ratio, min, ok: ratio >= min, line: `${short(fg)} on ${short(bg)}: ${ratio.toFixed(2)} (min ${min}${label ? `, ${label}` : ''})` };
   });
@@ -366,7 +375,7 @@ for (const style of styleNames) {
   for (const [scheme, decls] of Object.entries(schemes)) {
     const results = runPairs(ctx(decls, style));
     const passed = results.filter((r) => r.ok).length;
-    console.log(`\nContrast: ${style} ${scheme}\n  ${passed === pairs.length ? '✓' : '✗'} ${passed}/${pairs.length} pairs pass`);
+    console.log(`\nContrast: ${style} ${scheme}\n  ${passed === results.length ? '✓' : '✗'} ${passed}/${results.length} pairs pass`);
     results.filter((r) => !r.ok).forEach((r) => fail(r.line));
   }
 }

@@ -14,7 +14,7 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 7a of the roadmap: dropdown menu, custom select, tooltip). Not yet published.
+> Status: early development (Step 7 of the roadmap: overlays and services). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -53,6 +53,15 @@ Components work as classes on native elements or as custom elements:
 <kl-button icon aria-label="Copy" data-kl-tooltip="Copy account number">⧉</kl-button>
 ```
 
+```js
+import { dialog, toast, theme } from 'klesora-ui';
+
+if (await dialog.confirm({ title: 'Send ₦45,000 to Ada Obi?', confirmText: 'Send' })) {
+  toast.success('Payment sent');
+}
+theme.set({ style: 'solo', theme: 'dark' }); // remembered; see CONVENTIONS.md §7 for the <head> snippet
+```
+
 The CSS also includes a gentle reset, page defaults (nested themes paint themselves) and a small set of utilities: `.kl-stack`, `.kl-cluster`, `.kl-grid`, `.kl-container`, `.kl-surface`, `.kl-sr-only`, `.kl-truncate` and more (CONVENTIONS.md §4).
 
 ## Project layout
@@ -75,7 +84,7 @@ tests/          test pages
 ## Develop
 
 ```sh
-npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: tokens, base, core, components, overlays)
+npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: tokens, base, core, components, overlays, services)
 npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 npm test               # Playwright tests in Chromium, Firefox and WebKit (starts the dev server)

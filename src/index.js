@@ -18,6 +18,11 @@ export { position, autoPosition } from './core/position.js';
 import './directives/ripple.js';
 import './directives/menu.js';
 import './directives/tooltip.js';
+import './directives/dialog.js';
+
+export { dialog } from './services/dialog.js';
+export { toast } from './services/toast.js';
+export { theme, themeInitScript } from './services/theme.js';
 
 export const VERSION = '0.0.0';
 export const PREFIX = 'kl';

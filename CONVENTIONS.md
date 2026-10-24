@@ -221,6 +221,8 @@ Each component's CSS selects the class and the element alike, e.g. `:is(.kl-btn,
 | Menu | `<div class="kl-menu" popover data-kl-menu>` with `.kl-menu__item`, `.kl-menu__label`, `.kl-menu__separator` / `<hr>` | `<kl-menu>` with `<kl-menu-item>` | opened by any `popovertarget`; `placement`; fires `kl-select` |
 | Custom select | | `<kl-select>` with `<kl-option>` | `placeholder`, `placement`, `data-size` |
 | Tooltip | `data-kl-tooltip="…"` (directive) | | `data-kl-tooltip-placement` |
+| Dialog | `<dialog class="kl-dialog">` with `.kl-dialog__header`, `__title`, `__description`, `__body`, `__footer`, `__close` | (native `<dialog>`; `dialog` service) | `data-size`; `closedby="any"`; directives `data-kl-dialog`, `data-kl-dialog-open="id"`, buttons `[data-kl-close="value"]` |
+| Toast | `.kl-toaster`, `.kl-toast` (rendered by the service) | (`toast` service) | per-style placement via `--kl-toaster-align` |
 | Field | `.kl-field` with `.kl-field__label`, `__hint`, `__error`, `data-invalid` | `<kl-field>` (children with `slot="hint"` / `slot="error"`) | `error="…"` |
 
 The `slot` attribute is only a marker for light-DOM parts (no Shadow DOM). Elements read it and never move the marked nodes. Hover styles sit inside `@media (hover: hover)`, so taps don't leave a button stuck in hover.
@@ -346,7 +348,24 @@ theme.setStyle('chorus');
 toast.success('Payment sent');
 ```
 
-Async APIs return Promises. Services never touch the DOM until first used.
+Async APIs return Promises. Services never touch the DOM until first used, and they build class-layer markup, so they work without any custom element registered.
+
+**dialog** (`src/services/dialog.js`): `alert(options)` → `Promise<void>`, `confirm(options)` → `Promise<boolean>`, `prompt(options)` → `Promise<string | null>`. A string argument is the title. Options: `title`, `message`, `confirmText`, `cancelText`, `tone: 'danger'` (alertdialog, red button, Cancel focused first), `dismissible`, `container` (append inside a themed section to inherit it). Prompt adds `label`, `defaultValue`, `placeholder`, `type`, `inputMode`, `required`, `autocomplete`. Enter confirms (Cancel is `type="button"`), Escape cancels, and focus returns to where it was. Strings default to English.
+
+**toast** (`src/services/toast.js`): `toast(message, options)` returns `{ id, update, dismiss }`. Also `toast.info / success / warning / error`, `toast.dismiss(id?)` and `toast.configure({ position, max, container, label })`. Each toast is a live region (`status`, or `alert` for errors) and is inserted empty, then filled, so it's reliably announced. Timers pause on hover, focus and hidden tabs. At most 3 show at once. The toaster is a top-layer popover, re-shown on each new toast so it stays above earlier dialogs. While a modal is open it moves inside the topmost modal, because a modal makes everything outside it inert, even popovers drawn on top.
+
+**theme** (`src/services/theme.js`): `get()` → `{ style, theme, brand, resolved }`, `set({ style, theme, brand }, { persist, target })` (null clears; persisted to `localStorage['kl-theme']` for `<html>`), `toggle()`, `reset()`, `subscribe(fn)` (set, other tabs, and OS changes while on "system"). To avoid a flash of the wrong theme, inline `themeInitScript` as the first thing in `<head>`:
+
+```html
+<!-- plain HTML: paste the output of themeInitScript -->
+<script>(function applyStored(key){ … })("kl-theme");</script>
+```
+
+```jsx
+// React / Next.js
+import { themeInitScript } from 'klesora-ui/services/theme';
+<head><script dangerouslySetInnerHTML={{ __html: themeInitScript }} /></head>
+```
 
 ## 8. Component folder layout
 
@@ -369,7 +388,7 @@ Source files ship as native ES modules and plain CSS, so no build step is needed
 | `klesora-ui/css` | all CSS (tokens for all three styles, reset, base, components, utilities) |
 | `klesora-ui/css/reset.css`, `base.css`, `utilities.css` | one part; import with `layer(kl.reset)` etc. after declaring the layer order |
 | `klesora-ui/core/element`, `form-element`, `directives`, `position` | the base classes, directive registry and positioning, for writing or ejecting components |
-| `klesora-ui/directives/tooltip`, `menu`, `ripple` | one directive (importing registers it) |
+| `klesora-ui/directives/tooltip`, `menu`, `ripple`, `dialog` | one directive (importing registers it) |
 | `klesora-ui/components/button` | just `<kl-button>` |
 | `klesora-ui/components/button.css` | just the button CSS |
 | `klesora-ui/services/toast` | just the toast service |

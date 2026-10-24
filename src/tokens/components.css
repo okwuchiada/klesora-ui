@@ -59,6 +59,24 @@
   --kl-tooltip-fg: var(--kl-color-bg);
   --kl-tooltip-radius: var(--kl-radius-sm);
 
+  /* Dialog */
+  --kl-dialog-bg: var(--kl-color-surface-raised);
+  --kl-dialog-border-color: var(--kl-color-border);
+  --kl-dialog-radius: var(--kl-radius-lg);
+  --kl-dialog-shadow: var(--kl-shadow-5);
+  --kl-dialog-padding: var(--kl-space-6);
+  --kl-dialog-width: 28rem;
+
+  /* Toast */
+  --kl-toast-bg: var(--kl-color-surface-raised);
+  --kl-toast-fg: var(--kl-color-fg);
+  --kl-toast-muted: var(--kl-color-fg-muted);
+  --kl-toast-border-color: var(--kl-color-border);
+  --kl-toast-radius: var(--kl-radius-md);
+  --kl-toast-shadow: var(--kl-shadow-4);
+  --kl-toast-icon-display: block;
+  --kl-toaster-align: end; /* start | center | end (desktop; phones are always centred) */
+
   /* Field */
   --kl-field-gap: var(--kl-space-2);
   --kl-label-weight: var(--kl-weight-medium);

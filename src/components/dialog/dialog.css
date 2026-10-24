@@ -1,0 +1,146 @@
+/*
+ * Dialog: native <dialog class="kl-dialog">, opened with showModal() (focus trap, Escape,
+ * backdrop and an inert page come from the browser). Parts:
+ *   .kl-dialog__header  .kl-dialog__title  .kl-dialog__description  .kl-dialog__body
+ *   .kl-dialog__footer (actions)  .kl-dialog__close (top-end × button)
+ * data-size: sm | md (default) | lg.
+ * Close with <form method="dialog">, a [data-kl-close] button, or dialog.close().
+ * The data-kl-dialog directive adds backdrop click to close (closedby="any"); see src/directives/dialog.js.
+ */
+dialog.kl-dialog {
+  box-sizing: border-box;
+  inline-size: min(var(--kl-dialog-width), calc(100vw - 2 * var(--kl-space-4)));
+  max-inline-size: none;
+  max-block-size: calc(100dvh - 2 * var(--kl-space-4));
+  margin: auto;
+  padding: var(--kl-dialog-padding);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: var(--kl-border-width) solid var(--kl-dialog-border-color);
+  border-radius: var(--kl-dialog-radius);
+  background-color: var(--kl-dialog-bg);
+  color: var(--kl-color-fg);
+  box-shadow: var(--kl-dialog-shadow);
+  font-family: var(--kl-font-body);
+  font-size: var(--kl-text-sm);
+  line-height: var(--kl-leading-normal);
+  opacity: 0;
+  scale: 0.96;
+  transition:
+    opacity var(--kl-motion-long) var(--kl-motion-ease-exit),
+    scale var(--kl-motion-long) var(--kl-motion-ease-exit),
+    display var(--kl-motion-long) allow-discrete,
+    overlay var(--kl-motion-long) allow-discrete;
+}
+
+dialog.kl-dialog[open] {
+  opacity: 1;
+  scale: 1;
+  transition-timing-function: var(--kl-motion-ease-enter);
+}
+
+@starting-style {
+  dialog.kl-dialog[open] {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+dialog.kl-dialog::backdrop {
+  background-color: var(--kl-color-overlay);
+  opacity: 0;
+  transition:
+    opacity var(--kl-motion-long) var(--kl-motion-ease),
+    display var(--kl-motion-long) allow-discrete,
+    overlay var(--kl-motion-long) allow-discrete;
+}
+
+dialog.kl-dialog[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  dialog.kl-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+dialog.kl-dialog[data-size="sm"] { --kl-dialog-width: 22rem; }
+dialog.kl-dialog[data-size="lg"] { --kl-dialog-width: 40rem; }
+
+/* No page scroll behind a modal */
+html:has(dialog.kl-dialog:modal) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+.kl-dialog__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kl-space-2);
+  margin-block-end: var(--kl-space-5);
+  padding-inline-end: var(--kl-space-8); /* room for the close button */
+}
+
+.kl-dialog__title {
+  margin: 0;
+  font-family: var(--kl-font-heading);
+  font-size: var(--kl-text-lg);
+  font-weight: var(--kl-heading-weight);
+  letter-spacing: var(--kl-heading-tracking);
+  line-height: var(--kl-leading-tight);
+}
+
+.kl-dialog__description {
+  margin: 0;
+  color: var(--kl-color-fg-muted);
+}
+
+.kl-dialog__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kl-space-4);
+}
+
+.kl-dialog__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--kl-space-2);
+  margin-block-start: var(--kl-space-6);
+}
+
+.kl-dialog__close {
+  position: absolute;
+  inset-block-start: var(--kl-space-3);
+  inset-inline-end: var(--kl-space-3);
+}
+
+/* Phones: full-width sheet at the bottom */
+@media (max-width: 40rem) {
+  dialog.kl-dialog {
+    inline-size: 100vw;
+    margin-block-end: 0;
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+    translate: 0 0;
+  }
+
+  dialog.kl-dialog:not([open]) {
+    translate: 0 1rem;
+  }
+
+  @starting-style {
+    dialog.kl-dialog[open] {
+      translate: 0 1rem;
+    }
+  }
+
+  .kl-dialog__footer {
+    flex-direction: column-reverse;
+  }
+
+  .kl-dialog__footer > * {
+    inline-size: 100%;
+  }
+}

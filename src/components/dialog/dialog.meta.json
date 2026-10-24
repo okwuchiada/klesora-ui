@@ -1,0 +1,70 @@
+{
+  "name": "dialog",
+  "title": "Dialog",
+  "class": "kl-dialog",
+  "directive": "data-kl-dialog",
+  "service": "dialog",
+  "description": "Native <dialog class=\"kl-dialog\"> opened with showModal(): focus trap, Escape, backdrop and an inert page come from the browser. The dialog service builds alert/confirm/prompt dialogs as Promises.",
+  "attributes": [
+    {
+      "name": "data-size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "md"
+    },
+    {
+      "name": "closedby",
+      "type": "'any' | 'closerequest' | 'none'",
+      "description": "'any' also closes on a backdrop click (returnValue 'dismiss')."
+    },
+    {
+      "name": "data-kl-dialog",
+      "type": "directive",
+      "description": "Enables [data-kl-close] buttons and backdrop dismiss in every browser."
+    },
+    {
+      "name": "data-kl-dialog-open",
+      "type": "directive (on a button)",
+      "description": "The id of the dialog to open."
+    }
+  ],
+  "parts": [
+    ".kl-dialog__header",
+    ".kl-dialog__title",
+    ".kl-dialog__description",
+    ".kl-dialog__body",
+    ".kl-dialog__footer",
+    ".kl-dialog__close"
+  ],
+  "events": [
+    {
+      "name": "close",
+      "native": true
+    },
+    {
+      "name": "cancel",
+      "native": true
+    }
+  ],
+  "tokens": [
+    "--kl-dialog-bg",
+    "--kl-dialog-border-color",
+    "--kl-dialog-radius",
+    "--kl-dialog-shadow",
+    "--kl-dialog-padding",
+    "--kl-dialog-width"
+  ],
+  "examples": [
+    {
+      "title": "Service",
+      "js": "if (await dialog.confirm({ title: 'Send ₦45,000 to Ada Obi?', confirmText: 'Send' })) send();\nconst name = await dialog.prompt({ title: 'Rename card', label: 'Card name' });"
+    },
+    {
+      "title": "Markup",
+      "html": "<kl-button data-kl-dialog-open=\"d\">Open</kl-button>\n<dialog class=\"kl-dialog\" id=\"d\" data-kl-dialog closedby=\"any\" aria-labelledby=\"d-title\">\n  <form method=\"dialog\">\n    <div class=\"kl-dialog__header\"><h2 class=\"kl-dialog__title\" id=\"d-title\">Send money</h2></div>\n    <div class=\"kl-dialog__footer\">\n      <button class=\"kl-btn\" data-variant=\"outline\" type=\"button\" data-kl-close=\"cancel\">Cancel</button>\n      <button class=\"kl-btn\" value=\"send\">Send</button>\n    </div>\n  </form>\n</dialog>"
+    }
+  ],
+  "notes": [
+    "On phones the dialog becomes a bottom sheet with stacked buttons.",
+    "The page doesn't scroll behind an open modal."
+  ]
+}

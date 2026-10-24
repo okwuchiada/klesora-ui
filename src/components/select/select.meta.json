@@ -1,15 +1,101 @@
 {
   "name": "select",
   "title": "Select",
+  "element": "kl-select",
   "class": "kl-select",
-  "description": "Styled native <select>. Uses the input tokens; customizable select styles the list where supported.",
+  "description": "Choose one option. <kl-select> is a custom select-only combobox; <select class=\"kl-select\"> is the styled native one (OS picker).",
+  "attributes": [
+    {
+      "name": "value",
+      "type": "string"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "placeholder",
+      "type": "string"
+    },
+    {
+      "name": "required",
+      "type": "boolean"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean"
+    },
+    {
+      "name": "placement",
+      "type": "Placement",
+      "default": "bottom-start"
+    },
+    {
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "md",
+      "data": "data-size"
+    }
+  ],
+  "children": [
+    {
+      "element": "kl-option",
+      "attributes": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Defaults to the label."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "description": "Initial choice."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Text for the closed select, if different from the content."
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "input",
+      "native": true
+    },
+    {
+      "name": "change",
+      "native": true
+    }
+  ],
+  "methods": [
+    "show()",
+    "hide()",
+    "setCustomValidity(message)",
+    "checkValidity()",
+    "reportValidity()"
+  ],
+  "tokens": [
+    "--kl-input-*",
+    "--kl-menu-*"
+  ],
   "examples": [
+    {
+      "title": "Custom",
+      "html": "<kl-select name=\"bank\" placeholder=\"Choose a bank\" required>\n  <kl-option value=\"gtb\">GTBank</kl-option>\n  <kl-option value=\"kuda\">Kuda</kl-option>\n</kl-select>"
+    },
     {
       "title": "Native",
       "html": "<select class=\"kl-select\" name=\"bank\">\n  <option>Access Bank</option>\n  <option>GTBank</option>\n</select>"
     }
   ],
   "notes": [
-    "A custom <kl-select> comes with the dropdown in Step 7."
+    "Your <kl-option>s stay in place; the element renders its own listbox.",
+    "Use the native select for very long lists on phones."
   ]
 }

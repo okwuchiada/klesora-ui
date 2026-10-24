@@ -19,8 +19,8 @@
  */
 import { UIElement, define } from '../../core/element.js';
 
-const CONTROL = 'kl-input, kl-checkbox, kl-switch, input:not([type="hidden"]), select, textarea, [data-kl-control]';
-const TEXT_CONTROL = 'kl-input, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), select, textarea';
+const CONTROL = 'kl-input, kl-select, kl-checkbox, kl-switch, input:not([type="hidden"]), select, textarea, [data-kl-control]';
+const TEXT_CONTROL = 'kl-input, kl-select, input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"]), select, textarea';
 const ATTEMPT = Symbol('submitAttempt');
 
 let uid = 0;

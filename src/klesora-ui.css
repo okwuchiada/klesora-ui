@@ -19,6 +19,8 @@
 @import url("./components/checkbox/checkbox.css") layer(kl.components);
 @import url("./components/switch/switch.css") layer(kl.components);
 @import url("./components/field/field.css") layer(kl.components);
+@import url("./components/menu/menu.css") layer(kl.components);
+@import url("./components/tooltip/tooltip.css") layer(kl.components);
 
 @import url("./styles/mono.css") layer(kl.styles);
 @import url("./styles/solo.css") layer(kl.styles);

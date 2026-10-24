@@ -43,6 +43,22 @@
   --kl-switch-thumb-on: var(--kl-color-primary-fg);
   --kl-switch-thumb-shadow: var(--kl-shadow-1);
 
+  /* Menu and select list */
+  --kl-menu-bg: var(--kl-color-surface-raised);
+  --kl-menu-border-color: var(--kl-color-border);
+  --kl-menu-radius: var(--kl-radius-md);
+  --kl-menu-shadow: var(--kl-shadow-3);
+  --kl-menu-padding: var(--kl-space-1);
+  --kl-menu-item-height: var(--kl-control-height-sm);
+  --kl-menu-item-padding-x: var(--kl-space-2);
+  --kl-menu-item-radius: var(--kl-radius-sm);
+  --kl-menu-item-active-bg: var(--kl-color-muted-hover);
+
+  /* Tooltip (inverted surface) */
+  --kl-tooltip-bg: var(--kl-color-fg);
+  --kl-tooltip-fg: var(--kl-color-bg);
+  --kl-tooltip-radius: var(--kl-radius-sm);
+
   /* Field */
   --kl-field-gap: var(--kl-space-2);
   --kl-label-weight: var(--kl-weight-medium);

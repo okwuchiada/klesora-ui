@@ -32,7 +32,7 @@ export class ToggleElement extends FormElement {
   #customError = '';
 
   connected() {
-    this.internals.role = this.constructor.role;
+    this.setAria('role', this.constructor.role);
     this.#defaultChecked ??= this.hasAttribute('checked');
     this.listen(this, 'click', (e) => this.#onClick(e));
     this.listen(this, 'keydown', (e) => {
@@ -46,7 +46,7 @@ export class ToggleElement extends FormElement {
   update(changed, first) {
     super.update(changed, first);
     this.tabIndex = this.isDisabled ? -1 : 0;
-    this.internals.ariaChecked = this.ariaCheckedState();
+    this.setAria('ariaChecked', this.ariaCheckedState());
     this.setFormValue(this.checked ? this.value : null, this.checked ? 'checked' : null);
     if (this.#customError) this.setValidity({ customError: true }, this.#customError);
     else if (this.required && !this.checked) this.setValidity({ valueMissing: true }, valueMissingMessage());

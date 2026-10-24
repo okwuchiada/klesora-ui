@@ -2,7 +2,7 @@
  * Select: <select class="kl-select"> (native, so mobile pickers and keyboard behaviour stay native).
  * Shares the input tokens. Where the browser supports customizable select
  * (appearance: base-select), the picker list is styled too; elsewhere it stays the OS list.
- * A custom <kl-select> with its own list arrives with the dropdown in Step 7.
+ * <kl-select> (below) is the custom version with its own list.
  */
 select.kl-select {
   appearance: none;
@@ -105,4 +105,78 @@ select.kl-select option {
   select.kl-select option::checkmark {
     display: none;
   }
+}
+
+/*
+ * <kl-select>: the element is the box (same tokens as inputs) with a chevron.
+ * Its list uses the menu panel styles (src/components/menu/menu.css).
+ */
+kl-select {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+  block-size: var(--kl-input-height);
+  padding-inline: var(--kl-input-padding-x) calc(var(--kl-input-padding-x) + 1.25em);
+  border-style: solid;
+  border-width: var(--kl-input-border-width);
+  border-color: var(--kl-input-border-color);
+  border-radius: var(--kl-input-radius);
+  background:
+    linear-gradient(45deg, transparent 50%, var(--kl-color-fg-muted) 50%) no-repeat
+      calc(100% - var(--kl-input-padding-x) - 0.3em) 55% / 0.35em 0.35em,
+    linear-gradient(-45deg, transparent 50%, var(--kl-color-fg-muted) 50%) no-repeat
+      calc(100% - var(--kl-input-padding-x)) 55% / 0.35em 0.35em,
+    var(--kl-input-bg);
+  color: var(--kl-color-fg);
+  font-size: var(--kl-text-md);
+  line-height: var(--kl-leading-normal);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    var(--kl-transition-colors),
+    box-shadow var(--kl-motion-short) var(--kl-motion-ease);
+}
+
+kl-select:focus-visible,
+kl-select[aria-expanded="true"] {
+  border-color: var(--kl-input-focus-border-color);
+  outline: var(--kl-input-focus-outline);
+  outline-offset: 0;
+  box-shadow: var(--kl-input-focus-shadow);
+}
+
+kl-select[aria-invalid="true"] {
+  border-color: var(--kl-color-danger);
+}
+
+kl-select[data-disabled] {
+  opacity: var(--kl-disabled-opacity);
+  cursor: not-allowed;
+}
+
+kl-select > [data-kl-part="value"] {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+kl-select > [data-kl-part="value"][data-placeholder] {
+  color: var(--kl-color-fg-muted);
+}
+
+kl-select > kl-option,
+kl-select:not(:defined) > * {
+  display: none;
+}
+
+kl-select[data-size="sm"] {
+  block-size: var(--kl-control-height-sm);
+}
+
+kl-select[data-size="lg"] {
+  block-size: var(--kl-control-height-lg);
 }

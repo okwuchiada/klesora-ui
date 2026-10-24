@@ -1,0 +1,67 @@
+{
+  "name": "menu",
+  "title": "Dropdown menu",
+  "element": "kl-menu",
+  "class": "kl-menu",
+  "description": "A popover menu opened by any button with popovertarget. Arrow keys, type-to-find, Escape and outside click to close.",
+  "attributes": [
+    {
+      "name": "id",
+      "type": "string",
+      "description": "Referenced by the opener's popovertarget."
+    },
+    {
+      "name": "placement",
+      "type": "Placement",
+      "default": "bottom-start"
+    }
+  ],
+  "children": [
+    {
+      "element": "kl-menu-item",
+      "attributes": [
+        {
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean"
+        },
+        {
+          "name": "data-keep-open",
+          "type": "boolean",
+          "description": "Don't close after choosing."
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "kl-select",
+      "detail": "{ item: Element, value: string | null }",
+      "cancelable": true
+    }
+  ],
+  "tokens": [
+    "--kl-menu-bg",
+    "--kl-menu-border-color",
+    "--kl-menu-radius",
+    "--kl-menu-shadow",
+    "--kl-menu-padding",
+    "--kl-menu-item-height",
+    "--kl-menu-item-padding-x",
+    "--kl-menu-item-radius",
+    "--kl-menu-item-active-bg"
+  ],
+  "examples": [
+    {
+      "title": "Element",
+      "html": "<kl-button variant=\"outline\" popovertarget=\"acct\">Account</kl-button>\n<kl-menu id=\"acct\">\n  <kl-menu-item value=\"statement\">Download statement</kl-menu-item>\n  <hr>\n  <kl-menu-item value=\"freeze\">Freeze card</kl-menu-item>\n</kl-menu>"
+    },
+    {
+      "title": "Class layer",
+      "html": "<button class=\"kl-btn\" popovertarget=\"m\">More</button>\n<div class=\"kl-menu\" id=\"m\" popover data-kl-menu=\"bottom-end\">\n  <button class=\"kl-menu__item\" value=\"rename\">Rename</button>\n</div>"
+    }
+  ]
+}

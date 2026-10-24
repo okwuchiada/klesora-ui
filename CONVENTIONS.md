@@ -218,9 +218,23 @@ Each component's CSS selects the class and the element alike, e.g. `:is(.kl-btn,
 | Select | `<select class="kl-select">` | (`<kl-select>` in Step 7) | customizable select styles the list where supported |
 | Checkbox | `<input type="checkbox" class="kl-checkbox">` | `<kl-checkbox>Label</kl-checkbox>` | `indeterminate` |
 | Switch | `<input type="checkbox" role="switch" class="kl-switch">` | `<kl-switch>Label</kl-switch>` | |
+| Menu | `<div class="kl-menu" popover data-kl-menu>` with `.kl-menu__item`, `.kl-menu__label`, `.kl-menu__separator` / `<hr>` | `<kl-menu>` with `<kl-menu-item>` | opened by any `popovertarget`; `placement`; fires `kl-select` |
+| Custom select | | `<kl-select>` with `<kl-option>` | `placeholder`, `placement`, `data-size` |
+| Tooltip | `data-kl-tooltip="…"` (directive) | | `data-kl-tooltip-placement` |
 | Field | `.kl-field` with `.kl-field__label`, `__hint`, `__error`, `data-invalid` | `<kl-field>` (children with `slot="hint"` / `slot="error"`) | `error="…"` |
 
 The `slot` attribute is only a marker for light-DOM parts (no Shadow DOM). Elements read it and never move the marked nodes. Hover styles sit inside `@media (hover: hover)`, so taps don't leave a button stuck in hover.
+
+### Popovers
+
+Menus, the select list and tooltips use the native popover API. They render in the top layer (no z-index or overflow clipping), and `popover="auto"` closes on Escape and outside clicks. Positioning comes from `src/core/position.js` (`position`, `autoPosition`): it flips at screen edges, shifts along the edge, follows scrolling and resizing, and exposes `data-placement`, `--kl-anchor-width` and `--kl-available-height` / `--kl-available-width`.
+
+- Position on the next animation frame after `beforetoggle` (shown by then, still before paint). Keep panels `visibility: hidden` until `data-placement` is set, so they never flash at the default spot.
+- Measure with `offsetWidth` / `offsetHeight`, not `getBoundingClientRect()`: entry animations scale the panel.
+- `<kl-button popovertarget="id">` implements `popovertarget` / `popovertargetaction` itself (browsers only support them natively on built-in buttons). Custom invokers aren't exempt from light dismiss, so they record the popover's state on pointer-down to avoid reopening it on the same click.
+- Popovers inherit tokens from their DOM position. The shared tooltip element moves next to its anchor's nearest theme/style/scope boundary so it matches nested themes.
+- A menu is a popover panel driven by `menuController` (`src/components/menu/menu.js`): roles, `aria-expanded` / `aria-controls` on the opener, arrow keys, Home/End, type-to-find, Tab to close and focus back on the opener. `<kl-menu>` and the `data-kl-menu` directive both use it.
+- `<kl-select>` follows the WAI-ARIA select-only combobox. Your `<kl-option>`s stay in place (hidden), and the element renders its own listbox in a popover it owns, re-rendering when options change. Focus stays on the element with `aria-activedescendant`. A label click focuses without opening, like a native select.
 
 `data-kl-ripple` (`src/directives/ripple.js`) adds press feedback to any element. Presses only record `--kl-press-x/y/size` and `data-pressed`. Only styles with `--kl-btn-ripple` > 0 (Chorus) draw the ripple. `<kl-button>` has it built in.
 
@@ -246,7 +260,8 @@ Every element extends `UIElement` (`src/core/element.js`); form controls extend 
 - Render in **light DOM** using the class layer, so styles and themes apply with no extra work. No Shadow DOM unless a component has a specific reason, documented in its meta file.
 - **Never move, wrap or replace the children a page or framework gave you.** React, Vue, Angular and Svelte track those nodes. The element itself is the control: `<kl-button>` is the button (role, keyboard, form submission via ElementInternals) and your text stays where you put it. A component with no author children (e.g. `<kl-input>`) may create its own internal native element.
 - **Elements never add classes to themselves**, because frameworks overwrite `class`. Component CSS selects both forms: `:is(.kl-btn, kl-button)`. Variants reach the CSS as `data-*` attributes mirrored by the element (`variant="outline"` → `data-variant="outline"`).
-- Default ARIA roles and states go through `this.internals` (`internals.role`, `internals.ariaDisabled`…), not attributes, so they never fight framework-rendered attributes.
+- Default ARIA roles and states go through `this.setAria('role' | 'ariaChecked' | …, value)`. That sets ElementInternals and mirrors a plain `role` / `aria-*` attribute, unless the author wrote that attribute (theirs always wins). Tools that don't read ElementInternals (Playwright `getByRole`, Testing Library) see the attributes.
+- Form controls that are the control themselves (e.g. `<kl-select>`) also point `aria-labelledby` at their `<label for>`. Many tools only compute names from labels for native controls.
 
 ### Properties
 
@@ -282,7 +297,7 @@ Native events (`input`, `change`, `click`) keep firing as usual. Library events 
 
 ### Accessibility and testing
 
-Roles and states set through `internals` are in the browser's real accessibility tree, but some tools don't read ElementInternals. Playwright's `getByRole` and Testing Library in jsdom are two examples. Test roles and states through the browser's accessibility tree (see `e2e/components.spec.ts`), or query by tag or label.
+Roles and states reach the accessibility tree through ElementInternals and the mirrored attributes, so `getByRole` works in tests. `e2e/components.spec.ts` also checks Chromium's real accessibility tree. Remember that accessible names match as case-insensitive substrings by default; use `exact: true`.
 
 ### Form controls
 
@@ -353,7 +368,8 @@ Source files ship as native ES modules and plain CSS, so no build step is needed
 | `klesora-ui` | everything: registers all elements and directives |
 | `klesora-ui/css` | all CSS (tokens for all three styles, reset, base, components, utilities) |
 | `klesora-ui/css/reset.css`, `base.css`, `utilities.css` | one part; import with `layer(kl.reset)` etc. after declaring the layer order |
-| `klesora-ui/core/element`, `form-element`, `directives` | the base classes and directive registry, for writing or ejecting components |
+| `klesora-ui/core/element`, `form-element`, `directives`, `position` | the base classes, directive registry and positioning, for writing or ejecting components |
+| `klesora-ui/directives/tooltip`, `menu`, `ripple` | one directive (importing registers it) |
 | `klesora-ui/components/button` | just `<kl-button>` |
 | `klesora-ui/components/button.css` | just the button CSS |
 | `klesora-ui/services/toast` | just the toast service |

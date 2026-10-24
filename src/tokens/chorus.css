@@ -96,4 +96,13 @@
   --kl-switch-track-border-color: var(--kl-color-input);
   --kl-switch-thumb-off: var(--kl-color-fg-muted);
   --kl-switch-thumb-shadow: none;
+  --kl-menu-radius: var(--kl-radius-xs);
+  --kl-menu-shadow: var(--kl-shadow-2);
+  --kl-menu-border-color: transparent;
+  --kl-menu-padding: var(--kl-space-2) 0;
+  --kl-menu-item-height: var(--kl-control-height-lg);
+  --kl-menu-item-padding-x: var(--kl-space-3);
+  --kl-menu-item-radius: 0;
+  --kl-menu-item-active-bg: color-mix(in oklab, var(--kl-color-fg) 10%, var(--kl-menu-bg));
+  --kl-tooltip-radius: var(--kl-radius-xs);
 }

@@ -99,12 +99,12 @@ export class FormElement extends UIElement {
 
   update(changed, first) {
     if (first || changed.has('disabled') || changed.has('isDisabled')) {
-      this.internals.ariaDisabled = this.isDisabled ? 'true' : null;
+      this.setAria('ariaDisabled', this.isDisabled ? 'true' : null);
       // CSS can't see a disabled <fieldset> ancestor, so mirror the effective state.
       this.toggleAttribute('data-disabled', this.isDisabled);
     }
     if (first || changed.has('required')) {
-      this.internals.ariaRequired = this.required ? 'true' : null;
+      this.setAria('ariaRequired', this.required ? 'true' : null);
     }
   }
 }

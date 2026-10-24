@@ -1,0 +1,42 @@
+/*
+ * Tooltip popover, rendered by the data-kl-tooltip directive (src/directives/tooltip.js).
+ */
+.kl-tooltip {
+  box-sizing: border-box;
+  inset: auto;
+  margin: 0;
+  max-inline-size: min(20rem, var(--kl-available-width, 90vw));
+  padding: var(--kl-space-1) var(--kl-space-2);
+  border: 0;
+  border-radius: var(--kl-tooltip-radius);
+  background-color: var(--kl-tooltip-bg);
+  color: var(--kl-tooltip-fg);
+  box-shadow: var(--kl-shadow-2);
+  font-family: var(--kl-font-body);
+  font-size: var(--kl-text-xs);
+  font-weight: var(--kl-weight-medium);
+  line-height: var(--kl-leading-snug);
+  overflow: visible;
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity var(--kl-motion-short) var(--kl-motion-ease-enter),
+    translate var(--kl-motion-short) var(--kl-motion-ease-enter),
+    display var(--kl-motion-short) allow-discrete,
+    overlay var(--kl-motion-short) allow-discrete;
+}
+
+.kl-tooltip:popover-open:not([data-placement]) {
+  visibility: hidden;
+}
+
+.kl-tooltip:not(:popover-open) {
+  opacity: 0;
+}
+
+@starting-style {
+  .kl-tooltip:popover-open {
+    opacity: 0;
+    translate: 0 2px;
+  }
+}

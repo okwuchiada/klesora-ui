@@ -1,0 +1,33 @@
+{
+  "name": "tooltip",
+  "title": "Tooltip",
+  "directive": "data-kl-tooltip",
+  "class": "kl-tooltip",
+  "description": "Short hint on hover (after a delay) and keyboard focus. Hoverable, dismissed with Escape, announced via aria-description. Not shown for touch.",
+  "attributes": [
+    {
+      "name": "data-kl-tooltip",
+      "type": "string",
+      "description": "The text."
+    },
+    {
+      "name": "data-kl-tooltip-placement",
+      "type": "Placement",
+      "default": "top"
+    }
+  ],
+  "tokens": [
+    "--kl-tooltip-bg",
+    "--kl-tooltip-fg",
+    "--kl-tooltip-radius"
+  ],
+  "examples": [
+    {
+      "title": "Icon button",
+      "html": "<kl-button icon aria-label=\"Copy\" data-kl-tooltip=\"Copy account number\">…</kl-button>"
+    }
+  ],
+  "notes": [
+    "Don't put essential information only in a tooltip."
+  ]
+}

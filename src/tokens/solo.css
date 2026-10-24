@@ -69,4 +69,11 @@
   --kl-switch-thumb-off: var(--kl-white);
   --kl-switch-thumb-on: var(--kl-white);
   --kl-switch-thumb-shadow: var(--kl-shadow-2);
+  --kl-menu-radius: var(--kl-radius-lg);
+  --kl-menu-shadow: var(--kl-shadow-4);
+  --kl-menu-border-color: transparent;
+  --kl-menu-padding: calc(var(--kl-space-1) * 1.5);
+  --kl-menu-item-height: var(--kl-control-height-sm);
+  --kl-menu-item-radius: var(--kl-radius-sm);
+  --kl-tooltip-radius: var(--kl-radius-md);
 }

@@ -34,6 +34,7 @@ const REFLECTING = Symbol('reflecting');
 const UPDATED = Symbol('updated');
 const ABORT = Symbol('abort');
 const CLEANUPS = Symbol('cleanups');
+const ARIA_OWNED = Symbol('ariaOwned');
 
 /** @type {WeakMap<Function, { props: Map<string, Required<Omit<PropertyOptions, 'default'>> & { default: unknown }>, attrs: Map<string, string> }>} */
 const metas = new WeakMap();
@@ -262,6 +263,27 @@ export class UIElement extends Base {
   addCleanup(fn) {
     this[CLEANUPS].push(fn);
     return fn;
+  }
+
+  /**
+   * Set a default role or ARIA state. It goes on ElementInternals (what assistive tech reads) and,
+   * unless the author wrote that attribute themselves, also as a plain attribute. Tools that don't
+   * read ElementInternals (Playwright getByRole, Testing Library) then see it too.
+   * @param {'role' | `aria${string}`} name `role` or an ElementInternals ARIA property, e.g. `ariaChecked`
+   * @param {string | null} value null removes it
+   */
+  setAria(name, value) {
+    this.internals[name] = value;
+    const attr = name === 'role' ? 'role' : `aria-${name.slice(4).toLowerCase()}`;
+    const owned = (this[ARIA_OWNED] ??= new Set());
+    if (this.hasAttribute(attr) && !owned.has(attr)) return; // the author's own value wins
+    if (value === null || value === undefined) {
+      this.removeAttribute(attr);
+      owned.delete(attr);
+    } else {
+      if (this.getAttribute(attr) !== value) this.setAttribute(attr, value);
+      owned.add(attr);
+    }
   }
 
   /** AbortSignal for the current connection (for fetch, observers…). Null while disconnected. */

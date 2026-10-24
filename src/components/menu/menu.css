@@ -1,0 +1,133 @@
+/*
+ * Popover panels: <kl-menu>, <div class="kl-menu" popover>, and the <kl-select> list.
+ * Items: <kl-menu-item>, .kl-menu__item (e.g. on <button>), and <kl-select> options.
+ * Extras: .kl-menu__label (group heading), .kl-menu__separator / <hr>.
+ */
+:is(kl-menu, .kl-menu, kl-select > [data-kl-part="listbox"]) {
+  box-sizing: border-box;
+  inset: auto;
+  margin: 0;
+  min-inline-size: max(10rem, var(--kl-anchor-width, 0px));
+  max-inline-size: min(24rem, var(--kl-available-width, 100vw));
+  max-block-size: min(22rem, var(--kl-available-height, 60vh));
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: var(--kl-menu-padding);
+  border: var(--kl-border-width) solid var(--kl-menu-border-color);
+  border-radius: var(--kl-menu-radius);
+  background-color: var(--kl-menu-bg);
+  color: var(--kl-color-fg);
+  box-shadow: var(--kl-menu-shadow);
+  font-family: var(--kl-font-body);
+  font-size: var(--kl-text-sm);
+  line-height: var(--kl-leading-snug);
+  outline: none;
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity var(--kl-motion-short) var(--kl-motion-ease-enter),
+    scale var(--kl-motion-short) var(--kl-motion-ease-enter),
+    display var(--kl-motion-short) allow-discrete,
+    overlay var(--kl-motion-short) allow-discrete;
+}
+
+/* Hidden until positioned (one frame), so it never flashes at the default spot */
+:is(kl-menu, .kl-menu, kl-select > [data-kl-part="listbox"]):popover-open:not([data-placement]) {
+  visibility: hidden;
+}
+
+:is(kl-menu, .kl-menu, kl-select > [data-kl-part="listbox"]):not(:popover-open) {
+  opacity: 0;
+  scale: 0.97;
+}
+
+@starting-style {
+  :is(kl-menu, .kl-menu, kl-select > [data-kl-part="listbox"]):popover-open {
+    opacity: 0;
+    scale: 0.97;
+  }
+}
+
+:is(kl-menu, .kl-menu, kl-select > [data-kl-part="listbox"])[data-placement^="bottom"] { transform-origin: top; }
+:is(kl-menu, .kl-menu, kl-select > [data-kl-part="listbox"])[data-placement^="top"] { transform-origin: bottom; }
+
+/* Before the element is defined, don't flash the items in the page */
+kl-menu:not(:defined) {
+  display: none;
+}
+
+/* Items */
+:is(kl-menu-item, .kl-menu__item, kl-select [data-kl-part="option"]) {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--kl-space-2);
+  inline-size: 100%;
+  min-block-size: var(--kl-menu-item-height);
+  padding-inline: var(--kl-menu-item-padding-x);
+  border: 0;
+  border-radius: var(--kl-menu-item-radius);
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:is(kl-menu-item, .kl-menu__item):is(:focus, :hover),
+kl-select [data-kl-part="option"]:is([data-active], :hover) {
+  background-color: var(--kl-menu-item-active-bg);
+}
+
+/* Keyboard focus also gets an inset ring (background alone is too subtle to rely on) */
+:is(kl-menu-item, .kl-menu__item):focus-visible,
+kl-select:focus-visible [data-kl-part="option"][data-active] {
+  outline: var(--kl-ring-width) solid var(--kl-color-ring);
+  outline-offset: calc(-1 * var(--kl-ring-width));
+}
+
+:is(kl-menu-item, .kl-menu__item, kl-select [data-kl-part="option"]):is([disabled], [aria-disabled="true"]) {
+  opacity: var(--kl-disabled-opacity);
+  cursor: not-allowed;
+  background-color: transparent;
+}
+
+:is(kl-menu-item, .kl-menu__item) :where(svg) {
+  inline-size: 1.1em;
+  block-size: 1.1em;
+  flex-shrink: 0;
+  color: var(--kl-color-fg-muted);
+}
+
+:is(kl-menu, .kl-menu) :is(.kl-menu__separator, hr, [role="separator"]) {
+  margin: var(--kl-space-1) 0;
+  border: 0;
+  border-block-start: var(--kl-border-width) solid var(--kl-color-border);
+}
+
+:is(kl-menu, .kl-menu) .kl-menu__label {
+  padding: var(--kl-space-2) var(--kl-menu-item-padding-x) var(--kl-space-1);
+  color: var(--kl-color-fg-muted);
+  font-size: var(--kl-text-xs);
+  font-weight: var(--kl-weight-medium);
+}
+
+/* Selected option: medium weight and a check at the end */
+kl-select [data-kl-part="option"][aria-selected="true"] {
+  font-weight: var(--kl-weight-medium);
+}
+
+kl-select [data-kl-part="option"][aria-selected="true"]::after {
+  content: "";
+  margin-inline-start: auto;
+  inline-size: 1em;
+  block-size: 1em;
+  flex-shrink: 0;
+  background-color: var(--kl-color-primary);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}

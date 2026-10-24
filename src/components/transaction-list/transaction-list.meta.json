@@ -1,0 +1,70 @@
+{
+  "name": "transaction-list",
+  "title": "Transaction list",
+  "element": "kl-transaction-list",
+  "class": "kl-txn-list",
+  "description": "Grouped, formatted transactions. The element renders from data (text only, safe links); the classes are for framework-rendered markup.",
+  "attributes": [
+    {
+      "name": "items",
+      "type": "TransactionItem[]",
+      "description": "{ id, title, amount, currency?, direction?, date, meta?, status?, icon?, href? }"
+    },
+    {
+      "name": "currency",
+      "type": "string",
+      "default": "NGN"
+    },
+    {
+      "name": "locale",
+      "type": "string"
+    },
+    {
+      "name": "group-by",
+      "type": "'day' | 'none'",
+      "default": "day"
+    },
+    {
+      "name": "heading-level",
+      "type": "number",
+      "default": "3"
+    },
+    {
+      "name": "selectable",
+      "type": "boolean"
+    },
+    {
+      "name": "labels",
+      "type": "object",
+      "description": "today, yesterday, received, sent, pending, failed, empty"
+    }
+  ],
+  "parts": [
+    ".kl-txn-list__group",
+    ".kl-txn-list__date",
+    ".kl-txn-list__items",
+    ".kl-txn (data-direction, data-status)",
+    ".kl-txn__row",
+    ".kl-txn__icon",
+    ".kl-txn__main",
+    ".kl-txn__title",
+    ".kl-txn__meta",
+    ".kl-txn__end",
+    ".kl-txn__amount",
+    ".kl-txn__status"
+  ],
+  "events": [
+    {
+      "name": "kl-select",
+      "detail": "{ item }"
+    }
+  ],
+  "tokens": [
+    "--kl-txn-icon-size",
+    "--kl-txn-icon-bg",
+    "--kl-txn-icon-radius",
+    "--kl-txn-row-padding-y",
+    "--kl-txn-credit-fg",
+    "--kl-txn-divider-color"
+  ]
+}

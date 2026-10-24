@@ -4,7 +4,7 @@
  * or slot="end" (₦, icons, a clear button) sit before or after it; nothing is moved.
  * data-size: sm | md (default) | lg.  aria-invalid="true" or :user-invalid: error border.
  */
-:is(.kl-input, kl-input) {
+:is(.kl-input, kl-input, kl-amount-input) {
   inline-size: 100%;
   block-size: var(--kl-input-height);
   padding-inline: var(--kl-input-padding-x);
@@ -23,38 +23,38 @@
 }
 
 .kl-input:focus,
-kl-input:focus-within {
+:is(kl-input, kl-amount-input):focus-within {
   border-color: var(--kl-input-focus-border-color);
   outline: var(--kl-input-focus-outline);
   outline-offset: 0;
   box-shadow: var(--kl-input-focus-shadow);
 }
 
-:is(.kl-input, kl-input):is([aria-invalid="true"], :has(> input[aria-invalid="true"])),
+:is(.kl-input, kl-input, kl-amount-input):is([aria-invalid="true"], :has(> input[aria-invalid="true"])),
 .kl-input:user-invalid {
   border-color: var(--kl-color-danger);
 }
 
-:is(.kl-input, kl-input):is([aria-invalid="true"], :has(> input[aria-invalid="true"])):focus-within {
+:is(.kl-input, kl-input, kl-amount-input):is([aria-invalid="true"], :has(> input[aria-invalid="true"])):focus-within {
   outline-color: var(--kl-color-danger);
 }
 
 .kl-input:disabled,
-kl-input:has(> input:disabled) {
+:is(kl-input, kl-amount-input):has(> input:disabled) {
   opacity: var(--kl-disabled-opacity);
   cursor: not-allowed;
 }
 
 .kl-input:read-only:not(:disabled),
-kl-input:has(> input:read-only:not(:disabled)) {
+:is(kl-input, kl-amount-input):has(> input:read-only:not(:disabled)) {
   background-color: var(--kl-color-muted);
 }
 
-:is(.kl-input, kl-input)[data-size="sm"] {
+:is(.kl-input, kl-input, kl-amount-input)[data-size="sm"] {
   block-size: var(--kl-control-height-sm);
 }
 
-:is(.kl-input, kl-input)[data-size="lg"] {
+:is(.kl-input, kl-input, kl-amount-input)[data-size="lg"] {
   block-size: var(--kl-control-height-lg);
 }
 
@@ -65,15 +65,15 @@ textarea.kl-input {
   resize: vertical;
 }
 
-/* <kl-input> internals */
-kl-input {
+/* <kl-input> / <kl-amount-input> internals */
+:is(kl-input, kl-amount-input) {
   display: flex;
   align-items: center;
   gap: var(--kl-space-2);
   cursor: text;
 }
 
-kl-input > input {
+:is(kl-input, kl-amount-input) > input {
   flex: 1;
   order: 0;
   min-inline-size: 0;
@@ -87,18 +87,28 @@ kl-input > input {
   cursor: inherit;
 }
 
-kl-input > [slot="start"],
-kl-input > [slot="end"] {
+:is(kl-input, kl-amount-input) > [slot="start"],
+:is(kl-input, kl-amount-input) > [slot="end"] {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
   color: var(--kl-color-fg-muted);
 }
 
-kl-input > [slot="start"] {
+:is(kl-input, kl-amount-input) > [slot="start"] {
   order: -1;
 }
 
-kl-input > [slot="end"] {
+:is(kl-input, kl-amount-input) > [slot="end"] {
   order: 1;
+}
+
+/* Amounts: tabular figures so digits don't jump as you type */
+kl-amount-input > input {
+  font-family: var(--kl-font-numeric);
+  font-variant-numeric: tabular-nums;
+}
+
+kl-amount-input > [data-kl-part="currency"] {
+  color: var(--kl-color-fg-muted);
 }

@@ -10,7 +10,7 @@
 /* Floating labels on text fields. <kl-field> sets data-filled; for .kl-field give the input
    a placeholder (placeholder=" " is fine) so :placeholder-shown can tell when it's empty. */
 :where([data-kl-style="chorus"])
-  :is(kl-field, .kl-field):has(> :is(kl-input, .kl-input, select.kl-select, kl-select)):not(
+  :is(kl-field, .kl-field):has(> :is(kl-input, kl-amount-input, .kl-input, select.kl-select, kl-select)):not(
     :where([data-kl-style="chorus"] [data-kl-style]:not([data-kl-style="chorus"])) *
   ) {
   display: grid;
@@ -33,13 +33,13 @@
       color var(--kl-motion-short) var(--kl-motion-ease);
   }
 
-  & > :is(kl-input, .kl-input, select.kl-select, kl-select) {
+  & > :is(kl-input, kl-amount-input, .kl-input, select.kl-select, kl-select) {
     grid-area: 1 / 1;
   }
 
   /* Text sits below the floated label */
   & > .kl-input,
-  & > kl-input > input,
+  & > :is(kl-input, kl-amount-input) > input,
   & > select.kl-select,
   & > kl-select > [data-kl-part="value"] {
     padding-block-start: var(--kl-space-4);
@@ -54,7 +54,7 @@
     opacity: 1;
   }
 
-  & > kl-input > [slot] {
+  & > :is(kl-input, kl-amount-input) > [slot] {
     padding-block-start: var(--kl-space-4);
   }
 
@@ -75,7 +75,7 @@
       kl-field[data-filled],
       .kl-field:has(> .kl-input:not(:placeholder-shown)),
       :has(> select.kl-select),
-      :has(> kl-input > [slot="start"])
+      :has(> :is(kl-input, kl-amount-input) > [slot="start"])
     )
     > :is([data-kl-part="label"], .kl-field__label) {
     align-self: start;

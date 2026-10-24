@@ -145,4 +145,8 @@
   --kl-sidebar-link-height: 3.5rem;
   --kl-sidebar-link-radius: var(--kl-radius-full);
   --kl-sidebar-link-active-bg: var(--kl-color-secondary);
+  --kl-txn-icon-bg: var(--kl-color-secondary);
+  --kl-txn-row-padding-y: var(--kl-space-4);
+  --kl-txn-divider-color: transparent;
+  --kl-stepper-marker-size: 1.5rem;
 }

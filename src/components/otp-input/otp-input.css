@@ -1,0 +1,99 @@
+/*
+ * <kl-otp-input>: boxes drawn over one transparent real input (which receives every tap).
+ * Boxes reuse the input tokens, so each style's fields and codes match.
+ */
+kl-otp-input {
+  position: relative;
+  display: inline-flex;
+  max-inline-size: 100%;
+}
+
+kl-otp-input > [data-kl-part="slots"] {
+  display: flex;
+  gap: var(--kl-otp-gap);
+  min-inline-size: 0;
+}
+
+.kl-otp__slot {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  /* Full size when there's room; shrinks (keeping its shape) on narrow screens */
+  inline-size: var(--kl-otp-size);
+  flex-shrink: 1;
+  min-inline-size: 1.75rem;
+  aspect-ratio: 1 / 1.15;
+  border-style: solid;
+  border-width: var(--kl-input-border-width);
+  border-color: var(--kl-input-border-color);
+  border-radius: var(--kl-input-radius);
+  background-color: var(--kl-input-bg);
+  color: var(--kl-color-fg);
+  font-family: var(--kl-font-numeric);
+  font-size: var(--kl-text-xl);
+  font-weight: var(--kl-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  transition:
+    var(--kl-transition-colors),
+    box-shadow var(--kl-motion-short) var(--kl-motion-ease);
+}
+
+.kl-otp__slot[data-active] {
+  border-color: var(--kl-input-focus-border-color);
+  outline: var(--kl-input-focus-outline);
+  outline-offset: 0;
+  box-shadow: var(--kl-input-focus-shadow);
+}
+
+/* Blinking caret in the active empty box */
+.kl-otp__slot[data-active]:not([data-filled])::after {
+  content: "";
+  inline-size: 2px;
+  block-size: 1.2em;
+  border-radius: 1px;
+  background-color: var(--kl-color-fg);
+  animation: kl-otp-caret 1s steps(1) infinite;
+}
+
+@keyframes kl-otp-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kl-otp__slot[data-active]:not([data-filled])::after {
+    animation: none;
+  }
+}
+
+kl-otp-input[aria-invalid="true"] .kl-otp__slot,
+kl-otp-input:has(> input[aria-invalid="true"]) .kl-otp__slot {
+  border-color: var(--kl-color-danger);
+}
+
+kl-otp-input[data-disabled] {
+  opacity: var(--kl-disabled-opacity);
+}
+
+/* The real input covers the boxes, invisible but focusable and tappable */
+kl-otp-input > input {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font-size: 16px; /* iOS doesn't zoom */
+  letter-spacing: 1em;
+  opacity: 0;
+  cursor: text;
+}
+
+kl-otp-input > input::selection {
+  background: transparent;
+}

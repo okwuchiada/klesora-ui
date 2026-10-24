@@ -1,0 +1,163 @@
+/*
+ * Transaction list. Class layer for framework-rendered markup:
+ *   <div class="kl-txn-list">
+ *     <section class="kl-txn-list__group">
+ *       <h3 class="kl-txn-list__date">Today</h3>
+ *       <ul class="kl-txn-list__items">
+ *         <li class="kl-txn" data-direction="credit" data-status="pending">
+ *           <span class="kl-txn__icon">AO</span>
+ *           <span class="kl-txn__main"><span class="kl-txn__title">Ada Obi</span><span class="kl-txn__meta">14:05 · Transfer</span></span>
+ *           <span class="kl-txn__end"><span class="kl-txn__amount">+₦45,000.00</span><span class="kl-txn__status">Pending</span></span>
+ *         </li>
+ * A row's content can sit in an <a class="kl-txn__row"> or <button class="kl-txn__row"> to make it interactive.
+ * <kl-transaction-list> renders this markup from an `items` array.
+ * Credits get a "+" and the success colour; debits stay neutral. Status is always written out
+ * (never colour alone).
+ */
+:is(.kl-txn-list, kl-transaction-list) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kl-space-4);
+}
+
+.kl-txn-list__date {
+  margin: 0 0 var(--kl-space-1);
+  color: var(--kl-color-fg-muted);
+  font-size: var(--kl-text-xs);
+  font-weight: var(--kl-weight-semibold);
+  letter-spacing: var(--kl-tracking-wide);
+  text-transform: uppercase;
+}
+
+.kl-txn-list__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kl-txn,
+.kl-txn > .kl-txn__row {
+  display: flex;
+  align-items: center;
+  gap: var(--kl-space-3);
+}
+
+.kl-txn {
+  padding-block: var(--kl-txn-row-padding-y);
+  border-block-end: var(--kl-border-width) solid var(--kl-txn-divider-color);
+}
+
+.kl-txn:last-child {
+  border-block-end: 0;
+}
+
+.kl-txn:has(> .kl-txn__row) {
+  padding-block: 0;
+}
+
+.kl-txn > .kl-txn__row {
+  flex: 1;
+  min-inline-size: 0;
+  margin-inline: calc(-1 * var(--kl-space-2));
+  padding: var(--kl-txn-row-padding-y) var(--kl-space-2);
+  border: 0;
+  border-radius: var(--kl-radius-md);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--kl-transition-colors);
+}
+
+@media (hover: hover) {
+  .kl-txn > .kl-txn__row:hover {
+    background-color: var(--kl-color-muted-hover);
+  }
+}
+
+.kl-txn__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  inline-size: var(--kl-txn-icon-size);
+  block-size: var(--kl-txn-icon-size);
+  overflow: hidden;
+  border-radius: var(--kl-txn-icon-radius);
+  background-color: var(--kl-txn-icon-bg);
+  color: var(--kl-color-fg);
+  font-size: var(--kl-text-sm);
+  font-weight: var(--kl-weight-semibold);
+}
+
+.kl-txn__icon :where(img, svg) {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.kl-txn__main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.kl-txn__title {
+  overflow: hidden;
+  font-weight: var(--kl-weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kl-txn__meta {
+  overflow: hidden;
+  color: var(--kl-color-fg-muted);
+  font-size: var(--kl-text-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kl-txn__end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.kl-txn__amount {
+  font-family: var(--kl-font-numeric);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--kl-weight-semibold);
+  white-space: nowrap;
+}
+
+.kl-txn[data-direction="credit"] .kl-txn__amount {
+  color: var(--kl-txn-credit-fg);
+}
+
+.kl-txn__status {
+  color: var(--kl-color-fg-muted);
+  font-size: var(--kl-text-xs);
+}
+
+.kl-txn[data-status="pending"] .kl-txn__status {
+  color: var(--kl-color-warning-text);
+}
+
+.kl-txn[data-status="failed"] .kl-txn__status {
+  color: var(--kl-color-danger-text);
+}
+
+.kl-txn[data-status="failed"] .kl-txn__amount {
+  color: var(--kl-color-fg-muted);
+  text-decoration: line-through;
+}
+
+.kl-txn-list__empty {
+  margin: 0;
+  padding-block: var(--kl-space-8);
+  color: var(--kl-color-fg-muted);
+  text-align: center;
+}

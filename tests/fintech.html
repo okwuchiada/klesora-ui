@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en-NG">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klesora UI · Fintech</title>
+  <link rel="stylesheet" href="../src/klesora-ui.css">
+  <script type="module" src="../src/index.js"></script>
+</head>
+<body>
+  <header class="kl-navbar" data-sticky>
+    <span class="kl-navbar__brand">Klesora UI · Fintech</span>
+    <div class="kl-navbar__actions">
+      <select id="style" class="kl-select" aria-label="Style" style="inline-size: auto; block-size: var(--kl-control-height-sm)"><option value="">Mono</option><option value="solo">Solo</option><option value="chorus">Chorus</option></select>
+      <select id="theme" class="kl-select" aria-label="Theme" style="inline-size: auto; block-size: var(--kl-control-height-sm)"><option value="">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
+    </div>
+  </header>
+
+  <main class="kl-container kl-stack" data-gap="10" style="padding-block: var(--kl-space-8)">
+    <h1 style="margin: 0">Send money</h1>
+
+    <kl-stepper id="stepper" value="2" aria-label="Transfer progress">
+      <div class="kl-stepper__step">Recipient <span class="kl-stepper__description">Ada Obi · GTBank</span></div>
+      <div class="kl-stepper__step">Amount <span class="kl-stepper__description">₦ and narration</span></div>
+      <div class="kl-stepper__step">Verify <span class="kl-stepper__description">One-time code</span></div>
+      <div class="kl-stepper__step">Done</div>
+    </kl-stepper>
+
+    <div class="kl-grid" style="--kl-min: 20rem; align-items: start">
+      <form id="transfer" class="kl-card kl-stack" data-gap="5" style="padding: var(--kl-space-6)">
+        <kl-field>
+          <label>Amount</label>
+          <kl-amount-input id="amount" name="amount" currency="NGN" min="100" max="5000000" required></kl-amount-input>
+          <p slot="hint">Between ₦100 and ₦5,000,000</p>
+        </kl-field>
+        <kl-field>
+          <label>Amount in USD (en-US)</label>
+          <kl-amount-input id="usd" name="usd" currency="USD" locale="en-US" value="1234.5"></kl-amount-input>
+        </kl-field>
+        <kl-field>
+          <label>Amount in EUR (de-DE)</label>
+          <kl-amount-input id="eur" name="eur" currency="EUR" locale="de-DE"></kl-amount-input>
+        </kl-field>
+        <kl-field>
+          <label>One-time code</label>
+          <kl-otp-input id="otp" name="otp" length="6" required></kl-otp-input>
+          <p slot="hint">We sent it to 0803 *** 4567</p>
+        </kl-field>
+        <kl-field>
+          <label>Transaction PIN</label>
+          <kl-otp-input id="pin" name="pin" length="4" mask></kl-otp-input>
+        </kl-field>
+        <div class="kl-cluster" data-justify="end">
+          <kl-button type="reset" variant="ghost">Reset</kl-button>
+          <kl-button type="submit">Send</kl-button>
+        </div>
+        <pre id="output" class="kl-text-muted" style="margin: 0; white-space: pre-wrap" aria-live="polite"></pre>
+      </form>
+
+      <section class="kl-card" style="padding: var(--kl-space-6)" aria-labelledby="history-h">
+        <h2 id="history-h" style="margin: 0 0 var(--kl-space-4); font-size: var(--kl-text-lg)">Recent activity</h2>
+        <kl-transaction-list id="txns" selectable></kl-transaction-list>
+      </section>
+    </div>
+
+    <section class="kl-stack" data-gap="4">
+      <h2 style="margin: 0">Class-layer list and stepper</h2>
+      <div class="kl-grid" style="--kl-min: 18rem; align-items: start">
+        <div class="kl-txn-list kl-card" style="padding: var(--kl-space-4)">
+          <section class="kl-txn-list__group">
+            <h3 class="kl-txn-list__date">Today</h3>
+            <ul class="kl-txn-list__items">
+              <li class="kl-txn" data-direction="debit"><span class="kl-txn__icon" aria-hidden="true">MT</span><span class="kl-txn__main"><span class="kl-txn__title">MTN airtime</span><span class="kl-txn__meta">09:12 · Bills</span></span><span class="kl-txn__end"><span class="kl-txn__amount"><span class="kl-sr-only">Sent </span>−₦2,000.00</span></span></li>
+              <li class="kl-txn" data-direction="credit" data-status="pending"><span class="kl-txn__icon" aria-hidden="true">CO</span><span class="kl-txn__main"><span class="kl-txn__title">Chidi Okeke</span><span class="kl-txn__meta">08:40 · Transfer</span></span><span class="kl-txn__end"><span class="kl-txn__amount"><span class="kl-sr-only">Received </span>+₦15,000.00</span><span class="kl-txn__status">Pending</span></span></li>
+            </ul>
+          </section>
+        </div>
+        <div class="kl-card kl-stack" data-gap="4" style="padding: var(--kl-space-5)">
+          <ol class="kl-stepper" data-orientation="vertical" aria-label="Account opening">
+            <li class="kl-stepper__step" data-state="complete">Personal details<span class="kl-stepper__description">Name, date of birth</span></li>
+            <li class="kl-stepper__step" data-state="current" aria-current="step">Verify BVN<span class="kl-stepper__description">11-digit Bank Verification Number</span></li>
+            <li class="kl-stepper__step">Fund account</li>
+          </ol>
+          <div class="kl-cluster"><kl-button size="sm" variant="outline" id="prev">Back</kl-button><kl-button size="sm" id="next">Next step (top stepper)</kl-button></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { theme } from '../src/index.js';
+    const $ = (id) => document.getElementById(id);
+    $('style').onchange = (e) => theme.set({ style: e.target.value || null }, { persist: false });
+    $('theme').onchange = (e) => theme.set({ theme: e.target.value || null }, { persist: false });
+
+    const day = (offset, time = '12:00') => {
+      const d = new Date();
+      d.setDate(d.getDate() - offset);
+      const [h, m] = time.split(':');
+      d.setHours(+h, +m, 0, 0);
+      return d.toISOString();
+    };
+    $('txns').items = [
+      { id: 't1', title: 'Ada Obi', amount: '-45000', date: day(0, '14:05'), meta: 'Transfer' },
+      { id: 't2', title: 'Salary — Paystack Ltd', amount: '850000', date: day(0, '09:00'), meta: 'Inflow' },
+      { id: 't3', title: 'Ikeja Electric', amount: '-12500', date: day(1, '19:20'), status: 'pending', meta: 'Bills' },
+      { id: 't4', title: 'Bolt', amount: '-3200.5', date: day(1, '08:15'), status: 'failed' },
+      { id: 't5', title: 'Netflix', amount: '-4400', currency: 'NGN', date: day(9, '00:01'), href: '#netflix' },
+      { id: 't6', title: '<img src=x onerror=alert(1)>', amount: '-1', date: day(40), meta: 'Escaping check' },
+    ];
+    $('txns').addEventListener('kl-select', (e) => ($('output').textContent = `Selected: ${e.detail.item.title}`));
+
+    $('transfer').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      $('output').textContent = JSON.stringify({ ...data, minorUnits: $('amount').minorUnits }, null, 2);
+    });
+    $('otp').addEventListener('kl-complete', (e) => ($('output').textContent = `Code complete: ${e.detail.value}`));
+    $('next').onclick = () => ($('stepper').value = Math.min(4, $('stepper').value + 1));
+    $('prev').onclick = () => ($('stepper').value = Math.max(1, $('stepper').value - 1));
+  </script>
+</body>
+</html>

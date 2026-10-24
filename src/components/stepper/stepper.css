@@ -1,0 +1,139 @@
+/*
+ * Stepper: progress through a multi-step flow.
+ *   <ol class="kl-stepper" aria-label="Transfer">
+ *     <li class="kl-stepper__step" data-state="complete">Recipient</li>
+ *     <li class="kl-stepper__step" data-state="current" aria-current="step">Amount</li>
+ *     <li class="kl-stepper__step">Confirm</li>
+ *   </ol>
+ * Or <kl-stepper value="2"> around .kl-stepper__step children: it sets the states for you.
+ * Markers are numbered by CSS (a check when complete). Optional .kl-stepper__description.
+ * data-orientation="vertical" stacks the steps.
+ */
+:is(.kl-stepper, kl-stepper) {
+  counter-reset: kl-step;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kl-stepper__step {
+  --_marker-bg: var(--kl-color-bg);
+  --_marker-fg: var(--kl-color-fg-muted);
+  --_marker-border: var(--kl-color-input);
+
+  counter-increment: kl-step;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--kl-stepper-marker-size) 1fr;
+  column-gap: var(--kl-space-2);
+  row-gap: var(--kl-space-1);
+  align-items: center;
+  flex: 1;
+  min-inline-size: 0;
+  color: var(--kl-color-fg-muted);
+  font-size: var(--kl-text-sm);
+  font-weight: var(--kl-weight-medium);
+}
+
+/* Marker */
+.kl-stepper__step::before {
+  content: counter(kl-step);
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  grid-row: 1;
+  inline-size: var(--kl-stepper-marker-size);
+  block-size: var(--kl-stepper-marker-size);
+  border: calc(var(--kl-border-width) * 2) solid var(--_marker-border);
+  border-radius: var(--kl-radius-full);
+  background-color: var(--_marker-bg);
+  color: var(--_marker-fg);
+  font-family: var(--kl-font-numeric);
+  font-size: var(--kl-text-xs);
+  font-weight: var(--kl-weight-semibold);
+  transition: var(--kl-transition-colors);
+}
+
+/* Horizontal (default): marker on top, label and description centred below, connector between markers */
+:is(.kl-stepper, kl-stepper):not([data-orientation="vertical"]) .kl-stepper__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--kl-space-2);
+  text-align: center;
+}
+
+.kl-stepper__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 1px;
+  background-color: var(--kl-stepper-line-color);
+}
+
+:is(.kl-stepper, kl-stepper):not([data-orientation="vertical"]) .kl-stepper__step:not(:last-child)::after {
+  inset-block-start: calc(var(--kl-stepper-marker-size) / 2 - 1px);
+  inset-inline: calc(50% + var(--kl-stepper-marker-size) / 2 + var(--kl-space-2)) calc(-50% + var(--kl-stepper-marker-size) / 2 + var(--kl-space-2));
+  block-size: 2px;
+}
+
+.kl-stepper__step[data-state="current"] {
+  --_marker-border: var(--kl-color-primary);
+  --_marker-fg: var(--kl-color-primary);
+  color: var(--kl-color-fg);
+}
+
+.kl-stepper__step[data-state="complete"] {
+  --_marker-bg: var(--kl-color-primary);
+  --_marker-border: var(--kl-color-primary);
+  --_marker-fg: var(--kl-color-primary-fg);
+  color: var(--kl-color-fg);
+}
+
+.kl-stepper__step[data-state="complete"]::before {
+  content: "✓" / "";
+}
+
+.kl-stepper__step[data-state="complete"]:not(:last-child)::after {
+  background-color: var(--kl-stepper-line-done-color);
+}
+
+.kl-stepper__description {
+  color: var(--kl-color-fg-muted);
+  font-size: var(--kl-text-xs);
+  font-weight: var(--kl-weight-regular);
+}
+
+/* Vertical */
+:is(.kl-stepper, kl-stepper)[data-orientation="vertical"] {
+  flex-direction: column;
+  gap: var(--kl-space-6);
+}
+
+:is(.kl-stepper, kl-stepper)[data-orientation="vertical"] .kl-stepper__description {
+  grid-column: 2;
+}
+
+:is(.kl-stepper, kl-stepper)[data-orientation="vertical"] .kl-stepper__step:not(:last-child)::after {
+  inset-block: calc(var(--kl-stepper-marker-size) + var(--kl-space-1)) calc(-1 * var(--kl-space-6) + var(--kl-space-1));
+  inset-inline: calc(var(--kl-stepper-marker-size) / 2 - 1px) auto;
+  inline-size: 2px;
+  block-size: auto;
+  margin: 0;
+}
+
+/* Phones: horizontal steppers show the label only for the current step */
+@media (max-width: 40rem) {
+  :is(.kl-stepper, kl-stepper):not([data-orientation="vertical"]) .kl-stepper__step:not([data-state="current"]) {
+    font-size: 0;
+  }
+
+  :is(.kl-stepper, kl-stepper):not([data-orientation="vertical"]) .kl-stepper__step::before {
+    font-size: var(--kl-text-xs);
+  }
+
+  :is(.kl-stepper, kl-stepper):not([data-orientation="vertical"]) .kl-stepper__description {
+    display: none;
+  }
+}

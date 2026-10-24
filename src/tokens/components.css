@@ -125,6 +125,23 @@
   --kl-sidebar-link-active-bg: var(--kl-color-selected);
   --kl-sidebar-link-active-fg: var(--kl-color-fg);
 
+  /* OTP / PIN */
+  --kl-otp-size: 3rem;
+  --kl-otp-gap: var(--kl-space-2);
+
+  /* Transaction list */
+  --kl-txn-icon-size: 2.5rem;
+  --kl-txn-icon-bg: var(--kl-color-muted);
+  --kl-txn-icon-radius: var(--kl-radius-full);
+  --kl-txn-row-padding-y: var(--kl-space-3);
+  --kl-txn-credit-fg: var(--kl-color-success-text);
+  --kl-txn-divider-color: var(--kl-color-border);
+
+  /* Stepper */
+  --kl-stepper-marker-size: 2rem;
+  --kl-stepper-line-color: var(--kl-color-border);
+  --kl-stepper-line-done-color: var(--kl-color-primary);
+
   /* Field */
   --kl-field-gap: var(--kl-space-2);
   --kl-label-weight: var(--kl-weight-medium);

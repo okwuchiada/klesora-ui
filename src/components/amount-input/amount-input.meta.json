@@ -1,0 +1,106 @@
+{
+  "name": "amount-input",
+  "title": "Amount input",
+  "element": "kl-amount-input",
+  "description": "Money entry with live, locale-aware grouping. value is an exact decimal string; never a float.",
+  "attributes": [
+    {
+      "name": "value",
+      "type": "string",
+      "description": "Decimal in the main unit, e.g. \"45000.50\". Submitted padded to the currency's decimals."
+    },
+    {
+      "name": "currency",
+      "type": "ISO 4217 code",
+      "default": "NGN"
+    },
+    {
+      "name": "locale",
+      "type": "BCP 47",
+      "default": "<html lang>"
+    },
+    {
+      "name": "min",
+      "type": "decimal string"
+    },
+    {
+      "name": "max",
+      "type": "decimal string"
+    },
+    {
+      "name": "required",
+      "type": "boolean"
+    },
+    {
+      "name": "allow-negative",
+      "type": "boolean"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "default": "0.00 in the locale"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean"
+    },
+    {
+      "name": "readonly",
+      "type": "boolean"
+    },
+    {
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "data": "data-size"
+    }
+  ],
+  "properties": [
+    {
+      "name": "minorUnits",
+      "type": "number | bigint | null",
+      "description": "Integer kobo/cents (BigInt beyond MAX_SAFE_INTEGER). Settable."
+    },
+    {
+      "name": "valueAsNumber",
+      "type": "number",
+      "description": "For display maths only."
+    }
+  ],
+  "events": [
+    {
+      "name": "input",
+      "native": true
+    },
+    {
+      "name": "change",
+      "native": true
+    }
+  ],
+  "methods": [
+    "focus()",
+    "blur()",
+    "setCustomValidity(message)",
+    "checkValidity()",
+    "reportValidity()"
+  ],
+  "tokens": [
+    "--kl-input-*"
+  ],
+  "examples": [
+    {
+      "title": "Naira",
+      "html": "<kl-amount-input name=\"amount\" min=\"100\" max=\"5000000\" required></kl-amount-input>"
+    },
+    {
+      "title": "Euro, German",
+      "html": "<kl-amount-input currency=\"EUR\" locale=\"de-DE\"></kl-amount-input>"
+    }
+  ],
+  "notes": [
+    "Validation messages are English; pass your own with setCustomValidity or a kl-field [slot=error]."
+  ]
+}

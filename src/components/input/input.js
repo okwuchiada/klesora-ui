@@ -9,8 +9,9 @@
  * ElementInternals and copies the inner input's native validity (type, pattern, min/max, length).
  * Native `input` and `change` events bubble from the inner input as usual.
  */
-import { FormElement, formActions } from '../../core/form-element.js';
+import { FormElement } from '../../core/form-element.js';
 import { define } from '../../core/element.js';
+import { createInnerInput, connectInnerInput, syncInnerAria, copyValidity } from '../../core/inner-control.js';
 
 /** Host property → attribute forwarded to the inner input. */
 const FORWARD = {
@@ -27,14 +28,6 @@ const FORWARD = {
   step: 'step',
   required: 'required',
 };
-const ARIA = ['aria-label', 'aria-labelledby', 'aria-describedby', 'aria-invalid', 'aria-errormessage'];
-const FLAGS = [
-  'valueMissing', 'typeMismatch', 'patternMismatch', 'tooLong', 'tooShort',
-  'rangeUnderflow', 'rangeOverflow', 'stepMismatch', 'badInput', 'customError',
-];
-
-let uid = 0;
-const ensureId = (el) => (el.id ||= `kl-${++uid}`);
 
 export class KlInput extends FormElement {
   static properties = {
@@ -53,15 +46,8 @@ export class KlInput extends FormElement {
     size: { type: String, data: true, default: 'md' },
   };
 
-  #input = document.createElement('input');
+  #input = createInnerInput();
   #customError = '';
-
-  constructor() {
-    super();
-    // Owned by no form: it must not submit or block submission itself.
-    this.#input.setAttribute('form', 'kl-detached');
-    this.#input.dataset.klPart = 'control';
-  }
 
   /** The inner <input>, for selection APIs and advanced use. */
   get control() {
@@ -71,14 +57,7 @@ export class KlInput extends FormElement {
   connected() {
     if (this.#input.parentNode !== this) this.append(this.#input);
     this.listen(this.#input, 'input', () => (this.value = this.#input.value));
-    this.listen(this.#input, 'keydown', (e) => this.#onKeyDown(e));
-    this.listen(this, 'click', (e) => {
-      if (!e.target.closest('a, button, input, select, textarea, kl-button, [tabindex]')) this.#input.focus();
-    });
-    this.listen(this, 'focusin', () => this.#syncAria());
-    const observer = new MutationObserver(() => this.#syncAria());
-    observer.observe(this, { attributes: true, attributeFilter: ARIA });
-    this.addCleanup(() => observer.disconnect());
+    connectInnerInput(this, this.#input);
   }
 
   update(changed, first) {
@@ -95,37 +74,8 @@ export class KlInput extends FormElement {
     this.toggleAttribute('data-filled', Boolean(this.value));
 
     this.setFormValue(this.value || null);
-    input.setCustomValidity(this.#customError);
-    if (input.validity.valid) this.setValidity();
-    else this.setValidity(Object.fromEntries(FLAGS.map((f) => [f, input.validity[f]])), input.validationMessage, input);
-    this.#syncAria();
-  }
-
-  #syncAria() {
-    const input = this.#input;
-    for (const attr of ARIA) {
-      const value = this.getAttribute(attr);
-      if (value === null) input.removeAttribute(attr);
-      else input.setAttribute(attr, value);
-    }
-    // <label for="this-id"> names the inner textbox.
-    if (!this.hasAttribute('aria-labelledby') && !this.hasAttribute('aria-label') && this.labels?.length) {
-      input.setAttribute('aria-labelledby', [...this.labels].map(ensureId).join(' '));
-    }
-  }
-
-  #onKeyDown(e) {
-    // Implicit submission: Enter in a text field submits the form, like a native input.
-    if (e.key !== 'Enter' || e.isComposing || !this.form) return;
-    setTimeout(() => {
-      if (e.defaultPrevented) return;
-      const submitter = formActions.find(
-        this.form,
-        'button:not([type]), button[type="submit"], input[type="submit"], kl-button:not([type="button"], [type="reset"])',
-      );
-      if (submitter) submitter.click();
-      else formActions.submit(this.form);
-    });
+    copyValidity(this, input, this.#customError);
+    syncInnerAria(this, input);
   }
 
   focus(options) {

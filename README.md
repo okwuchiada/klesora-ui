@@ -14,7 +14,7 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 8 of the roadmap: layout and data (card, tabs, table, navbar, sidebar)). Not yet published.
+> Status: early development (Step 9 of the roadmap: fintech extras (amount input, OTP/PIN, transactions, stepper)). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -51,6 +51,10 @@ Components work as classes on native elements or as custom elements:
   <kl-option value="gtb">GTBank</kl-option>
 </kl-select>
 <kl-button icon aria-label="Copy" data-kl-tooltip="Copy account number">⧉</kl-button>
+
+<kl-amount-input name="amount" currency="NGN" min="100" required></kl-amount-input>
+<kl-otp-input name="code" length="6"></kl-otp-input>
+<kl-stepper value="2"><div class="kl-stepper__step">Recipient</div>…</kl-stepper>
 ```
 
 ```js
@@ -84,7 +88,7 @@ tests/          test pages
 ## Develop
 
 ```sh
-npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: tokens, base, core, components, overlays, services, layout)
+npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: tokens, base, core, components, overlays, services, layout, fintech)
 npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 npm test               # Playwright tests in Chromium, Firefox and WebKit (starts the dev server)

@@ -1,0 +1,78 @@
+{
+  "name": "otp-input",
+  "title": "OTP / PIN input",
+  "element": "kl-otp-input",
+  "description": "Boxes drawn over one real input, so SMS autofill, paste, password managers and screen readers work.",
+  "attributes": [
+    {
+      "name": "length",
+      "type": "number",
+      "default": "6"
+    },
+    {
+      "name": "type",
+      "type": "'numeric' | 'alphanumeric'",
+      "default": "numeric"
+    },
+    {
+      "name": "mask",
+      "type": "boolean",
+      "description": "Dots, password field."
+    },
+    {
+      "name": "autocomplete",
+      "type": "string",
+      "default": "one-time-code"
+    },
+    {
+      "name": "value",
+      "type": "string"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "required",
+      "type": "boolean"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean"
+    }
+  ],
+  "events": [
+    {
+      "name": "kl-complete",
+      "detail": "{ value }"
+    },
+    {
+      "name": "input",
+      "native": true
+    },
+    {
+      "name": "change",
+      "native": true
+    }
+  ],
+  "methods": [
+    "clear()",
+    "focus()",
+    "setCustomValidity(message)"
+  ],
+  "tokens": [
+    "--kl-otp-size",
+    "--kl-otp-gap",
+    "--kl-input-*"
+  ],
+  "examples": [
+    {
+      "title": "Code",
+      "html": "<kl-otp-input name=\"code\" length=\"6\" required></kl-otp-input>"
+    },
+    {
+      "title": "PIN",
+      "html": "<kl-otp-input name=\"pin\" length=\"4\" mask></kl-otp-input>"
+    }
+  ]
+}

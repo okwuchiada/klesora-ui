@@ -94,4 +94,7 @@
   --kl-sidebar-bg: color-mix(in oklab, var(--kl-color-muted) 70%, var(--kl-color-bg));
   --kl-sidebar-border-color: transparent;
   --kl-sidebar-link-height: var(--kl-control-height-sm);
+  --kl-otp-size: 3.25rem;
+  --kl-otp-gap: var(--kl-space-3);
+  --kl-txn-divider-color: color-mix(in oklab, var(--kl-color-border) 60%, transparent);
 }

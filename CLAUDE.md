@@ -26,7 +26,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
    - 7a ✅ positioning (`src/core/position.js`), `<kl-menu>` + `data-kl-menu`, `<kl-select>`/`<kl-option>`, `data-kl-tooltip`; test page `tests/overlays.html`, tests `e2e/overlays.spec.ts`
    - 7b ✅ `dialog.kl-dialog` + `data-kl-dialog`/`data-kl-dialog-open` directives + `dialog` service; `toast` service; `theme` service + `themeInitScript`; test page `tests/services.html`, tests `e2e/services.spec.ts`
 8. ✅ Layout and data: `src/components/{card,tabs,table,navbar,sidebar}/`, directives `tabs`, `table`, `navbar`, `sidebar`; test page `tests/layout.html` (app shell), tests `e2e/layout.spec.ts`
-9. Fintech extras: amount input (₦/$ locale formatting), OTP/PIN input, transaction list, stepper
+9. ✅ Fintech extras: `src/components/{amount-input,otp-input,transaction-list,stepper}/`, `src/core/money.js`, `src/core/inner-control.js`; test page `tests/fintech.html`, tests `e2e/fintech.spec.ts`
 10. Encryption and secure storage via Web Crypto (AES-GCM; PBKDF2 or non-extractable keys in IndexedDB). Document honestly what client-side encryption does and does not protect.
 11. Framework integration: .d.ts files, custom-elements.json, Angular/Vue setup notes
 12. Docs site generated from each component's `*.meta.json`, with a live style and theme switcher
@@ -52,6 +52,8 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - Step 7a: `setAria()` mirrors ElementInternals ARIA to attributes unless the author set them (the user chose this so getByRole works). Popovers use the native popover API + our positioning; see CONVENTIONS §5 "Popovers" for the gotchas (position on rAF after beforetoggle, measure offset sizes, kl-button implements popovertarget, pointer-down state vs light dismiss).
 - Step 7b: services build class-layer markup only (no elements needed). The toaster moves inside the topmost open modal (modals make outside popovers inert). Contrast pairs can be conditional (`when`), e.g. toast icons only where the style draws them.
 - Step 8 (user chose): table sorting is event-based (`kl-sort`), DOM re-ordering only with `data-kl-table="dom"`. Phones get a scrolling table wrapper (sticky header and first column) plus opt-in `data-stacked`. Tabs: segmented in Mono/Solo, underline in Chorus, with `variant` to override. Elements only where there's behaviour (`<kl-tabs>`); the rest are classes + directives.
+- Step 9 (user chose): amounts are exact decimal strings (`minorUnits` helper, BigInt beyond MAX_SAFE); live grouping while typing; OTP = one real input drawn as boxes; transaction list = classes + data-driven element; stepper = indicator only.
+- Open item: validation messages in amount/OTP/dialog/toast default to English. A consistent i18n option (like the transaction list's `labels`) would help before 1.0.
 - Styles never change duration primitives; they pick steps via `--kl-motion-*`, so reduced motion keeps working.
 
 ## Commands

@@ -1,0 +1,43 @@
+{
+  "name": "stepper",
+  "title": "Stepper",
+  "element": "kl-stepper",
+  "class": "kl-stepper",
+  "description": "Progress indicator for multi-step flows. Markers are numbered by CSS; complete steps show a check.",
+  "attributes": [
+    {
+      "name": "value",
+      "type": "number",
+      "default": "1",
+      "description": "Current step (1-based)."
+    },
+    {
+      "name": "orientation",
+      "type": "'horizontal' | 'vertical'",
+      "data": "data-orientation"
+    },
+    {
+      "name": "labels",
+      "type": "object",
+      "description": "{ completed }"
+    }
+  ],
+  "parts": [
+    ".kl-stepper__step (data-state: complete | current | upcoming; aria-current=\"step\")",
+    ".kl-stepper__description"
+  ],
+  "tokens": [
+    "--kl-stepper-marker-size",
+    "--kl-stepper-line-color",
+    "--kl-stepper-line-done-color"
+  ],
+  "examples": [
+    {
+      "title": "Element",
+      "html": "<kl-stepper value=\"2\" aria-label=\"Transfer\">\n  <div class=\"kl-stepper__step\">Recipient</div>\n  <div class=\"kl-stepper__step\">Amount</div>\n  <div class=\"kl-stepper__step\">Confirm</div>\n</kl-stepper>"
+    }
+  ],
+  "notes": [
+    "On phones a horizontal stepper shows only the current step's label."
+  ]
+}

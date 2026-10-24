@@ -228,6 +228,10 @@ Each component's CSS selects the class and the element alike, e.g. `:is(.kl-btn,
 | Table | `table.kl-table` (+ `.kl-table-wrap`) + `data-kl-table` | | `data-density`, `data-striped`, `data-stacked`, `data-numeric`; `.kl-table__sort` buttons fire `kl-sort`; `data-kl-select-all` / `data-kl-select` |
 | Navbar | `.kl-navbar` + `data-kl-navbar` with `__brand`, `__nav`, `__link`, `__actions`, `__toggle` | | `data-sticky`; links collapse into a popover below 48rem |
 | Sidebar | `.kl-sidebar` + `data-kl-sidebar` with `__header`, `__section`, `__label`, `__link`, `__text`, `__footer`, `__collapse`; `.kl-app` shell | | `data-collapsed` rail; drawer below 48rem, opened via `popovertarget` |
+| Amount input | | `<kl-amount-input>` | `currency`, `locale`, `min`, `max`, `allow-negative`; `value` decimal string, `minorUnits` |
+| OTP / PIN | | `<kl-otp-input>` | `length`, `type` numeric/alphanumeric, `mask`; fires `kl-complete` |
+| Transactions | `.kl-txn-list` with `.kl-txn` rows (`data-direction`, `data-status`) | `<kl-transaction-list>` (renders from `items`) | `group-by`, `selectable`, `labels`; fires `kl-select` |
+| Stepper | `ol.kl-stepper` with `.kl-stepper__step` (`data-state`, `aria-current="step"`) | `<kl-stepper value="2">` | `data-orientation` vertical |
 | Field | `.kl-field` with `.kl-field__label`, `__hint`, `__error`, `data-invalid` | `<kl-field>` (children with `slot="hint"` / `slot="error"`) | `error="…"` |
 
 The `slot` attribute is only a marker for light-DOM parts (no Shadow DOM). Elements read it and never move the marked nodes. Hover styles sit inside `@media (hover: hover)`, so taps don't leave a button stuck in hover.
@@ -250,6 +254,14 @@ Menus, the select list and tooltips use the native popover API. They render in t
 - Responsive navbars and sidebars switch modes with a media query in the directive. They add `data-compact` / `data-drawer` and a `popover` attribute, which they remove again above the breakpoint, so no markup is duplicated or moved.
 - Tables on phones: `.kl-table-wrap` scrolls sideways with a sticky header and first column, and the directive makes it a focusable, labelled region. `data-stacked` turns rows into cards (labels from the headers via `data-label`).
 - Contrast pairs with translucent tokens (Solo's frosted navbar, transparent tab backgrounds) are checked against the page background they sit on (`check:tokens` composites them).
+
+### Money
+
+- Amounts are exact decimal strings in the main unit (`"45000.50"`), never floats. `src/core/money.js` does maths in BigInt minor units: `toMinor`, `fromMinor`, `fixDecimal`, `compareDecimal`, `formatMoney`, `currencyDigits`, `currencySymbol`. It's also exported as `money` from `klesora-ui`. Intl formats decimal strings exactly.
+- `<kl-amount-input>` groups thousands live and keeps the caret. Backspace after a separator deletes the digit before it. Decimals are capped to the currency's digits and padded on blur. The symbol is placed per locale and hidden from screen readers, which hear the currency name instead.
+- Credits get "+" and the success colour; debits stay neutral (red only for failures). Direction and status are always written out for screen readers (never colour alone).
+- Components that render from data use `textContent` only and allow just http(s), relative, `mailto:` and `tel:` links.
+- Elements that wrap an inner `<input>` share `src/core/inner-control.js`: ARIA forwarding, label linking, implicit submission and a form-less inner input.
 
 `data-kl-ripple` (`src/directives/ripple.js`) adds press feedback to any element. Presses only record `--kl-press-x/y/size` and `data-pressed`. Only styles with `--kl-btn-ripple` > 0 (Chorus) draw the ripple. `<kl-button>` has it built in.
 
@@ -400,7 +412,7 @@ Source files ship as native ES modules and plain CSS, so no build step is needed
 | `klesora-ui` | everything: registers all elements and directives |
 | `klesora-ui/css` | all CSS (tokens for all three styles, reset, base, components, utilities) |
 | `klesora-ui/css/reset.css`, `base.css`, `utilities.css` | one part; import with `layer(kl.reset)` etc. after declaring the layer order |
-| `klesora-ui/core/element`, `form-element`, `directives`, `position` | the base classes, directive registry and positioning, for writing or ejecting components |
+| `klesora-ui/core/element`, `form-element`, `directives`, `position`, `money`, `inner-control` | the base classes, directive registry and positioning, for writing or ejecting components |
 | `klesora-ui/directives/tooltip`, `menu`, `ripple`, `dialog`, `tabs`, `table`, `navbar`, `sidebar` | one directive (importing registers it) |
 | `klesora-ui/components/button` | just `<kl-button>` |
 | `klesora-ui/components/button.css` | just the button CSS |

@@ -28,6 +28,9 @@
 @import url("./components/table/table.css") layer(kl.components);
 @import url("./components/navbar/navbar.css") layer(kl.components);
 @import url("./components/sidebar/sidebar.css") layer(kl.components);
+@import url("./components/otp-input/otp-input.css") layer(kl.components);
+@import url("./components/transaction-list/transaction-list.css") layer(kl.components);
+@import url("./components/stepper/stepper.css") layer(kl.components);
 
 @import url("./styles/mono.css") layer(kl.styles);
 @import url("./styles/solo.css") layer(kl.styles);

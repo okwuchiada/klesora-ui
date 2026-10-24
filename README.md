@@ -14,7 +14,7 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 9 of the roadmap: fintech extras (amount input, OTP/PIN, transactions, stepper)). Not yet published.
+> Status: early development (Step 10 of the roadmap: encryption and secure storage). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -68,6 +68,17 @@ theme.set({ style: 'solo', theme: 'dark' }); // remembered; see CONVENTIONS.md ย
 
 The CSS also includes a gentle reset, page defaults (nested themes paint themselves) and a small set of utilities: `.kl-stack`, `.kl-cluster`, `.kl-grid`, `.kl-container`, `.kl-surface`, `.kl-sr-only`, `.kl-truncate` and more (CONVENTIONS.md ยง4).
 
+## Secure storage
+
+```js
+import { secureStorage } from 'klesora-ui';
+
+const wallet = await secureStorage.open('wallet', { passphrase: pin, autoLock: 5 });
+await wallet.set('cards', [{ last4: '4242' }]); // AES-GCM encrypted in IndexedDB
+```
+
+Client-side encryption protects data at rest in the browser. It does **not** protect against scripts running on your page (XSS, compromised dependencies), and a short PIN can be guessed offline. Read [SECURITY.md](./SECURITY.md) before relying on it.
+
 ## Project layout
 
 ```
@@ -88,7 +99,7 @@ tests/          test pages
 ## Develop
 
 ```sh
-npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: tokens, base, core, components, overlays, services, layout, fintech)
+npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: tokens, base, core, components, overlays, services, layout, fintech, security)
 npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 npm test               # Playwright tests in Chromium, Firefox and WebKit (starts the dev server)

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klesora UI · Secure storage</title>
+  <link rel="stylesheet" href="../src/klesora-ui.css">
+  <script type="module" src="../src/index.js"></script>
+</head>
+<body>
+  <main class="kl-container kl-stack" data-gap="8" style="padding-block: var(--kl-space-10)">
+    <div class="kl-stack" data-gap="2">
+      <h1 style="margin: 0">Secure storage</h1>
+      <p class="kl-text-muted" style="margin: 0">Encrypted at rest in IndexedDB with AES-GCM. It does not protect against scripts running on this page. See SECURITY.md.</p>
+    </div>
+
+    <section class="kl-card kl-stack" data-gap="4" style="padding: var(--kl-space-6)">
+      <h2 style="margin: 0; font-size: var(--kl-text-lg)">Device-key store</h2>
+      <kl-field><label>Value to save</label><kl-input id="device-value" value="0123456789"></kl-input></kl-field>
+      <div class="kl-cluster"><kl-button id="device-save">Encrypt and save</kl-button><kl-button variant="outline" id="device-load">Load</kl-button></div>
+      <pre id="device-out" class="kl-surface" data-variant="muted" style="margin: 0; padding: var(--kl-space-3); white-space: pre-wrap; word-break: break-all"></pre>
+    </section>
+
+    <section class="kl-card kl-stack" data-gap="4" style="padding: var(--kl-space-6)">
+      <h2 style="margin: 0; font-size: var(--kl-text-lg)">PIN store (auto-locks after 1 minute)</h2>
+      <kl-field><label>PIN</label><kl-otp-input id="pin" length="4" mask></kl-otp-input><p slot="hint">A 4-digit PIN is guessable offline: demo only.</p></kl-field>
+      <div class="kl-cluster">
+        <kl-button id="pin-open">Open / unlock</kl-button>
+        <kl-button variant="outline" id="pin-save">Save secret</kl-button>
+        <kl-button variant="outline" id="pin-load">Load secret</kl-button>
+        <kl-button variant="ghost" id="pin-lock">Lock</kl-button>
+        <kl-button variant="danger" id="pin-forget">Forget store</kl-button>
+      </div>
+      <p id="pin-state" class="kl-text-muted" style="margin: 0" aria-live="polite">Closed</p>
+    </section>
+  </main>
+
+  <script type="module">
+    import { secureStorage, toast } from '../src/index.js';
+    const $ = (id) => document.getElementById(id);
+    const raw = (store, key) =>
+      new Promise((resolve) => {
+        const open = indexedDB.open('klesora-secure');
+        open.onsuccess = () => {
+          const get = open.result.transaction('values').objectStore('values').get([store, key]);
+          get.onsuccess = () => resolve(get.result);
+          open.result.close();
+        };
+      });
+    const hex = (bytes) => [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
+
+    $('device-save').onclick = async () => {
+      const store = await secureStorage.open('demo-device');
+      await store.set('account', $('device-value').value);
+      const record = await raw('demo-device', 'account');
+      $('device-out').textContent = `Stored in IndexedDB:\niv ${hex(record.box.iv)}\nciphertext ${hex(record.box.ct)}`;
+    };
+    $('device-load').onclick = async () => {
+      const store = await secureStorage.open('demo-device');
+      $('device-out').textContent = `Decrypted: ${JSON.stringify(await store.get('account'))}`;
+    };
+
+    let wallet = null;
+    const state = () => ($('pin-state').textContent = !wallet ? 'Closed' : wallet.locked ? 'Locked' : 'Unlocked');
+    setInterval(state, 1000);
+    const guard = (fn) => async () => {
+      try {
+        await fn();
+      } catch (error) {
+        toast.error(error.code === 'wrong-passphrase' ? 'Wrong PIN' : error.code === 'locked' ? 'Locked: enter the PIN' : error.message);
+      }
+      state();
+    };
+    $('pin-open').onclick = guard(async () => {
+      const pin = $('pin').value;
+      if (wallet) await wallet.unlock(pin);
+      else wallet = await secureStorage.open('demo-wallet', { passphrase: pin, autoLock: 1 });
+      $('pin').clear();
+      toast.success('Unlocked');
+    });
+    $('pin-save').onclick = guard(async () => {
+      await wallet?.set('note', `Saved at ${new Date().toLocaleTimeString()}`);
+      toast('Saved');
+    });
+    $('pin-load').onclick = guard(async () => toast(String(await wallet?.get('note') ?? 'Nothing saved')));
+    $('pin-lock').onclick = guard(async () => wallet?.lock());
+    $('pin-forget').onclick = guard(async () => {
+      await secureStorage.delete('demo-wallet');
+      wallet = null;
+      toast('Store deleted');
+    });
+  </script>
+</body>
+</html>

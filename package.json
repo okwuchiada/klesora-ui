@@ -30,7 +30,8 @@
   "files": [
     "src",
     "dist",
-    "CONVENTIONS.md"
+    "CONVENTIONS.md",
+    "SECURITY.md"
   ],
   "sideEffects": [
     "**/*.css",

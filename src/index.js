@@ -33,6 +33,8 @@ import './directives/sidebar.js';
 export { dialog } from './services/dialog.js';
 export { toast } from './services/toast.js';
 export { theme, themeInitScript } from './services/theme.js';
+export { encryption, EncryptionError } from './services/crypto.js';
+export { secureStorage, SecureStorageError } from './services/secure-storage.js';
 
 export const VERSION = '0.0.0';
 export const PREFIX = 'kl';

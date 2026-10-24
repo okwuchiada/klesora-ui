@@ -217,17 +217,58 @@ Layout utilities own their direct children's block margins (set to 0; the gap do
 - Variants: `data-variant`, `data-size`, `data-tone`.
 - State: prefer real ARIA or native state (`aria-expanded`, `aria-invalid`, `aria-selected`, `:disabled`, `[open]`). Use `data-state` only when nothing native exists.
 
-This maps one-to-one onto component attributes: `<kl-button variant="outline" size="sm">` sets the same `data-*` on its inner `.kl-btn`.
+This maps one-to-one onto component attributes: `<kl-button variant="outline" size="sm">` mirrors the same `data-*` onto itself, and the component CSS selects `:is(.kl-btn, kl-button)`.
 
 ## 5. Web Components
 
+Every element extends `UIElement` (`src/core/element.js`); form controls extend `FormElement` (`src/core/form-element.js`).
+
+### Rendering
+
 - Render in **light DOM** using the class layer, so styles and themes apply with no extra work. No Shadow DOM unless a component has a specific reason, documented in its meta file.
-- Attributes are kebab-case and properties are camelCase (`max-length` ↔ `maxLength`). Boolean attributes follow HTML rules: present means true.
-- Public attributes reflect to properties and back.
-- Form controls are form-associated (`static formAssociated = true` + `ElementInternals`), so they work in native forms and framework form libraries.
-- Native events (`input`, `change`, `click`) keep firing as usual. Library events are `CustomEvent`s named `kl-*` with `bubbles: true, composed: true`, and data in `detail`.
-- Every element cleans up its listeners and observers in `disconnectedCallback`.
-- Defining an element twice is a no-op (guarded `customElements.define`).
+- **Never move, wrap or replace the children a page or framework gave you.** React, Vue, Angular and Svelte track those nodes. The element itself is the control: `<kl-button>` is the button (role, keyboard, form submission via ElementInternals) and your text stays where you put it. A component with no author children (e.g. `<kl-input>`) may create its own internal native element.
+- **Elements never add classes to themselves**, because frameworks overwrite `class`. Component CSS selects both forms: `:is(.kl-btn, kl-button)`. Variants reach the CSS as `data-*` attributes mirrored by the element (`variant="outline"` → `data-variant="outline"`).
+- Default ARIA roles and states go through `this.internals` (`internals.role`, `internals.ariaDisabled`…), not attributes, so they never fight framework-rendered attributes.
+
+### Properties
+
+```js
+class KlButton extends UIElement {
+  static properties = {
+    variant: { type: String, data: true, default: 'solid' }, // attribute + data-variant
+    size: { type: String, data: true, default: 'md' },
+    loading: { type: Boolean, reflect: true },
+  };
+  connected() { this.listen(this, 'keydown', this.#onKey); }
+  update(changed, first) { if (first || changed.has('loading')) this.internals.ariaBusy = String(this.loading); }
+}
+define('kl-button', KlButton);
+```
+
+- Options: `type` (String, Number, Boolean, Object, Array: how the attribute converts), `attribute` (name or `false`; default kebab-case), `reflect` (write back to the attribute), `data` (mirror to `data-<attribute>`), `default` (use a function for objects and arrays).
+- Attributes are kebab-case and properties camelCase (`max-length` ↔ `maxLength`). Boolean attributes follow HTML: present means true. Removing an attribute restores the default.
+- Never declare a reactive property as a class field (`variant = 'solid'`): it shadows the accessor. Use `default`.
+- Properties set before the element is defined (common in frameworks) are picked up on connect.
+
+### Updates and lifecycle
+
+- Updates are **batched**: any number of property or attribute changes cause one `update(changed, first)` in a microtask. `changed` maps property name → previous value. `await el.updateComplete` waits for it. Call `this.requestUpdate()` after changing internal state.
+- Reflection and `data-*` mirroring happen during the update, so attributes lag property sets by one microtask.
+- Hooks: `connected()`, `update(changed, first)`, `disconnected()`. Changes made while disconnected apply on the next connect.
+- Add listeners with `this.listen(target, type, handler)` and teardown with `this.addCleanup(fn)` (or `this.signal`). Both are undone on disconnect, and `connected()` runs again on reconnect.
+- Defining an element twice is a no-op (`define(tag, cls)`). Importing any module is safe without a DOM (server rendering).
+
+### Events
+
+Native events (`input`, `change`, `click`) keep firing as usual. Library events use `this.emit('kl-<verb>', detail, { cancelable })`: a `CustomEvent` with `bubbles: true, composed: true` and data in `detail`. `emit` returns `false` when a cancelable event was prevented, and throws for names not starting with `kl-`.
+
+### Form controls
+
+`FormElement` is form-associated (`static formAssociated = true` + ElementInternals), so controls submit with native forms, validate, and are disabled by a disabled `<fieldset>`. That also makes them work with framework form libraries.
+
+- Built in: `name`, `disabled`, `required` properties; `isDisabled` (own or fieldset); `form`, `labels`, `validity`, `validationMessage`, `willValidate`, `checkValidity()`, `reportValidity()`; ARIA disabled and required kept in sync.
+- The subclass owns `value`. In `update()`, call `super.update(changed, first)`, then `this.setFormValue(value)` and `this.setValidity(flags, message, anchor)` (`setValidity()` with no arguments means valid).
+- Implement the standard `formResetCallback()` (restore the initial value) and `formStateRestoreCallback(state)`.
 
 ## 6. Directives
 
@@ -238,7 +279,20 @@ Directives are behaviours attached to any element through a `data-kl-*` attribut
 <button class="kl-btn" data-kl-ripple>Pay</button>
 ```
 
-A single registry watches the DOM (MutationObserver), so directives also work on content that a framework renders later. Each directive exports `mount(el, value)` and returns a cleanup function.
+```js
+import { registerDirective } from 'klesora-ui/core/directives';
+
+registerDirective('tooltip', (el, value) => {
+  // …set up
+  return () => { /* …clean up */ };
+});
+```
+
+- One registry (`src/core/directives.js`) watches the document with a MutationObserver, so directives also work on content that a framework renders later. Watching starts with the first registered directive.
+- A directive mounts when its attribute appears, **remounts** (cleanup, then mount) when the value changes, and is cleaned up when the attribute or the element goes away. Moving an element within the same task does not remount it.
+- A directive that throws is logged and skipped; it never breaks other directives.
+- Shadow roots aren't observed automatically: call `observeRoot(root)`, which returns a stop function. `scan(root)` syncs immediately.
+- Registering a name twice is a no-op.
 
 ## 7. Services
 
@@ -274,6 +328,7 @@ Source files ship as native ES modules and plain CSS, so no build step is needed
 | `klesora-ui` | everything: registers all elements and directives |
 | `klesora-ui/css` | all CSS (tokens for all three styles, reset, base, components, utilities) |
 | `klesora-ui/css/reset.css`, `base.css`, `utilities.css` | one part; import with `layer(kl.reset)` etc. after declaring the layer order |
+| `klesora-ui/core/element`, `form-element`, `directives` | the base classes and directive registry, for writing or ejecting components |
 | `klesora-ui/components/button` | just `<kl-button>` |
 | `klesora-ui/components/button.css` | just the button CSS |
 | `klesora-ui/services/toast` | just the toast service |

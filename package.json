@@ -20,6 +20,7 @@
     "./css/*": "./src/css/*.css",
     "./tokens/*": "./src/tokens/*.css",
     "./styles/*": "./src/styles/*.css",
+    "./core/*": "./src/core/*.js",
     "./components/*": "./src/components/*/*.js",
     "./components/*.css": "./src/components/*/*.css",
     "./directives/*": "./src/directives/*.js",
@@ -40,7 +41,8 @@
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "gen:palette": "node scripts/gen-palette.mjs",
-    "check:tokens": "node scripts/check-tokens.mjs"
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "test": "playwright test"
   },
   "engines": {
     "node": ">=18"

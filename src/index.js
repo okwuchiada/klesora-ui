@@ -3,6 +3,10 @@
  * Importing this registers every element and directive.
  * For smaller bundles, import individual paths instead (see CONVENTIONS.md §9).
  */
+export { UIElement, define } from './core/element.js';
+export { FormElement } from './core/form-element.js';
+export { registerDirective, observeRoot, scan, directiveNames } from './core/directives.js';
+
 export const VERSION = '0.0.0';
 export const PREFIX = 'kl';
 export const STYLES = Object.freeze(['solo', 'mono', 'chorus']);

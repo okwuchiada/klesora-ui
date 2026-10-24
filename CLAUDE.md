@@ -20,7 +20,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 2. ✅ Design tokens: `src/tokens/primitives.css`, `src/tokens/base.css`, `scripts/check-tokens.mjs`, `scripts/gen-palette.mjs`, `tests/tokens.html`
 3. ✅ Style packs: `src/tokens/{solo,mono,chorus}.css` (token remaps) + `src/styles/<style>.css` (structural stubs until components exist)
 4. ✅ CSS class layer: `src/css/{reset,base,utilities}.css`, test page `tests/base.html`
-5. JS core: UIElement base class (attribute/property reflection, kl-* events, cleanup), form-associated elements via ElementInternals, directive registry (MutationObserver)
+5. ✅ JS core: `src/core/{element,form-element,directives}.js`; tests in `e2e/core.spec.ts` (fixtures `tests/fixtures/core.js`, page `tests/core.html`)
 6. Core inputs: button, input, select, checkbox, switch, form field
 7. Overlays and services: dialog, dropdown, tooltip directive, toast service, theme service
 8. Layout and data: card, tabs, table, navbar, sidebar
@@ -45,6 +45,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - Solo primary is blue (`--kl-blue-solid`). Chorus primary is Material-like violet (`--kl-violet-solid`, violet-700 ≈ #6750a4), with surfaces tinted from the primary.
 - Hover and press: Mono mixes toward the page bg (as specced). Solo presses away from the text colour. Chorus uses state layers (mixes in the text colour). The reason is contrast with white text on mid-tone primaries.
 - Step 4: the reset is gentle (keeps host margins). Base paints html + theme/style boundaries and styles only unclassed links. Utilities are a small set (CONVENTIONS §4) with data-* options. Links are coloured per style via `--kl-color-link` / `--kl-link`, not by the brand.
+- Step 5: elements never move or wrap author children; the element itself is the control (framework-safe). Elements never add classes to themselves; CSS selects `:is(.kl-x, kl-x)`, variants via mirrored `data-*`, ARIA defaults via `internals`. Updates are batched in a microtask (`updateComplete`), Lit-style static `properties`.
 - Styles never change duration primitives; they pick steps via `--kl-motion-*`, so reduced motion keeps working.
 
 ## Commands
@@ -52,14 +53,14 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - `npm run dev`: static server at http://localhost:5173 (test pages under /tests/).
 - `npm run check:tokens`: gamut, WCAG contrast (light + dark), drift. It must pass. Extend its `pairs` list when you add colour pairs.
 - `npm run gen:palette`: regenerate the colour scales.
-- Playwright and its browsers (chromium, firefox, webkit) are installed for screenshots and later tests.
+- `npm test`: Playwright (`e2e/`) in chromium, firefox and webkit; the config starts the dev server on port 5180.
 
 ## How the user likes to work
 
 - Ask clarifying questions before big or ambiguous work. One focused step at a time; they will correct assumptions quickly.
 - Keep it simple and direct. Short summaries of what changed, not long recaps.
 - Before finishing each step:
-  - `npm run check:tokens` passes.
+  - `npm run check:tokens` and `npm test` pass. Add e2e tests for new behaviour.
   - Check the relevant test page in light and dark, and in every style built so far. Fix anything that looks wrong.
   - Update CONVENTIONS.md and README.md if anything public changed.
   - **Do not commit** (since Step 3). Leave changes uncommitted for the user; a suggested conventional message (feat:, fix:, docs:…) is fine.

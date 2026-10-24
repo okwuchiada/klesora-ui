@@ -14,7 +14,7 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 4 of the roadmap: CSS class layer (reset, base, utilities)). Not yet published.
+> Status: early development (Step 5 of the roadmap: JS core (base element, form controls, directives)). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -52,9 +52,10 @@ tests/          test pages
 ## Develop
 
 ```sh
-npm run dev            # http://localhost:5173/docs/ (test pages: /tests/tokens.html, /tests/base.html)
+npm run dev            # http://localhost:5173/docs/ (test pages: /tests/tokens.html, /tests/base.html, /tests/core.html)
 npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
+npm test               # Playwright tests in Chromium, Firefox and WebKit (starts the dev server)
 ```
 
 ## Rules

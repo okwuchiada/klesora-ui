@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klesora UI · Core</title>
+  <link rel="stylesheet" href="../src/klesora-ui.css">
+  <script type="module" src="./fixtures/core.js"></script>
+</head>
+<body>
+  <main class="kl-container kl-stack" data-gap="8" style="padding-block: var(--kl-space-10)">
+    <div class="kl-stack" data-gap="2">
+      <h1>Core</h1>
+      <p class="kl-text-muted">Fixture page for e2e/core.spec.ts: UIElement, FormElement and the directive registry. Open the console to poke at the elements.</p>
+    </div>
+
+    <section class="kl-stack" data-gap="3">
+      <h2>UIElement</h2>
+      <kl-test-props id="props" label="Hello" count="2" class="kl-surface" style="display: block; padding: var(--kl-space-4)">
+        <span id="child">Author content stays in place</span>
+      </kl-test-props>
+    </section>
+
+    <section class="kl-stack" data-gap="3">
+      <h2>FormElement</h2>
+      <form id="form" class="kl-stack" data-gap="3">
+        <label id="field-label" for="field">Account name</label>
+        <kl-test-field id="field" name="account" value="Ada"></kl-test-field>
+        <fieldset id="fieldset">
+          <legend>Fieldset</legend>
+          <kl-test-field id="required-field" name="memo" required></kl-test-field>
+        </fieldset>
+        <div class="kl-cluster"><button type="submit">Submit</button><button type="reset">Reset</button></div>
+      </form>
+    </section>
+
+    <section class="kl-stack" data-gap="3">
+      <h2>Directives</h2>
+      <div id="directive-host">
+        <button id="marked" data-kl-test-mark="first">Marked button</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

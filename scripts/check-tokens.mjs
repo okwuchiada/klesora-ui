@@ -6,6 +6,7 @@ import {
   contrast,
   hexToRgb,
   inGamut,
+  linearToOklab,
   linearToRgb,
   oklabToLinear,
   oklabToOklch,
@@ -348,6 +349,18 @@ const pairs = [
   ['--kl-color-fg', '--kl-menu-item-active-bg', TEXT, 'menu active item'],
   ['--kl-tooltip-fg', '--kl-tooltip-bg', TEXT, 'tooltip'],
   ['--kl-color-fg', '--kl-dialog-bg', BODY, 'dialog text'],
+  ['--kl-color-fg', '--kl-card-bg', BODY, 'card text'],
+  ['--kl-color-fg-muted', '--kl-card-bg', TEXT, 'card description'],
+  ['--kl-tab-fg', '--kl-tabs-list-bg', TEXT, 'tab'],
+  ['--kl-tab-selected-fg', '--kl-tab-selected-bg', TEXT, 'selected tab'],
+  ['--kl-tab-indicator-color', '--kl-color-bg', UI, 'tab indicator'],
+  ['--kl-color-fg-muted', '--kl-table-header-bg', TEXT, 'table header'],
+  ['--kl-color-fg', '--kl-table-row-hover-bg', TEXT, 'table row hover'],
+  ['--kl-color-fg', '--kl-navbar-bg', BODY, 'navbar'],
+  ['--kl-navbar-link-active-fg', '--kl-navbar-link-active-bg', TEXT, 'navbar current link'],
+  ['--kl-color-fg', '--kl-sidebar-bg', BODY, 'sidebar'],
+  ['--kl-color-fg-muted', '--kl-sidebar-bg', TEXT, 'sidebar muted'],
+  ['--kl-sidebar-link-active-fg', '--kl-sidebar-link-active-bg', TEXT, 'sidebar current link'],
   ['--kl-color-fg-muted', '--kl-dialog-bg', TEXT, 'dialog description'],
   ['--kl-toast-fg', '--kl-toast-bg', BODY, 'toast text'],
   ['--kl-toast-muted', '--kl-toast-bg', TEXT, 'toast description'],
@@ -366,9 +379,23 @@ const pairs = [
 
 const schemes = { light: lightDecls, dark: darkDecls };
 const short = (n) => n.replace('--kl-color-', '').replace('--kl-', '');
+// Translucent colours are measured against what's behind them: a background over the page
+// background, a foreground over its background.
+const over = (top, under) => {
+  const a = top.alpha ?? 1;
+  if (a >= 1) return top;
+  const u = rgbToOklab([...Object.values(toRgb(under)).slice(0, 3)]);
+  const t = rgbToOklab([...Object.values(toRgb(top)).slice(0, 3)]);
+  // Blend in linear-light sRGB, the way browsers composite.
+  const lin = (lab) => oklabToLinear(lab);
+  const mixed = lin(t).map((v, i) => v * a + lin(u)[i] * (1 - a));
+  return { lab: linearToOklab(mixed), alpha: 1 };
+};
 const runPairs = (vars) =>
   pairs.filter(([, , , , when]) => !when || when(vars)).map(([fg, bg, min, label]) => {
-    const ratio = contrast(toRgb(color(vars, fg)), toRgb(color(vars, bg)));
+    const page = color(vars, '--kl-color-bg');
+    const back = over(color(vars, bg), page);
+    const ratio = contrast(toRgb(over(color(vars, fg), back)), toRgb(back));
     return { ratio, min, ok: ratio >= min, line: `${short(fg)} on ${short(bg)}: ${ratio.toFixed(2)} (min ${min}${label ? `, ${label}` : ''})` };
   });
 for (const style of styleNames) {

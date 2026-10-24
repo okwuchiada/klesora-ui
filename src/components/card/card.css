@@ -1,0 +1,128 @@
+/*
+ * Card: <article class="kl-card"> (or any element). Parts: .kl-card__media, .kl-card__header,
+ * .kl-card__title, .kl-card__description, .kl-card__content, .kl-card__footer.
+ * data-variant: outlined | elevated | filled (default: the style's own).
+ * Whole-card link: put .kl-card__link on the card's main <a>; its ::after covers the card,
+ * other buttons and links inside stay clickable on top.
+ */
+.kl-card {
+  --_pad: var(--kl-card-padding);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  overflow: hidden;
+  border: var(--kl-border-width) solid var(--kl-card-border-color);
+  border-radius: var(--kl-card-radius);
+  background-color: var(--kl-card-bg);
+  color: var(--kl-color-fg);
+  box-shadow: var(--kl-card-shadow);
+  transition:
+    box-shadow var(--kl-motion-short) var(--kl-motion-ease),
+    translate var(--kl-motion-short) var(--kl-motion-ease),
+    var(--kl-transition-colors);
+}
+
+.kl-card[data-variant="outlined"] {
+  --kl-card-border-color: var(--kl-color-border);
+  --kl-card-shadow: none;
+  --kl-card-bg: var(--kl-color-surface);
+}
+
+.kl-card[data-variant="elevated"] {
+  --kl-card-border-color: transparent;
+  --kl-card-shadow: var(--kl-shadow-2);
+  --kl-card-bg: var(--kl-color-surface-raised);
+}
+
+.kl-card[data-variant="filled"] {
+  --kl-card-border-color: transparent;
+  --kl-card-shadow: none;
+  --kl-card-bg: var(--kl-color-muted);
+}
+
+.kl-card__media {
+  display: block;
+  inline-size: 100%;
+  object-fit: cover;
+}
+
+.kl-card__header,
+.kl-card__content,
+.kl-card__footer {
+  padding-inline: var(--_pad);
+}
+
+.kl-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kl-space-1);
+  padding-block-start: var(--_pad);
+}
+
+.kl-card__title {
+  margin: 0;
+  font-family: var(--kl-font-heading);
+  font-size: var(--kl-text-lg);
+  font-weight: var(--kl-heading-weight);
+  letter-spacing: var(--kl-heading-tracking);
+  line-height: var(--kl-leading-tight);
+}
+
+.kl-card__description {
+  margin: 0;
+  color: var(--kl-color-fg-muted);
+  font-size: var(--kl-text-sm);
+}
+
+.kl-card__content {
+  padding-block-start: var(--_pad);
+}
+
+/* The last part closes the card with padding */
+.kl-card > :is(.kl-card__header, .kl-card__content, .kl-card__footer):last-child {
+  padding-block-end: var(--_pad);
+}
+
+.kl-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kl-space-2);
+  padding-block-start: var(--_pad);
+}
+
+/* Whole-card link */
+.kl-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.kl-card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.kl-card:has(.kl-card__link) :is(a, button, input, select, textarea, [tabindex]):not(.kl-card__link) {
+  position: relative;
+  z-index: 2;
+}
+
+.kl-card:has(.kl-card__link:focus-visible) {
+  outline: var(--kl-ring-width) solid var(--kl-color-ring);
+  outline-offset: var(--kl-ring-offset);
+}
+
+.kl-card__link:focus-visible {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .kl-card:has(.kl-card__link):hover {
+    box-shadow: var(--kl-shadow-3);
+    translate: 0 -1px;
+  }
+}

@@ -82,4 +82,16 @@
   --kl-toast-radius: var(--kl-radius-lg);
   --kl-toast-border-color: transparent;
   --kl-toaster-align: center;
+  --kl-card-bg: var(--kl-color-surface-raised);
+  --kl-card-border-color: transparent;
+  --kl-card-radius: var(--kl-radius-xl);
+  --kl-card-shadow: var(--kl-shadow-2);
+  /* Frosted navbar */
+  --kl-navbar-bg: color-mix(in oklab, var(--kl-color-bg) 82%, transparent);
+  --kl-navbar-backdrop: blur(20px) saturate(1.8);
+  --kl-navbar-border-color: color-mix(in oklab, var(--kl-color-border) 60%, transparent);
+  --kl-navbar-link-active-bg: transparent;
+  --kl-sidebar-bg: color-mix(in oklab, var(--kl-color-muted) 70%, var(--kl-color-bg));
+  --kl-sidebar-border-color: transparent;
+  --kl-sidebar-link-height: var(--kl-control-height-sm);
 }

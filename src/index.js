@@ -15,10 +15,15 @@ export { KlField } from './components/field/field.js';
 export { KlSelect, KlOption } from './components/select/select.js';
 export { KlMenu, KlMenuItem, menuController } from './components/menu/menu.js';
 export { position, autoPosition } from './core/position.js';
+export { KlTabs, tabsController } from './components/tabs/tabs.js';
 import './directives/ripple.js';
 import './directives/menu.js';
 import './directives/tooltip.js';
 import './directives/dialog.js';
+import './directives/tabs.js';
+import './directives/table.js';
+import './directives/navbar.js';
+import './directives/sidebar.js';
 
 export { dialog } from './services/dialog.js';
 export { toast } from './services/toast.js';

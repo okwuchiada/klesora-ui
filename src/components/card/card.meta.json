@@ -1,0 +1,39 @@
+{
+  "name": "card",
+  "title": "Card",
+  "class": "kl-card",
+  "description": "A surface for related content. Class only (no behaviour to add).",
+  "attributes": [
+    {
+      "name": "data-variant",
+      "type": "'outlined' | 'elevated' | 'filled'",
+      "description": "Default: the style's own."
+    }
+  ],
+  "parts": [
+    ".kl-card__media",
+    ".kl-card__header",
+    ".kl-card__title",
+    ".kl-card__description",
+    ".kl-card__content",
+    ".kl-card__footer",
+    ".kl-card__link"
+  ],
+  "tokens": [
+    "--kl-card-bg",
+    "--kl-card-border-color",
+    "--kl-card-radius",
+    "--kl-card-shadow",
+    "--kl-card-padding"
+  ],
+  "examples": [
+    {
+      "title": "Card",
+      "html": "<article class=\"kl-card\">\n  <div class=\"kl-card__header\">\n    <h3 class=\"kl-card__title\">Savings</h3>\n    <p class=\"kl-card__description\">0123456789 · GTBank</p>\n  </div>\n  <div class=\"kl-card__content\">₦1,250,000.00</div>\n  <div class=\"kl-card__footer\"><kl-button size=\"sm\">Send</kl-button></div>\n</article>"
+    },
+    {
+      "title": "Whole-card link",
+      "html": "<article class=\"kl-card\">\n  <div class=\"kl-card__header\"><h3 class=\"kl-card__title\"><a class=\"kl-card__link\" href=\"/statements/march\">March statement</a></h3></div>\n</article>"
+    }
+  ]
+}

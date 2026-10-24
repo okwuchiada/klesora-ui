@@ -14,7 +14,7 @@ It ships three switchable styles:
 <html data-kl-style="solo" data-kl-theme="system">
 ```
 
-> Status: early development (Step 7 of the roadmap: overlays and services). Not yet published.
+> Status: early development (Step 8 of the roadmap: layout and data (card, tabs, table, navbar, sidebar)). Not yet published.
 
 Browser support: Chrome / Edge 119+, Firefox 128+, Safari 17+.
 
@@ -84,7 +84,7 @@ tests/          test pages
 ## Develop
 
 ```sh
-npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: tokens, base, core, components, overlays, services)
+npm run dev            # http://localhost:5173/docs/ (test pages under /tests/: tokens, base, core, components, overlays, services, layout)
 npm run check:tokens   # gamut, WCAG contrast per style in light and dark, drift, style-pack rules
 npm run gen:palette    # regenerate the OKLCH colour scales in src/tokens/primitives.css
 npm test               # Playwright tests in Chromium, Firefox and WebKit (starts the dev server)

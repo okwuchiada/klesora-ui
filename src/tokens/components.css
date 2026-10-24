@@ -77,6 +77,54 @@
   --kl-toast-icon-display: block;
   --kl-toaster-align: end; /* start | center | end (desktop; phones are always centred) */
 
+  /* Card */
+  --kl-card-bg: var(--kl-color-surface);
+  --kl-card-border-color: var(--kl-color-border);
+  --kl-card-radius: var(--kl-radius-lg);
+  --kl-card-shadow: var(--kl-shadow-1);
+  --kl-card-padding: var(--kl-space-6);
+
+  /* Tabs (segmented by default; data-variant="underline" switches) */
+  --kl-tabs-list-bg: var(--kl-color-muted);
+  --kl-tabs-list-padding: var(--kl-space-1);
+  --kl-tabs-list-radius: var(--kl-radius-md);
+  --kl-tabs-list-border-color: transparent;
+  --kl-tabs-list-width: fit-content;
+  --kl-tab-height: var(--kl-control-height-sm);
+  --kl-tab-radius: var(--kl-radius-sm);
+  --kl-tab-fg: var(--kl-color-fg-muted);
+  --kl-tab-selected-fg: var(--kl-color-fg);
+  --kl-tab-selected-bg: var(--kl-color-bg);
+  --kl-tab-selected-shadow: var(--kl-shadow-1);
+  --kl-tab-indicator-height: 0px;
+  --kl-tab-indicator-color: var(--kl-color-primary);
+
+  /* Table */
+  --kl-table-header-bg: var(--kl-color-bg);
+  --kl-table-border-color: var(--kl-color-border);
+  --kl-table-row-hover-bg: color-mix(in oklab, var(--kl-color-muted) 60%, var(--kl-color-bg));
+  --kl-table-cell-padding-x: var(--kl-space-3);
+  --kl-table-cell-padding-y: var(--kl-space-3);
+  --kl-table-radius: var(--kl-radius-lg);
+
+  /* Navbar */
+  --kl-navbar-height: 3.5rem;
+  --kl-navbar-bg: var(--kl-color-bg);
+  --kl-navbar-border-color: var(--kl-color-border);
+  --kl-navbar-backdrop: none;
+  --kl-navbar-link-active-fg: var(--kl-color-fg);
+  --kl-navbar-link-active-bg: var(--kl-color-muted);
+
+  /* Sidebar */
+  --kl-sidebar-width: 16rem;
+  --kl-sidebar-rail-width: 4rem;
+  --kl-sidebar-bg: color-mix(in oklab, var(--kl-color-muted) 50%, var(--kl-color-bg));
+  --kl-sidebar-border-color: var(--kl-color-border);
+  --kl-sidebar-link-height: var(--kl-control-height-sm);
+  --kl-sidebar-link-radius: var(--kl-radius-md);
+  --kl-sidebar-link-active-bg: var(--kl-color-selected);
+  --kl-sidebar-link-active-fg: var(--kl-color-fg);
+
   /* Field */
   --kl-field-gap: var(--kl-space-2);
   --kl-label-weight: var(--kl-weight-medium);

@@ -1,0 +1,160 @@
+/*
+ * Tabs: <kl-tabs> or <div class="kl-tabs" data-kl-tabs>, containing
+ *   .kl-tabs__list (the tab buttons: .kl-tabs__tab) and .kl-tabs__panel elements.
+ * data-variant: segmented | underline (default: the style's own). data-orientation: vertical.
+ */
+:is(kl-tabs, .kl-tabs) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kl-space-4);
+  min-inline-size: 0;
+}
+
+:is(kl-tabs, .kl-tabs)[data-variant="segmented"] {
+  --kl-tabs-list-bg: var(--kl-color-muted);
+  --kl-tabs-list-padding: var(--kl-space-1);
+  --kl-tabs-list-radius: var(--kl-radius-md);
+  --kl-tabs-list-border-color: transparent;
+  --kl-tabs-list-width: fit-content;
+  --kl-tab-height: var(--kl-control-height-sm);
+  --kl-tab-radius: var(--kl-radius-sm);
+  --kl-tab-selected-fg: var(--kl-color-fg);
+  --kl-tab-selected-bg: var(--kl-color-bg);
+  --kl-tab-selected-shadow: var(--kl-shadow-1);
+  --kl-tab-indicator-height: 0px;
+}
+
+:is(kl-tabs, .kl-tabs)[data-variant="underline"] {
+  --kl-tabs-list-bg: transparent;
+  --kl-tabs-list-padding: 0px;
+  --kl-tabs-list-radius: 0px;
+  --kl-tabs-list-border-color: var(--kl-color-border);
+  --kl-tabs-list-width: 100%;
+  --kl-tab-height: var(--kl-control-height-md);
+  --kl-tab-radius: 0px;
+  --kl-tab-selected-fg: var(--kl-color-fg);
+  --kl-tab-selected-bg: transparent;
+  --kl-tab-selected-shadow: none;
+  --kl-tab-indicator-height: 2px;
+}
+
+.kl-tabs__list {
+  display: flex;
+  gap: var(--kl-space-1);
+  inline-size: var(--kl-tabs-list-width);
+  max-inline-size: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: var(--kl-tabs-list-padding);
+  border-radius: var(--kl-tabs-list-radius);
+  background-color: var(--kl-tabs-list-bg);
+  box-shadow: inset 0 calc(-1 * var(--kl-border-width)) 0 var(--kl-tabs-list-border-color);
+}
+
+.kl-tabs__tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--kl-space-2);
+  flex-shrink: 0;
+  block-size: var(--kl-tab-height);
+  padding-inline: var(--kl-space-3);
+  border: 0;
+  border-radius: var(--kl-tab-radius);
+  background-color: transparent;
+  color: var(--kl-tab-fg);
+  font: inherit;
+  font-size: var(--kl-text-sm);
+  font-weight: var(--kl-weight-medium);
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    var(--kl-transition-colors),
+    box-shadow var(--kl-motion-short) var(--kl-motion-ease);
+}
+
+@media (hover: hover) {
+  .kl-tabs__tab:hover:not([aria-selected="true"], :disabled, [aria-disabled="true"]) {
+    color: var(--kl-color-fg);
+  }
+}
+
+.kl-tabs__tab[aria-selected="true"] {
+  background-color: var(--kl-tab-selected-bg);
+  color: var(--kl-tab-selected-fg);
+  box-shadow: var(--kl-tab-selected-shadow);
+}
+
+/* Underline indicator (height 0 in the segmented look) */
+.kl-tabs__tab::after {
+  content: "";
+  position: absolute;
+  inset-inline: var(--kl-space-2);
+  inset-block-end: 0;
+  block-size: var(--kl-tab-indicator-height);
+  border-radius: var(--kl-tab-indicator-height) var(--kl-tab-indicator-height) 0 0;
+  background-color: var(--kl-tab-indicator-color);
+  scale: 0 1;
+  transition: scale var(--kl-motion-short) var(--kl-motion-ease);
+}
+
+.kl-tabs__tab[aria-selected="true"]::after {
+  scale: 1 1;
+}
+
+.kl-tabs__tab:is(:disabled, [aria-disabled="true"]) {
+  opacity: var(--kl-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.kl-tabs__tab :where(svg) {
+  inline-size: 1.1em;
+  block-size: 1.1em;
+}
+
+.kl-tabs__panel {
+  min-inline-size: 0;
+}
+
+.kl-tabs__panel:focus-visible {
+  outline: var(--kl-ring-width) solid var(--kl-color-ring);
+  outline-offset: var(--kl-ring-offset);
+  border-radius: var(--kl-radius-sm);
+}
+
+/* Vertical */
+:is(kl-tabs, .kl-tabs)[data-orientation="vertical"] {
+  flex-direction: row;
+}
+
+:is(kl-tabs, .kl-tabs)[data-orientation="vertical"] .kl-tabs__list {
+  flex-direction: column;
+  align-self: flex-start;
+  inline-size: auto;
+  box-shadow: inset calc(-1 * var(--kl-border-width)) 0 0 var(--kl-tabs-list-border-color);
+}
+
+:is(kl-tabs, .kl-tabs)[data-orientation="vertical"] .kl-tabs__tab {
+  justify-content: flex-start;
+}
+
+:is(kl-tabs, .kl-tabs)[data-orientation="vertical"] .kl-tabs__tab::after {
+  inset: var(--kl-space-2) 0 var(--kl-space-2) auto;
+  inline-size: var(--kl-tab-indicator-height);
+  block-size: auto;
+  scale: 1 0;
+}
+
+:is(kl-tabs, .kl-tabs)[data-orientation="vertical"] .kl-tabs__tab[aria-selected="true"]::after {
+  scale: 1 1;
+}
+
+:is(kl-tabs, .kl-tabs)[data-orientation="vertical"] .kl-tabs__panel {
+  flex: 1;
+}
+
+kl-tabs:not(:defined) .kl-tabs__panel:not(:first-of-type) {
+  display: none;
+}

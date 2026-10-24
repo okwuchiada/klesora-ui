@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Klesora UI · Layout</title>
+  <link rel="stylesheet" href="../src/klesora-ui.css">
+  <script type="module" src="../src/index.js"></script>
+  <style>
+    /* Test page only: the style/theme pickers don't fit a phone-width navbar */
+    @media (max-width: 30rem) { .kl-navbar__actions select { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="kl-app">
+    <nav class="kl-sidebar" id="sidebar" data-kl-sidebar aria-label="Main">
+      <div class="kl-sidebar__header">
+        <strong class="kl-sidebar__hide-collapsed" style="flex: 1; padding-inline: var(--kl-space-3)">Klesora Bank</strong>
+        <button class="kl-btn kl-sidebar__collapse" data-variant="ghost" data-icon data-size="sm" aria-label="Collapse sidebar"></button>
+      </div>
+      <ul class="kl-sidebar__section">
+        <li><a class="kl-sidebar__link" href="#home" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span class="kl-sidebar__text">Home</span></a></li>
+        <li><a class="kl-sidebar__link" href="#transfers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 8h14l-4-4M20 16H6l4 4"/></svg><span class="kl-sidebar__text">Transfers</span></a></li>
+        <li><a class="kl-sidebar__link" href="#cards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span class="kl-sidebar__text">Cards</span></a></li>
+      </ul>
+      <ul class="kl-sidebar__section">
+        <li class="kl-sidebar__label">Insights</li>
+        <li><a class="kl-sidebar__link" href="#spending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span class="kl-sidebar__text">Spending</span></a></li>
+        <li><a class="kl-sidebar__link" href="#statements"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5"/></svg><span class="kl-sidebar__text">Statements</span></a></li>
+      </ul>
+      <div class="kl-sidebar__footer">
+        <a class="kl-sidebar__link" href="#settings" style="flex: 1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span class="kl-sidebar__text">Settings</span></a>
+      </div>
+    </nav>
+
+    <header class="kl-navbar" data-kl-navbar data-sticky>
+      <button class="kl-btn kl-navbar__toggle kl-sidebar__open" data-variant="ghost" data-icon popovertarget="sidebar" aria-label="Open navigation"></button>
+      <a class="kl-navbar__brand" href="#home">Overview</a>
+      <ul class="kl-navbar__nav">
+        <li><a class="kl-navbar__link" href="#home" aria-current="page">Accounts</a></li>
+        <li><a class="kl-navbar__link" href="#payments">Payments</a></li>
+        <li><a class="kl-navbar__link" href="#help">Help</a></li>
+      </ul>
+      <div class="kl-navbar__actions">
+        <select id="style" class="kl-select" aria-label="Style" style="inline-size: auto; block-size: var(--kl-control-height-sm)"><option value="">Mono</option><option value="solo">Solo</option><option value="chorus">Chorus</option></select>
+        <select id="theme" class="kl-select" aria-label="Theme" style="inline-size: auto; block-size: var(--kl-control-height-sm)"><option value="">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
+        <button class="kl-btn kl-navbar__toggle" id="nav-toggle" data-variant="ghost" data-icon aria-label="Menu"></button>
+      </div>
+    </header>
+
+    <main class="kl-app__main kl-stack" data-gap="10">
+      <h1 style="margin: 0">Layout</h1>
+
+      <section class="kl-stack" data-gap="4" aria-labelledby="cards-h">
+        <h2 id="cards-h" style="margin: 0">Cards</h2>
+        <div class="kl-grid" style="--kl-min: 15rem">
+          <article class="kl-card">
+            <div class="kl-card__header"><h3 class="kl-card__title">Savings</h3><p class="kl-card__description">0123456789 · GTBank</p></div>
+            <div class="kl-card__content"><p class="kl-tabular" style="margin: 0; font-size: var(--kl-text-2xl); font-weight: var(--kl-weight-semibold)">₦1,250,000.00</p></div>
+            <div class="kl-card__footer"><kl-button size="sm">Send</kl-button><kl-button size="sm" variant="outline">Details</kl-button></div>
+          </article>
+          <article class="kl-card" data-variant="outlined">
+            <div class="kl-card__header"><h3 class="kl-card__title">Outlined</h3><p class="kl-card__description">data-variant="outlined"</p></div>
+            <div class="kl-card__content">Border, no shadow.</div>
+          </article>
+          <article class="kl-card" data-variant="elevated">
+            <div class="kl-card__header"><h3 class="kl-card__title">Elevated</h3><p class="kl-card__description">data-variant="elevated"</p></div>
+            <div class="kl-card__content">Shadow, no border.</div>
+          </article>
+          <article class="kl-card" data-variant="filled">
+            <div class="kl-card__header"><h3 class="kl-card__title">Filled</h3><p class="kl-card__description">data-variant="filled"</p></div>
+            <div class="kl-card__content">Tonal fill.</div>
+          </article>
+          <article class="kl-card" id="link-card">
+            <div class="kl-card__media" style="block-size: 6rem; background: linear-gradient(135deg, var(--kl-color-primary), var(--kl-color-info))"></div>
+            <div class="kl-card__header">
+              <h3 class="kl-card__title"><a class="kl-card__link" href="#statements" id="card-link">March statement</a></h3>
+              <p class="kl-card__description">The whole card is a link; the button still works.</p>
+            </div>
+            <div class="kl-card__footer"><kl-button size="sm" variant="secondary" id="card-button">Share</kl-button></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="kl-stack" data-gap="4" aria-labelledby="tabs-h">
+        <h2 id="tabs-h" style="margin: 0">Tabs</h2>
+        <kl-tabs id="tabs" aria-label="Account">
+          <div class="kl-tabs__list">
+            <button class="kl-tabs__tab" value="overview">Overview</button>
+            <button class="kl-tabs__tab" value="activity">Activity</button>
+            <button class="kl-tabs__tab" value="limits" disabled>Limits</button>
+            <button class="kl-tabs__tab" value="settings">Settings</button>
+          </div>
+          <section class="kl-tabs__panel" data-value="overview"><p>Balance ₦1,250,000.00, last updated today.</p></section>
+          <section class="kl-tabs__panel" data-value="activity"><p>12 transactions this week.</p></section>
+          <section class="kl-tabs__panel" data-value="limits"><p>Daily limit ₦5,000,000.</p></section>
+          <section class="kl-tabs__panel" data-value="settings"><p>Alerts are on.</p></section>
+        </kl-tabs>
+        <kl-tabs variant="underline" aria-label="Underline variant">
+          <div class="kl-tabs__list">
+            <button class="kl-tabs__tab">All</button><button class="kl-tabs__tab">Income</button><button class="kl-tabs__tab">Spending</button>
+          </div>
+          <div class="kl-tabs__panel">All transactions</div><div class="kl-tabs__panel">Income only</div><div class="kl-tabs__panel">Spending only</div>
+        </kl-tabs>
+        <div class="kl-tabs" data-kl-tabs="manual" data-orientation="vertical" id="class-tabs" aria-label="Help topics">
+          <div class="kl-tabs__list">
+            <button class="kl-tabs__tab">Transfers</button><button class="kl-tabs__tab">Cards</button><button class="kl-tabs__tab">Security</button>
+          </div>
+          <div class="kl-tabs__panel">How transfers work (class layer, manual activation, vertical).</div>
+          <div class="kl-tabs__panel">Card controls and limits.</div>
+          <div class="kl-tabs__panel">Two-factor and device security.</div>
+        </div>
+      </section>
+
+      <section class="kl-stack" data-gap="4" aria-labelledby="table-h">
+        <h2 id="table-h" style="margin: 0">Table</h2>
+        <div class="kl-table-wrap">
+          <table class="kl-table" data-kl-table="dom" data-stacked id="tx">
+            <caption>Recent transactions</caption>
+            <thead>
+              <tr>
+                <th style="inline-size: 2.5rem"><input type="checkbox" class="kl-checkbox" data-kl-select-all aria-label="Select all"></th>
+                <th><button class="kl-table__sort" value="date">Date</button></th>
+                <th><button class="kl-table__sort" value="party">Description</button></th>
+                <th>Status</th>
+                <th data-numeric><button class="kl-table__sort" value="amount">Amount</button></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><input type="checkbox" class="kl-checkbox" data-kl-select value="t1" aria-label="Select Ada Obi"></td><td data-sort-value="2026-10-20">20 Oct</td><td>Ada Obi</td><td><span class="kl-text-success">Paid</span></td><td data-numeric>-₦45,000.00</td></tr>
+              <tr><td><input type="checkbox" class="kl-checkbox" data-kl-select value="t2" aria-label="Select Salary"></td><td data-sort-value="2026-10-01">1 Oct</td><td>Salary</td><td><span class="kl-text-success">Received</span></td><td data-numeric>₦850,000.00</td></tr>
+              <tr><td><input type="checkbox" class="kl-checkbox" data-kl-select value="t3" aria-label="Select Electricity"></td><td data-sort-value="2026-10-12">12 Oct</td><td>Electricity (Ikeja)</td><td><span class="kl-text-warning">Pending</span></td><td data-numeric>-₦12,500.00</td></tr>
+              <tr><td><input type="checkbox" class="kl-checkbox" data-kl-select value="t4" aria-label="Select Bolt"></td><td data-sort-value="2026-10-18">18 Oct</td><td>Bolt ride</td><td><span class="kl-text-danger">Failed</span></td><td data-numeric>-₦3,200.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="kl-text-muted" id="table-output" style="margin: 0" aria-live="polite"></p>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { theme } from '../src/index.js';
+    const $ = (id) => document.getElementById(id);
+    $('style').onchange = (e) => theme.set({ style: e.target.value || null }, { persist: false });
+    $('theme').onchange = (e) => theme.set({ theme: e.target.value || null }, { persist: false });
+    const out = (t) => ($('table-output').textContent = t);
+    $('tx').addEventListener('kl-sort', (e) => out(`Sorted by ${e.detail.key}, ${e.detail.direction}`));
+    $('tx').addEventListener('kl-change', (e) => out(`Selected: ${e.detail.selected.join(', ') || 'none'}`));
+  </script>
+</body>
+</html>

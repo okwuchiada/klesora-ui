@@ -1,0 +1,140 @@
+/*
+ * Navbar: <header class="kl-navbar" data-kl-navbar>
+ *   .kl-navbar__brand  .kl-navbar__nav (links: .kl-navbar__link, aria-current="page")
+ *   .kl-navbar__actions  .kl-navbar__toggle (menu button, shown on phones)
+ * data-sticky: stays at the top while scrolling.
+ * On phones (below 48rem by default) the data-kl-navbar directive turns .kl-navbar__nav into a
+ * popover panel under the bar, opened by the toggle (src/directives/navbar.js).
+ */
+.kl-navbar {
+  position: relative;
+  z-index: var(--kl-z-sticky);
+  display: flex;
+  align-items: center;
+  gap: var(--kl-space-4);
+  block-size: var(--kl-navbar-height);
+  min-inline-size: 0;
+  padding-inline: var(--kl-space-4);
+  border-block-end: var(--kl-border-width) solid var(--kl-navbar-border-color);
+  background-color: var(--kl-navbar-bg);
+  color: var(--kl-color-fg);
+  -webkit-backdrop-filter: var(--kl-navbar-backdrop);
+  backdrop-filter: var(--kl-navbar-backdrop);
+}
+
+.kl-navbar[data-sticky] {
+  position: sticky;
+  inset-block-start: 0;
+}
+
+.kl-navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kl-space-2);
+  min-inline-size: 0;
+  margin-inline-end: var(--kl-space-2);
+  overflow: hidden;
+  color: inherit;
+  font-weight: var(--kl-weight-semibold);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kl-navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: var(--kl-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kl-navbar__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kl-space-2);
+  block-size: var(--kl-control-height-sm);
+  padding-inline: var(--kl-space-3);
+  border-radius: var(--kl-radius-md);
+  color: var(--kl-color-fg-muted);
+  font-size: var(--kl-text-sm);
+  font-weight: var(--kl-weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--kl-transition-colors);
+}
+
+@media (hover: hover) {
+  .kl-navbar__link:hover {
+    color: var(--kl-color-fg);
+  }
+}
+
+.kl-navbar__link[aria-current]:not([aria-current="false"]) {
+  background-color: var(--kl-navbar-link-active-bg);
+  color: var(--kl-navbar-link-active-fg);
+}
+
+.kl-navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--kl-space-2);
+  min-inline-size: 0;
+  margin-inline-start: auto;
+}
+
+.kl-navbar__toggle {
+  flex-shrink: 0;
+}
+
+.kl-navbar__toggle {
+  display: none;
+}
+
+/* Hamburger icon for the toggle (any button with this class) */
+.kl-navbar__toggle::before {
+  content: "";
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M3 6h14M3 10h14M3 14h14' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+.kl-navbar__toggle[aria-expanded="true"]::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 5l10 10M15 5L5 15' stroke='black' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* Phone mode: set by the directive (data-compact) at its breakpoint */
+.kl-navbar[data-compact] .kl-navbar__toggle {
+  display: inline-flex;
+}
+
+.kl-navbar[data-compact] .kl-navbar__nav:not(:popover-open) {
+  display: none;
+}
+
+.kl-navbar[data-compact] .kl-navbar__nav:popover-open {
+  position: fixed;
+  inset: var(--kl-navbar-height) 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--kl-space-1);
+  inline-size: auto;
+  max-block-size: calc(100dvh - var(--kl-navbar-height));
+  margin: 0;
+  padding: var(--kl-space-3);
+  overflow: auto;
+  border: 0;
+  border-block-end: var(--kl-border-width) solid var(--kl-color-border);
+  background-color: var(--kl-color-surface-raised);
+  color: var(--kl-color-fg);
+  box-shadow: var(--kl-shadow-3);
+}
+
+.kl-navbar[data-compact] .kl-navbar__link {
+  block-size: var(--kl-control-height-lg);
+  font-size: var(--kl-text-md);
+}

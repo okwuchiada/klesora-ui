@@ -25,7 +25,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 7. Overlays and services, split in two:
    - 7a ✅ positioning (`src/core/position.js`), `<kl-menu>` + `data-kl-menu`, `<kl-select>`/`<kl-option>`, `data-kl-tooltip`; test page `tests/overlays.html`, tests `e2e/overlays.spec.ts`
    - 7b ✅ `dialog.kl-dialog` + `data-kl-dialog`/`data-kl-dialog-open` directives + `dialog` service; `toast` service; `theme` service + `themeInitScript`; test page `tests/services.html`, tests `e2e/services.spec.ts`
-8. Layout and data: card, tabs, table, navbar, sidebar
+8. ✅ Layout and data: `src/components/{card,tabs,table,navbar,sidebar}/`, directives `tabs`, `table`, `navbar`, `sidebar`; test page `tests/layout.html` (app shell), tests `e2e/layout.spec.ts`
 9. Fintech extras: amount input (₦/$ locale formatting), OTP/PIN input, transaction list, stepper
 10. Encryption and secure storage via Web Crypto (AES-GCM; PBKDF2 or non-extractable keys in IndexedDB). Document honestly what client-side encryption does and does not protect.
 11. Framework integration: .d.ts files, custom-elements.json, Angular/Vue setup notes
@@ -51,6 +51,7 @@ Zero-dependency UI component library in plain HTML, CSS and JS. npm package `kle
 - Step 6: component tokens live in `src/tokens/components.css` (boundaries, Mono defaults), and style packs remap them. Structural style CSS (only Chorus floating labels so far) uses the nearest-style guard. Select stays native (`.kl-select`); `<kl-select>` comes in Step 7 with the dropdown. Inside `<kl-field>`, errors are inline (after blur or a submit attempt) and the native bubble is suppressed. Call form methods via `formActions` (DOM clobbering).
 - Step 7a: `setAria()` mirrors ElementInternals ARIA to attributes unless the author set them (the user chose this so getByRole works). Popovers use the native popover API + our positioning; see CONVENTIONS §5 "Popovers" for the gotchas (position on rAF after beforetoggle, measure offset sizes, kl-button implements popovertarget, pointer-down state vs light dismiss).
 - Step 7b: services build class-layer markup only (no elements needed). The toaster moves inside the topmost open modal (modals make outside popovers inert). Contrast pairs can be conditional (`when`), e.g. toast icons only where the style draws them.
+- Step 8 (user chose): table sorting is event-based (`kl-sort`), DOM re-ordering only with `data-kl-table="dom"`. Phones get a scrolling table wrapper (sticky header and first column) plus opt-in `data-stacked`. Tabs: segmented in Mono/Solo, underline in Chorus, with `variant` to override. Elements only where there's behaviour (`<kl-tabs>`); the rest are classes + directives.
 - Styles never change duration primitives; they pick steps via `--kl-motion-*`, so reduced motion keeps working.
 
 ## Commands

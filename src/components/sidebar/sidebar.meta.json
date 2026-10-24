@@ -1,0 +1,46 @@
+{
+  "name": "sidebar",
+  "title": "Sidebar",
+  "class": "kl-sidebar",
+  "directive": "data-kl-sidebar",
+  "description": "Vertical navigation. Collapses to an icon rail on desktop; becomes a slide-in drawer on phones. .kl-app lays out sidebar + navbar + main.",
+  "attributes": [
+    {
+      "name": "data-kl-sidebar",
+      "type": "breakpoint",
+      "default": "48rem"
+    },
+    {
+      "name": "data-collapsed",
+      "type": "boolean"
+    }
+  ],
+  "parts": [
+    ".kl-sidebar__header",
+    ".kl-sidebar__section",
+    ".kl-sidebar__label",
+    ".kl-sidebar__link (aria-current)",
+    ".kl-sidebar__text",
+    ".kl-sidebar__footer",
+    ".kl-sidebar__collapse",
+    ".kl-sidebar__open (drawer opener, popovertarget)",
+    ".kl-app",
+    ".kl-app__main"
+  ],
+  "events": [
+    {
+      "name": "kl-toggle",
+      "detail": "{ collapsed }"
+    }
+  ],
+  "tokens": [
+    "--kl-sidebar-width",
+    "--kl-sidebar-rail-width",
+    "--kl-sidebar-bg",
+    "--kl-sidebar-border-color",
+    "--kl-sidebar-link-height",
+    "--kl-sidebar-link-radius",
+    "--kl-sidebar-link-active-bg",
+    "--kl-sidebar-link-active-fg"
+  ]
+}

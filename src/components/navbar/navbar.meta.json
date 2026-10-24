@@ -1,0 +1,33 @@
+{
+  "name": "navbar",
+  "title": "Navbar",
+  "class": "kl-navbar",
+  "directive": "data-kl-navbar",
+  "description": "Top bar with brand, links and actions. On phones the links collapse into a popover panel opened by the toggle.",
+  "attributes": [
+    {
+      "name": "data-kl-navbar",
+      "type": "breakpoint",
+      "default": "48rem"
+    },
+    {
+      "name": "data-sticky",
+      "type": "boolean"
+    }
+  ],
+  "parts": [
+    ".kl-navbar__brand",
+    ".kl-navbar__nav",
+    ".kl-navbar__link (aria-current=\"page\")",
+    ".kl-navbar__actions",
+    ".kl-navbar__toggle"
+  ],
+  "tokens": [
+    "--kl-navbar-height",
+    "--kl-navbar-bg",
+    "--kl-navbar-border-color",
+    "--kl-navbar-backdrop",
+    "--kl-navbar-link-active-fg",
+    "--kl-navbar-link-active-bg"
+  ]
+}

@@ -23,6 +23,11 @@
 @import url("./components/tooltip/tooltip.css") layer(kl.components);
 @import url("./components/dialog/dialog.css") layer(kl.components);
 @import url("./components/toast/toast.css") layer(kl.components);
+@import url("./components/card/card.css") layer(kl.components);
+@import url("./components/tabs/tabs.css") layer(kl.components);
+@import url("./components/table/table.css") layer(kl.components);
+@import url("./components/navbar/navbar.css") layer(kl.components);
+@import url("./components/sidebar/sidebar.css") layer(kl.components);
 
 @import url("./styles/mono.css") layer(kl.styles);
 @import url("./styles/solo.css") layer(kl.styles);

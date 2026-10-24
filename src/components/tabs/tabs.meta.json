@@ -1,0 +1,64 @@
+{
+  "name": "tabs",
+  "title": "Tabs",
+  "element": "kl-tabs",
+  "class": "kl-tabs",
+  "directive": "data-kl-tabs",
+  "description": "WAI-ARIA tabs over your own buttons and panels (paired by value or order). Your elements are never moved.",
+  "attributes": [
+    {
+      "name": "value",
+      "type": "string",
+      "description": "Selected tab's value."
+    },
+    {
+      "name": "activation",
+      "type": "'auto' | 'manual'",
+      "default": "auto"
+    },
+    {
+      "name": "orientation",
+      "type": "'horizontal' | 'vertical'",
+      "default": "horizontal",
+      "data": "data-orientation"
+    },
+    {
+      "name": "variant",
+      "type": "'segmented' | 'underline'",
+      "description": "Default: the style's own.",
+      "data": "data-variant"
+    }
+  ],
+  "parts": [
+    ".kl-tabs__list",
+    ".kl-tabs__tab (value)",
+    ".kl-tabs__panel (data-value)"
+  ],
+  "events": [
+    {
+      "name": "kl-change",
+      "detail": "{ value, tab, panel }"
+    }
+  ],
+  "tokens": [
+    "--kl-tabs-list-bg",
+    "--kl-tabs-list-padding",
+    "--kl-tabs-list-radius",
+    "--kl-tabs-list-border-color",
+    "--kl-tabs-list-width",
+    "--kl-tab-height",
+    "--kl-tab-radius",
+    "--kl-tab-fg",
+    "--kl-tab-selected-fg",
+    "--kl-tab-selected-bg",
+    "--kl-tab-selected-shadow",
+    "--kl-tab-indicator-height",
+    "--kl-tab-indicator-color"
+  ],
+  "examples": [
+    {
+      "title": "Element",
+      "html": "<kl-tabs aria-label=\"Account\">\n  <div class=\"kl-tabs__list\">\n    <button class=\"kl-tabs__tab\" value=\"overview\">Overview</button>\n    <button class=\"kl-tabs__tab\" value=\"activity\">Activity</button>\n  </div>\n  <section class=\"kl-tabs__panel\" data-value=\"overview\">…</section>\n  <section class=\"kl-tabs__panel\" data-value=\"activity\">…</section>\n</kl-tabs>"
+    }
+  ]
+}

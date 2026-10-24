@@ -1,0 +1,203 @@
+/*
+ * Sidebar: <nav class="kl-sidebar" data-kl-sidebar aria-label="Main">
+ *   .kl-sidebar__header  .kl-sidebar__section (.kl-sidebar__label + links)  .kl-sidebar__footer
+ *   .kl-sidebar__link (icon + <span class="kl-sidebar__text">), aria-current="page" for the current page
+ *   .kl-sidebar__collapse: button that toggles the icon-only rail (desktop)
+ * On phones the directive makes the sidebar a slide-in drawer (popover), opened by any button
+ * with popovertarget="<sidebar id>" (e.g. .kl-navbar__toggle). See src/directives/sidebar.js.
+ *
+ * App shell: <div class="kl-app"> with a .kl-sidebar, a .kl-navbar and <main class="kl-app__main">.
+ */
+.kl-sidebar {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--kl-space-4);
+  inline-size: var(--kl-sidebar-width);
+  block-size: 100%;
+  padding: var(--kl-space-3);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-inline-end: var(--kl-border-width) solid var(--kl-sidebar-border-color);
+  background-color: var(--kl-sidebar-bg);
+  color: var(--kl-color-fg);
+  font-size: var(--kl-text-sm);
+  transition: inline-size var(--kl-motion-long) var(--kl-motion-ease);
+}
+
+.kl-sidebar__header,
+.kl-sidebar__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--kl-space-2);
+  min-block-size: var(--kl-sidebar-link-height);
+}
+
+.kl-sidebar__footer {
+  margin-block-start: auto;
+}
+
+.kl-sidebar__section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kl-sidebar__label {
+  padding: var(--kl-space-2) var(--kl-space-3) var(--kl-space-1);
+  color: var(--kl-color-fg-muted);
+  font-size: var(--kl-text-xs);
+  font-weight: var(--kl-weight-medium);
+  white-space: nowrap;
+}
+
+.kl-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: var(--kl-space-3);
+  min-block-size: var(--kl-sidebar-link-height);
+  padding-inline: var(--kl-space-3);
+  border-radius: var(--kl-sidebar-link-radius);
+  color: var(--kl-color-fg);
+  font-weight: var(--kl-weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--kl-transition-colors);
+}
+
+@media (hover: hover) {
+  .kl-sidebar__link:hover {
+    background-color: color-mix(in oklab, var(--kl-color-fg) 6%, transparent);
+  }
+}
+
+.kl-sidebar__link[aria-current]:not([aria-current="false"]) {
+  background-color: var(--kl-sidebar-link-active-bg);
+  color: var(--kl-sidebar-link-active-fg);
+}
+
+.kl-sidebar__link :where(svg) {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  flex-shrink: 0;
+  color: var(--kl-color-fg-muted);
+}
+
+.kl-sidebar__link[aria-current]:not([aria-current="false"]) :where(svg) {
+  color: currentColor;
+}
+
+.kl-sidebar__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kl-sidebar__collapse::before {
+  content: "";
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  background-color: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='1.6'%3E%3Crect x='2.5' y='3.5' width='15' height='13' rx='2'/%3E%3Cpath d='M7.5 3.5v13'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+/* Collapsed rail: icons only; text stays for screen readers */
+.kl-sidebar[data-collapsed] {
+  inline-size: var(--kl-sidebar-rail-width);
+}
+
+.kl-sidebar[data-collapsed] :is(.kl-sidebar__text, .kl-sidebar__label, .kl-sidebar__hide-collapsed) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.kl-sidebar[data-collapsed] .kl-sidebar__link {
+  justify-content: center;
+  padding-inline: 0;
+}
+
+/* Drawer mode (phones): set by the directive */
+.kl-sidebar[data-drawer] {
+  inline-size: min(20rem, 85vw);
+  block-size: 100dvh;
+}
+
+.kl-sidebar[data-drawer]:not(:popover-open) {
+  display: none;
+}
+
+.kl-sidebar[data-drawer]:popover-open {
+  position: fixed;
+  inset: 0 auto 0 0;
+  margin: 0;
+  border: 0;
+  box-shadow: var(--kl-shadow-5);
+  translate: 0 0;
+  transition:
+    translate var(--kl-motion-long) var(--kl-motion-ease-enter),
+    display var(--kl-motion-long) allow-discrete,
+    overlay var(--kl-motion-long) allow-discrete;
+}
+
+.kl-sidebar[data-drawer]:dir(rtl):popover-open {
+  inset: 0 0 0 auto;
+}
+
+@starting-style {
+  .kl-sidebar[data-drawer]:popover-open {
+    translate: -100% 0;
+  }
+
+  .kl-sidebar[data-drawer]:dir(rtl):popover-open {
+    translate: 100% 0;
+  }
+}
+
+.kl-sidebar[data-drawer]::backdrop {
+  background-color: var(--kl-color-overlay);
+}
+
+/* App shell */
+.kl-app {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-block-size: 100dvh;
+}
+
+.kl-app > .kl-sidebar {
+  position: sticky;
+  inset-block-start: 0;
+  grid-row: 1 / -1;
+  block-size: 100dvh;
+}
+
+.kl-app > .kl-navbar {
+  grid-column: 2;
+}
+
+.kl-app__main {
+  grid-column: 2;
+  min-inline-size: 0;
+  padding: var(--kl-space-6);
+}
+
+.kl-app:has(> .kl-sidebar[data-drawer]) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.kl-app:has(> .kl-sidebar[data-drawer]) > :is(.kl-navbar, .kl-app__main) {
+  grid-column: 1;
+}
+
+/* The drawer opener only shows when the sidebar is a drawer */
+.kl-app:not(:has(> .kl-sidebar[data-drawer])) .kl-sidebar__open {
+  display: none;
+}

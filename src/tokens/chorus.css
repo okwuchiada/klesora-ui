@@ -117,4 +117,32 @@
   --kl-toast-shadow: var(--kl-shadow-3);
   --kl-toast-icon-display: none;
   --kl-toaster-align: start;
+  --kl-card-bg: var(--kl-color-surface);
+  --kl-card-border-color: transparent;
+  --kl-card-radius: var(--kl-radius-md);
+  --kl-card-padding: var(--kl-space-4);
+  /* Material tabs: underline in the primary colour */
+  --kl-tabs-list-bg: transparent;
+  --kl-tabs-list-padding: 0px;
+  --kl-tabs-list-radius: 0px;
+  --kl-tabs-list-border-color: var(--kl-color-border);
+  --kl-tabs-list-width: 100%;
+  --kl-tab-height: var(--kl-control-height-lg);
+  --kl-tab-radius: 0px;
+  --kl-tab-selected-fg: var(--kl-color-primary);
+  --kl-tab-selected-bg: transparent;
+  --kl-tab-selected-shadow: none;
+  --kl-tab-indicator-height: 3px;
+  --kl-table-header-bg: var(--kl-color-surface);
+  /* Top app bar and navigation drawer */
+  --kl-navbar-height: 4rem;
+  --kl-navbar-bg: var(--kl-color-bg);
+  --kl-navbar-border-color: transparent;
+  --kl-navbar-link-active-fg: var(--kl-color-primary);
+  --kl-navbar-link-active-bg: var(--kl-color-primary-subtle);
+  --kl-sidebar-bg: var(--kl-color-surface);
+  --kl-sidebar-border-color: transparent;
+  --kl-sidebar-link-height: 3.5rem;
+  --kl-sidebar-link-radius: var(--kl-radius-full);
+  --kl-sidebar-link-active-bg: var(--kl-color-secondary);
 }

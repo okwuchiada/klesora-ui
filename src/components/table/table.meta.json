@@ -1,0 +1,64 @@
+{
+  "name": "table",
+  "title": "Table",
+  "class": "kl-table",
+  "directive": "data-kl-table",
+  "description": "Native tables, styled. The directive adds sort state + kl-sort, select-all, phone labels and a focusable scroll region.",
+  "attributes": [
+    {
+      "name": "data-kl-table",
+      "type": "'' | 'dom'",
+      "description": "'dom' re-orders rows itself (plain HTML). Otherwise sort your data on kl-sort."
+    },
+    {
+      "name": "data-density",
+      "type": "'compact' | 'comfortable'"
+    },
+    {
+      "name": "data-striped",
+      "type": "boolean"
+    },
+    {
+      "name": "data-stacked",
+      "type": "boolean",
+      "description": "Rows become cards on phones."
+    },
+    {
+      "name": "data-numeric",
+      "type": "on th/td",
+      "description": "Right-aligned tabular figures."
+    },
+    {
+      "name": "data-sort-value",
+      "type": "on td",
+      "description": "Value to sort by instead of the text."
+    },
+    {
+      "name": "data-kl-select-all / data-kl-select",
+      "type": "on checkboxes"
+    }
+  ],
+  "parts": [
+    ".kl-table-wrap",
+    ".kl-table__sort (button in th, value = sort key)"
+  ],
+  "events": [
+    {
+      "name": "kl-sort",
+      "detail": "{ key, direction, column }",
+      "cancelable": true
+    },
+    {
+      "name": "kl-change",
+      "detail": "{ selected }"
+    }
+  ],
+  "tokens": [
+    "--kl-table-header-bg",
+    "--kl-table-border-color",
+    "--kl-table-row-hover-bg",
+    "--kl-table-cell-padding-x",
+    "--kl-table-cell-padding-y",
+    "--kl-table-radius"
+  ]
+}

@@ -223,6 +223,11 @@ Each component's CSS selects the class and the element alike, e.g. `:is(.kl-btn,
 | Tooltip | `data-kl-tooltip="…"` (directive) | | `data-kl-tooltip-placement` |
 | Dialog | `<dialog class="kl-dialog">` with `.kl-dialog__header`, `__title`, `__description`, `__body`, `__footer`, `__close` | (native `<dialog>`; `dialog` service) | `data-size`; `closedby="any"`; directives `data-kl-dialog`, `data-kl-dialog-open="id"`, buttons `[data-kl-close="value"]` |
 | Toast | `.kl-toaster`, `.kl-toast` (rendered by the service) | (`toast` service) | per-style placement via `--kl-toaster-align` |
+| Card | `.kl-card` with `__media`, `__header`, `__title`, `__description`, `__content`, `__footer`; `.kl-card__link` makes the whole card a link | | `data-variant` outlined, elevated, filled |
+| Tabs | `.kl-tabs` + `data-kl-tabs` with `.kl-tabs__list`, `__tab` (`value`), `__panel` (`data-value`) | `<kl-tabs>` | `value`, `activation` auto/manual, `orientation`, `variant` segmented/underline; fires `kl-change` |
+| Table | `table.kl-table` (+ `.kl-table-wrap`) + `data-kl-table` | | `data-density`, `data-striped`, `data-stacked`, `data-numeric`; `.kl-table__sort` buttons fire `kl-sort`; `data-kl-select-all` / `data-kl-select` |
+| Navbar | `.kl-navbar` + `data-kl-navbar` with `__brand`, `__nav`, `__link`, `__actions`, `__toggle` | | `data-sticky`; links collapse into a popover below 48rem |
+| Sidebar | `.kl-sidebar` + `data-kl-sidebar` with `__header`, `__section`, `__label`, `__link`, `__text`, `__footer`, `__collapse`; `.kl-app` shell | | `data-collapsed` rail; drawer below 48rem, opened via `popovertarget` |
 | Field | `.kl-field` with `.kl-field__label`, `__hint`, `__error`, `data-invalid` | `<kl-field>` (children with `slot="hint"` / `slot="error"`) | `error="…"` |
 
 The `slot` attribute is only a marker for light-DOM parts (no Shadow DOM). Elements read it and never move the marked nodes. Hover styles sit inside `@media (hover: hover)`, so taps don't leave a button stuck in hover.
@@ -237,6 +242,14 @@ Menus, the select list and tooltips use the native popover API. They render in t
 - Popovers inherit tokens from their DOM position. The shared tooltip element moves next to its anchor's nearest theme/style/scope boundary so it matches nested themes.
 - A menu is a popover panel driven by `menuController` (`src/components/menu/menu.js`): roles, `aria-expanded` / `aria-controls` on the opener, arrow keys, Home/End, type-to-find, Tab to close and focus back on the opener. `<kl-menu>` and the `data-kl-menu` directive both use it.
 - `<kl-select>` follows the WAI-ARIA select-only combobox. Your `<kl-option>`s stay in place (hidden), and the element renders its own listbox in a popover it owns, re-rendering when options change. Focus stays on the element with `aria-activedescendant`. A label click focuses without opening, like a native select.
+
+### Layout and data
+
+- Elements only where there is behaviour: `<kl-tabs>`. Card, table, navbar and sidebar are classes plus small directives.
+- Sorting never moves your rows unless you opt in. `data-kl-table` sets `aria-sort` and fires a cancelable `kl-sort`, and your app re-orders its data. `data-kl-table="dom"` re-orders `<tbody>` rows itself, for plain HTML pages only.
+- Responsive navbars and sidebars switch modes with a media query in the directive. They add `data-compact` / `data-drawer` and a `popover` attribute, which they remove again above the breakpoint, so no markup is duplicated or moved.
+- Tables on phones: `.kl-table-wrap` scrolls sideways with a sticky header and first column, and the directive makes it a focusable, labelled region. `data-stacked` turns rows into cards (labels from the headers via `data-label`).
+- Contrast pairs with translucent tokens (Solo's frosted navbar, transparent tab backgrounds) are checked against the page background they sit on (`check:tokens` composites them).
 
 `data-kl-ripple` (`src/directives/ripple.js`) adds press feedback to any element. Presses only record `--kl-press-x/y/size` and `data-pressed`. Only styles with `--kl-btn-ripple` > 0 (Chorus) draw the ripple. `<kl-button>` has it built in.
 
@@ -388,7 +401,7 @@ Source files ship as native ES modules and plain CSS, so no build step is needed
 | `klesora-ui/css` | all CSS (tokens for all three styles, reset, base, components, utilities) |
 | `klesora-ui/css/reset.css`, `base.css`, `utilities.css` | one part; import with `layer(kl.reset)` etc. after declaring the layer order |
 | `klesora-ui/core/element`, `form-element`, `directives`, `position` | the base classes, directive registry and positioning, for writing or ejecting components |
-| `klesora-ui/directives/tooltip`, `menu`, `ripple`, `dialog` | one directive (importing registers it) |
+| `klesora-ui/directives/tooltip`, `menu`, `ripple`, `dialog`, `tabs`, `table`, `navbar`, `sidebar` | one directive (importing registers it) |
 | `klesora-ui/components/button` | just `<kl-button>` |
 | `klesora-ui/components/button.css` | just the button CSS |
 | `klesora-ui/services/toast` | just the toast service |
